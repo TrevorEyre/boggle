@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Word:"
+        android:text="Your Word: "
         android:id="@+id/textviewinputword"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -36,20 +36,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button11"
-            android:onClick="button11click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="1"
             android:layout_column="1"
             android:text="F"
             android:id="@+id/button12"
-            android:onClick="button12click"/>
+            android:onClick="boardbuttonclick"/>
         <Button
             android:layout_row="1"
             android:layout_column="2"
             android:text="Z"
             android:id="@+id/button13"
-            android:onClick="button13click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="1"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button14"
-            android:onClick="button14click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="2"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button21"
-            android:onClick="button21click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="2"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button22"
-            android:onClick="button22click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="2"
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button23"
-            android:onClick="button23click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="2"
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button24"
-            android:onClick="button24click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="3"
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button31"
-            android:onClick="button31click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="4"
@@ -112,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button41"
-            android:onClick="button41click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="3"
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button32"
-            android:onClick="button32click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="3"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button33"
-            android:onClick="button33click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="3"
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button34"
-            android:onClick="button34click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="4"
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button42"
-            android:onClick="button42click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="4"
@@ -157,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button43"
-            android:onClick="button43click"/>
+            android:onClick="boardbuttonclick"/>
 
         <Button
             android:layout_row="4"
@@ -166,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button44"
-            android:onClick="button44click"/>
+            android:onClick="boardbuttonclick"/>
     </GridLayout>
 
     <Button
