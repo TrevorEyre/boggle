@@ -11,9 +11,172 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.team1.cs410.boggle.GameBoard"
     tools:showIn="@layout/activity_game_board">
-
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Word:"
+        android:id="@+id/textviewinputword"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:rowCount="5"
+        android:columnCount="4"
+        android:id="@+id/gridLayout">
+
+        <Button
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button11"
+            android:onClick="button11click"/>
+
+        <Button
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="F"
+            android:id="@+id/button12"
+            android:onClick="button12click"/>
+        <Button
+            android:layout_row="1"
+            android:layout_column="2"
+            android:text="Z"
+            android:id="@+id/button13"
+            android:onClick="button13click"/>
+
+        <Button
+            android:layout_row="1"
+            android:layout_column="3"
+            android:text="A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button14"
+            android:onClick="button14click"/>
+
+        <Button
+            android:layout_row="2"
+            android:layout_column="0"
+            android:text="G"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button21"
+            android:onClick="button21click"/>
+
+        <Button
+            android:layout_row="2"
+            android:layout_column="1"
+            android:text="K"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button22"
+            android:onClick="button22click"/>
+
+        <Button
+            android:layout_row="2"
+            android:layout_column="2"
+            android:text="C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button23"
+            android:onClick="button23click"/>
+
+        <Button
+            android:layout_row="2"
+            android:layout_column="3"
+            android:text="R"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button24"
+            android:onClick="button24click"/>
+
+        <Button
+            android:layout_row="3"
+            android:layout_column="0"
+            android:text="D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button31"
+            android:onClick="button31click"/>
+
+        <Button
+            android:layout_row="4"
+            android:layout_column="0"
+            android:text="A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button41"
+            android:onClick="button41click"/>
+
+        <Button
+            android:layout_row="3"
+            android:layout_column="1"
+            android:text="O"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button32"
+            android:onClick="button32click"/>
+
+        <Button
+            android:layout_row="3"
+            android:layout_column="2"
+            android:text="A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button33"
+            android:onClick="button33click"/>
+
+        <Button
+            android:layout_row="3"
+            android:layout_column="3"
+            android:text="T"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button34"
+            android:onClick="button34click"/>
+
+        <Button
+            android:layout_row="4"
+            android:layout_column="1"
+            android:text="G"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button42"
+            android:onClick="button42click"/>
+
+        <Button
+            android:layout_row="4"
+            android:layout_column="2"
+            android:text="P"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button43"
+            android:onClick="button43click"/>
+
+        <Button
+            android:layout_row="4"
+            android:layout_column="3"
+            android:text="A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button44"
+            android:onClick="button44click"/>
+    </GridLayout>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game Board" />
+        android:text="Clear"
+        android:id="@+id/buttonclear"
+        android:layout_above="@+id/gridLayout"
+        android:layout_centerHorizontal="true"
+        android:onClick="buttonclearclick"/>
+        <!--android:layout_alignParentTop="false"-->
+        <!--android:layout_centerHorizontal="true"-->
 </RelativeLayout>
