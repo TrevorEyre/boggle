@@ -23,6 +23,11 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Deven test message" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Shweta test message" />
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
