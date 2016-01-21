@@ -14,21 +14,27 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="This is Boggle! Trevor test message."
-        android:id="@+id/textView" />
+        android:gravity="center_horizontal"
+        android:text="Trevor test message." />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="This is Boggle! Deven test message"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:gravity="center_horizontal"
+        android:text="Deven test message" />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_new_game"
+        android:text="@string/menu_single_player"
         android:onClick="newGame" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_two_player" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_high_scores" />
 </LinearLayout>
 
