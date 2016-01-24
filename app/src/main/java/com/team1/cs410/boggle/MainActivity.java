@@ -47,4 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameBoard.class);
         startActivity(intent);
     }
+    public void new2PlayerGame (View view){
+        Intent intent = new Intent(this, GameBoard2Player.class);
+        startActivity(intent);
+    }
 }

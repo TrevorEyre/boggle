@@ -13,21 +13,7 @@
     tools:context="com.team1.cs410.boggle.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Trevor test message." />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Deven test message" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Shweta test message" />
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -36,7 +22,8 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/menu_two_player" />
+        android:text="@string/menu_two_player"
+        android:onClick="new2PlayerGame"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
