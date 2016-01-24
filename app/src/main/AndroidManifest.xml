@@ -27,6 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
         </activity>
+        <activity
+            android:name=".GameBoard2Player"
+            android:label="@string/title_activity_game_board2_player"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
