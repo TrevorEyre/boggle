@@ -12,6 +12,16 @@
     tools:context="com.team1.cs410.boggle.GameBoard"
     tools:showIn="@layout/activity_game_board">
     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="3:00 "
+        android:id="@+id/timer"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dip"
+        android:layout_alignParentTop="true"
+        android:textSize="50dp" />
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your Word: "
@@ -177,6 +187,8 @@
         android:layout_above="@+id/gridLayout"
         android:layout_centerHorizontal="true"
         android:onClick="buttonclearclick"/>
-        <!--android:layout_alignParentTop="false"-->
+
+
+    <!--android:layout_alignParentTop="false"-->
         <!--android:layout_centerHorizontal="true"-->
 </RelativeLayout>
