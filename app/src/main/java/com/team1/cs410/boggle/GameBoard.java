@@ -23,7 +23,7 @@ public class GameBoard extends AppCompatActivity {
     private boolean timerHasStarted = false;
     public TextView text;
     private final long startTime = 180 * 1000;
-    private final long interval = 1*1000;
+    private final long interval = 1000;
     ArrayList<Button> disabledbuttons;
     ArrayList<Button> pressedbuttons;
     Button [][] buttons = new Button[4][4];
@@ -251,15 +251,15 @@ public class GameBoard extends AppCompatActivity {
             case R.id.button24:
                 btn = (Button) findViewById(R.id.button11);
                 disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
                 btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
                 disabledbuttons.add(btn);
                 btn = (Button) findViewById(R.id.button31);
                 disabledbuttons.add(btn);
-                btn = (Button) findViewById(R.id.button14);
-                disabledbuttons.add(btn);
-                btn = (Button) findViewById(R.id.button24);
-                disabledbuttons.add(btn);
-                btn = (Button) findViewById(R.id.button34);
+                btn = (Button) findViewById(R.id.button32);
                 disabledbuttons.add(btn);
                 btn = (Button) findViewById(R.id.button41);
                 disabledbuttons.add(btn);
@@ -455,8 +455,21 @@ public class GameBoard extends AppCompatActivity {
     public void buttonclearclick (View view){
         TextView inputtextview = (TextView) findViewById(R.id.textviewinputword);
         inputtextview.setText("Your Word: ");
-        enableandclear(disabledbuttons);
-        enableandclear(pressedbuttons);
+        Button btn;
+        for(int i=0;i<disabledbuttons.size();i++)
+        {
+            btn = disabledbuttons.get(i);
+                btn.setEnabled(true);
+        }
+        disabledbuttons.clear();
+        for(int i=0;i<pressedbuttons.size();i++)
+        {
+            btn = pressedbuttons.get(i);
+            btn.setEnabled(true);
+        }
+        pressedbuttons.clear();
+        //enableandclear(disabledbuttons);
+        //enableandclear(pressedbuttons);
     }
 
     //a function to enable a list of disabled buttons and clear it
@@ -468,7 +481,9 @@ public class GameBoard extends AppCompatActivity {
         for(i=0;i<arraylistsize;i++)
         {
             btn = list.get(i);
-            btn.setEnabled(true);
+            if(!pressedbuttons.contains(btn)){
+                btn.setEnabled(true);
+            }
         }
         list.clear();
     }
