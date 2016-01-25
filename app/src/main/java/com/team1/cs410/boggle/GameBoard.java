@@ -24,17 +24,56 @@ public class GameBoard extends AppCompatActivity {
     public TextView text;
     private final long startTime = 180 * 1000;
     private final long interval = 1*1000;
-    //Button disabledbuttons[];
     ArrayList<Button> disabledbuttons;
+    ArrayList<Button> pressedbuttons;
+    Button [][] buttons = new Button[4][4];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_board);
         disabledbuttons = new ArrayList<>();
+        pressedbuttons = new ArrayList<>();
+        //initialize the 2d array of buttons
+       /* Button btn = (Button) findViewById(R.id.button11);
+        buttons[0][0] = btn;
+        btn = (Button) findViewById(R.id.button12);
+        buttons[0][1] = btn;
+        btn = (Button) findViewById(R.id.button13);
+        buttons[0][2] = btn;
+        btn = (Button) findViewById(R.id.button14);
+        buttons[0][3] = btn;
+
+        btn = (Button) findViewById(R.id.button21);
+        buttons[1][0] = btn;
+        btn = (Button) findViewById(R.id.button22);
+        buttons[1][1] = btn;
+        btn = (Button) findViewById(R.id.button23);
+        buttons[1][2] = btn;
+        btn = (Button) findViewById(R.id.button24);
+        buttons[1][3] = btn;
+
+        btn = (Button) findViewById(R.id.button31);
+        buttons[2][0] = btn;
+        btn = (Button) findViewById(R.id.button32);
+        buttons[2][1] = btn;
+        btn = (Button) findViewById(R.id.button33);
+        buttons[2][2] = btn;
+        btn = (Button) findViewById(R.id.button34);
+        buttons[2][3] = btn;
+
+        btn = (Button) findViewById(R.id.button41);
+        buttons[3][0] = btn;
+        btn = (Button) findViewById(R.id.button42);
+        buttons[3][1] = btn;
+        btn = (Button) findViewById(R.id.button43);
+        buttons[3][2] = btn;
+        btn = (Button) findViewById(R.id.button44);
+        buttons[3][3] = btn;*/
+
         Intent intent = getIntent();
         text = (TextView)this.findViewById(R.id.timer);
         countDownTimer = new MyCountDownTimer(startTime, interval);
-        text.setText(text.getText() + String.valueOf(startTime/1000));
+        text.setText(text.getText() + String.valueOf(startTime / 1000));
         if(!timerHasStarted){
             countDownTimer.start();
             timerHasStarted = true;
@@ -48,11 +87,367 @@ public class GameBoard extends AppCompatActivity {
 
     //handle the click on board buttons
     public void boardbuttonclick (View view) {
+
+        //disabledbuttons.clear();
+        enableandclear(disabledbuttons);
         TextView textinputview = (TextView) findViewById(R.id.textviewinputword);
         Button btn = (Button) findViewById(view.getId());
         textinputview.append(btn.getText());
         btn.setEnabled(false);
-        disabledbuttons.add(btn);
+        pressedbuttons.add(btn);
+
+        switch (view.getId())
+        {
+            case R.id.button11:
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button12:
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button13:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button14:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button21:
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button22:
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button23:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button24:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button31:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button32:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button33:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button34:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button41:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button33);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button43);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button42:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button34);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button44);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button43:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                break;
+            case R.id.button44:
+                btn = (Button) findViewById(R.id.button11);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button12);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button13);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button14);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button21);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button22);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button23);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button24);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button31);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button32);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button41);
+                disabledbuttons.add(btn);
+                btn = (Button) findViewById(R.id.button42);
+                disabledbuttons.add(btn);
+                break;
+        }
+        for(int i=0;i<disabledbuttons.size();i++)
+        {
+            btn = disabledbuttons.get(i);
+            btn.setEnabled(false);
+        }
 
     }
 
@@ -60,15 +455,22 @@ public class GameBoard extends AppCompatActivity {
     public void buttonclearclick (View view){
         TextView inputtextview = (TextView) findViewById(R.id.textviewinputword);
         inputtextview.setText("Your Word: ");
+        enableandclear(disabledbuttons);
+        enableandclear(pressedbuttons);
+    }
+
+    //a function to enable a list of disabled buttons and clear it
+    public void enableandclear(ArrayList<Button> list)
+    {
         Button btn;
         int i, arraylistsize;
-        arraylistsize = disabledbuttons.size();
-        for (i=0;i<arraylistsize;i++)
+        arraylistsize = list.size();
+        for(i=0;i<arraylistsize;i++)
         {
-            btn = disabledbuttons.get(i);
+            btn = list.get(i);
             btn.setEnabled(true);
         }
-        disabledbuttons.clear();
+        list.clear();
     }
 
     //@Override
