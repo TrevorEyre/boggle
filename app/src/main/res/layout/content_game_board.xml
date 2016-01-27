@@ -184,9 +184,9 @@
         android:layout_height="wrap_content"
         android:text="Clear"
         android:id="@+id/buttonclear"
+        android:onClick="buttonclearclick"
         android:layout_above="@+id/gridLayout"
-        android:layout_centerHorizontal="true"
-        android:onClick="buttonclearclick"/>
+        android:layout_centerHorizontal="true" />
 
 
     <!--android:layout_alignParentTop="false"-->

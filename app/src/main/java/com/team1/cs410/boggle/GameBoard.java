@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -94,6 +91,7 @@ public class GameBoard extends AppCompatActivity {
         Button btn = (Button) findViewById(view.getId());
         textinputview.append(btn.getText());
         btn.setEnabled(false);
+        btn.setBackgroundColor(0xFFF34040);
         pressedbuttons.add(btn);
 
         switch (view.getId())
@@ -466,10 +464,9 @@ public class GameBoard extends AppCompatActivity {
         {
             btn = pressedbuttons.get(i);
             btn.setEnabled(true);
+            btn.setBackgroundResource(android.R.drawable.btn_default);
         }
         pressedbuttons.clear();
-        //enableandclear(disabledbuttons);
-        //enableandclear(pressedbuttons);
     }
 
     //a function to enable a list of disabled buttons and clear it
@@ -488,19 +485,6 @@ public class GameBoard extends AppCompatActivity {
         list.clear();
     }
 
-    //@Override
-    public void onClick(View v)
-    {
-      if(!timerHasStarted){
-          countDownTimer.start();
-          timerHasStarted = true;
-      }
-        else
-      {
-          countDownTimer.cancel();
-          timerHasStarted = false;
-      }
-    }
     public class MyCountDownTimer extends CountDownTimer{
         public MyCountDownTimer(long startTime, long interval){
             super(startTime, interval);
@@ -515,9 +499,6 @@ public class GameBoard extends AppCompatActivity {
             }
             text.setText("" + String.format("%02d",((millsUntilFinished/1000)/60))+":"+String.format("%02d",((millsUntilFinished/1000)%60)));
         }
-
-            /*long remainedSecs = millsUntilFinished/1000;
-            text.setText("" + millsUntilFinished/1000);*/
 
     }
 
