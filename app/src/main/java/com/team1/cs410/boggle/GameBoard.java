@@ -23,15 +23,20 @@ public class GameBoard extends AppCompatActivity {
     private final long interval = 1000;
     ArrayList<Button> disabledbuttons;
     ArrayList<Button> pressedbuttons;
-    Button [][] buttons = new Button[4][4];
+    Button [][] buttons;
+    char boardarray[][];
+    RandomBoardGenerator generator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_board);
         disabledbuttons = new ArrayList<>();
         pressedbuttons = new ArrayList<>();
+        generator = new RandomBoardGenerator();
+        buttons = new Button[4][4];
+        boardarray= new char[4][4];
         //initialize the 2d array of buttons
-       /* Button btn = (Button) findViewById(R.id.button11);
+        Button btn = (Button) findViewById(R.id.button11);
         buttons[0][0] = btn;
         btn = (Button) findViewById(R.id.button12);
         buttons[0][1] = btn;
@@ -65,7 +70,27 @@ public class GameBoard extends AppCompatActivity {
         btn = (Button) findViewById(R.id.button43);
         buttons[3][2] = btn;
         btn = (Button) findViewById(R.id.button44);
-        buttons[3][3] = btn;*/
+        buttons[3][3] = btn;
+
+        //get randomized text array from generator class
+        boardarray = generator.generateboard();
+        //set corresponding button text according to random array
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                /*Button btn1;
+                btn1 = buttons[i][j];
+                btn1.setText(boardarray[i][j]);*/
+                //char current;
+                //current = boardarray[i][j];
+                //String str1;
+                //str1 = new String();
+                //str1 = Character.toString(boardarray[i][j]);
+                //buttons[i][j].setText(boardarray[i][j]);
+                buttons[i][j].setText(Character.toString(boardarray[i][j]));
+            }
+        }
 
         Intent intent = getIntent();
         text = (TextView)this.findViewById(R.id.timer);
