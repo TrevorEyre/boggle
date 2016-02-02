@@ -4,7 +4,7 @@
     <string name="title_activity_game_board">Boggle</string>
 
     <!-- Main Menu -->
-    <string name="menu_single_player">New Single Player Game</string>
+    <string name="menu_single_player"> Single Player Game</string>
     <string name="menu_two_player">New Two Player Game</string>
     <string name="menu_high_scores">High Scores</string>
     <string name="title_activity_game_board2_player">GameBoard2Player</string>

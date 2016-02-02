@@ -1,32 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.team1.cs410.boggle.MainActivity"
-    tools:showIn="@layout/activity_main">
-
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainMenu"
+    android:background="@mipmap/boggle3"
+    >
 
     <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
         android:text="@string/menu_single_player"
-        android:onClick="newGame" />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_two_player"
-        android:onClick="new2PlayerGame"/>
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_high_scores" />
-</LinearLayout>
+        android:background="@android:drawable/dialog_frame"
+        android:id="@+id/newGame1"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="#ffff32be"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickSinglePlayerMultipleLevel"
+        android:layout_above="@+id/button3" />
 
+
+    <Button
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:text="Two Player "
+        android:background="@android:drawable/dialog_frame"
+        android:id="@+id/button3"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="#ffff32be"
+        android:layout_above="@+id/button5"
+        android:layout_marginTop="5dp"
+        android:onClick="onClickTwoPlayerBasic"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:text="Two Player Cutthroat"
+        android:background="@android:drawable/dialog_frame"
+        android:id="@+id/button5"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="#ffff32be"
+        android:layout_above="@+id/button4"
+        android:layout_alignLeft="@+id/button3"
+        android:layout_alignStart="@+id/button3"
+        android:layout_marginTop="5dp"
+        android:onClick="onClickTwoPlayerCutthroat"/>
+
+    <Button
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:text="@string/action_settings"
+        android:background="@android:drawable/dialog_frame"
+        android:id="@+id/button4"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/button5"
+        android:layout_alignStart="@+id/button5"
+        android:textColor="#ffff32be"
+        android:onClick="onClickAbout"/>
+</RelativeLayout>

@@ -2,9 +2,12 @@ package com.team1.cs410.boggle;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +29,11 @@ public class GameBoard extends AppCompatActivity {
     Button [][] buttons;
     char boardarray[][];
     RandomBoardGenerator generator;
+
+    GestureDetector gestureDetector;
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    //private ShakeEventManager mShakeDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

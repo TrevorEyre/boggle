@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Player selects New Game from menu
-    public void newGame (View view) {
+    public void onClickSinglePlayerMultipleLevel (View view) {
         Intent intent = new Intent(this, GameBoard.class);
         startActivity(intent);
     }
-    public void new2PlayerGame (View view){
+    public void onClickTwoPlayerBasic (View view){
         Intent intent = new Intent(this, GameBoard2Player.class);
         startActivity(intent);
     }

@@ -10,17 +10,54 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.team1.cs410.boggle.GameBoard"
-    tools:showIn="@layout/activity_game_board">
-    <TextView
-        android:layout_width="fill_parent"
+    tools:showIn="@layout/activity_game_board"
+    android:background="#c3f10c0c">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView android:id="@+id/roundlbl" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3:00 "
-        android:id="@+id/timer"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dip"
-        android:layout_alignParentTop="true"
-        android:textSize="50dp" />
+        android:layout_alignParentLeft="true"
+        android:text="round"
+        android:textSize="18dp"
+        android:textColor="@android:color/white"/>
+    <TextView android:id="@+id/round" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textSize="18dp"
+        android:layout_toRightOf="@+id/roundlbl"
+        android:text="0"
+        android:textColor="@android:color/white"/>
+    <TextView android:id="@+id/scorelbl" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/round"
+        android:paddingLeft="20dp"
+        android:text="scores"
+        android:textSize="18dp"
+        android:textColor="@android:color/white"/>
+
+    <TextView android:id="@+id/score" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textSize="18dp"
+        android:layout_toRightOf="@+id/scorelbl"
+        android:text="0"
+        android:textColor="@android:color/white"/>
+    <TextView android:id="@+id/timer" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity=""
+        android:text="3:00"
+        android:textSize="18dp"
+        android:textColor="@android:color/white"/>
+        </RelativeLayout>
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +66,13 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:id="@+id/layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +81,8 @@
         android:layout_alignParentEnd="false"
         android:rowCount="5"
         android:columnCount="4"
-        android:id="@+id/gridLayout">
+        android:id="@+id/gridLayout"
+        android:background="#c3f10c0c">
 
         <Button
             android:layout_row="1"
@@ -46,7 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button11"
-            android:onClick="boardbuttonclick"/>
+            android:onClick="boardbuttonclick"
+             />
 
         <Button
             android:layout_row="1"
@@ -176,19 +222,69 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button44"
-            android:onClick="boardbuttonclick"/>
-    </GridLayout>
+            android:onClick="boardbuttonclick"
+             />
 
+    </GridLayout>
+</LinearLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Clear"
         android:id="@+id/buttonclear"
         android:onClick="buttonclearclick"
-        android:layout_above="@+id/gridLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/page_buttons"
+        android:layout_alignEnd="@+id/page_buttons" />
+    <LinearLayout
+        android:id="@+id/layout_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_2"
+        android:orientation="vertical">
 
-
-    <!--android:layout_alignParentTop="false"-->
-        <!--android:layout_centerHorizontal="true"-->
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/page_buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_3"
+        android:paddingTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+    <TableLayout
+        android:id="@+id/table2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+        <TableRow>
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Your Words"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/my_wordlist"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:maxLines="7"
+                android:scrollbars="vertical"
+                android:textColor="@android:color/white"
+                />
+        </TableRow>
+    </TableLayout>
+    <Button
+        android:id="@+id/button_exit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="exit"
+        android:visibility="gone"
+        />
+</LinearLayout>
 </RelativeLayout>
