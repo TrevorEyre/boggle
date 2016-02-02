@@ -51,4 +51,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameBoard2Player.class);
         startActivity(intent);
     }
+
+    // Test board solver
+    public void onClickTestBoardSolver (View view) {
+        BoardSolver boardSolver = new BoardSolver(this);
+    }
 }
