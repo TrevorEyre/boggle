@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameBoard"
+            android:name=".SinglePlayerGame"
             android:label="@string/title_activity_game_board"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,9 +28,18 @@
                 android:value="com.team1.cs410.boggle.MainActivity" />
         </activity>
         <activity
-            android:name=".GameBoard2Player"
+            android:name=".TwoPlayerGameBasic"
             android:label="@string/title_activity_game_board2_player"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SinglePlayer"
+            android:label="@string/title_activity_single_player"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.team1.cs410.boggle.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

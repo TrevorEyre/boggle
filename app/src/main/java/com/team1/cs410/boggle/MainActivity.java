@@ -2,8 +2,6 @@ package com.team1.cs410.boggle;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -44,16 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
     // Player selects New Game from menu
     public void onClickSinglePlayerMultipleLevel (View view) {
-        Intent intent = new Intent(this, GameBoard.class);
+        Intent intent = new Intent(this, SinglePlayerGame.class);
         startActivity(intent);
     }
     public void onClickTwoPlayerBasic (View view){
-        Intent intent = new Intent(this, GameBoard2Player.class);
+        Intent intent = new Intent(this, TwoPlayerGameBasic.class);
         startActivity(intent);
-    }
-
-    // Test board solver
-    public void onClickTestBoardSolver (View view) {
-        BoardSolver boardSolver = new BoardSolver(this);
     }
 }

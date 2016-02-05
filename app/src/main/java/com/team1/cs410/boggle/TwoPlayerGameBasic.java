@@ -3,14 +3,11 @@ package com.team1.cs410.boggle;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class GameBoard2Player extends AppCompatActivity {
+public class TwoPlayerGameBasic extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean timerHasStarted = false;
     public TextView text;
@@ -19,9 +16,9 @@ public class GameBoard2Player extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_board2_player);
+        setContentView(R.layout.activity_two_player_game_basic);
         text = (TextView)this.findViewById(R.id.timer);
-        countDownTimer = new GameBoard2Player.MyCountDownTimer(startTime, interval);
+        countDownTimer = new TwoPlayerGameBasic.MyCountDownTimer(startTime, interval);
         text.setText(text.getText() + String.valueOf(startTime/1000));
         if(!timerHasStarted){
             countDownTimer.start();
