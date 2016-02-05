@@ -18,15 +18,9 @@ public class WordList {
     private TreeMap<String, String> wordList;
     private WordList dictionary;
 
-    // Constructor - Empty WordList
-    public WordList () {
-        this.wordList = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
-        this.dictionary = null;
-    }
-
     // Constructor - Initialize WordList with dictionary to check against
     public WordList (WordList dictionary) {
-        this.wordList = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+        this.wordList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         this.dictionary = dictionary;
     }
 
@@ -38,26 +32,31 @@ public class WordList {
 
     // Adds a new word to the WordList. Returns true upon successful add, false otherwise. Checks
     // that word is valid length, has not already been added to the WordList, and exists in dictionary.
-    public boolean add (String wordToAdd) {
-        wordToAdd = wordToAdd.toLowerCase();
-        if (wordToAdd.length() < 3 || wordToAdd.length() > 16) {return false;}
-        if (check(wordToAdd)) {return false;}
+    public boolean add (String word) {
+        word = word.toLowerCase();
+        if (word.length() < 3 || word.length() > 16) {return false;}
+        if (check(word)) {return false;}
         if (dictionary != null) {
-            if (!dictionary.check(wordToAdd)) {return false;}
+            if (!dictionary.check(word)) {return false;}
         }
 
-        this.wordList.put(wordToAdd, wordToAdd);
+        this.wordList.put(word, word);
         return true;
     }
 
     // Search tree for wordToCheck, returning true if found, false otherwise
-    public boolean check (String wordToCheck) {
-        wordToCheck = wordToCheck.toLowerCase();
-        return this.wordList.containsKey(wordToCheck);
+    private boolean check (String word) {
+        word = word.toLowerCase();
+        return this.wordList.containsKey(word);
+    }
+
+    // Clear contents of word list
+    public void clear () {
+        this.wordList.clear();
     }
 
     // Return length of wordList
-    public int length () {
+    public int size () {
         return this.wordList.size();
     }
 
@@ -96,7 +95,7 @@ public class WordList {
 
     // Read raw txt file and add all entries to tree. Only words of 3 or more letters are added.
     private TreeMap readFromTxtFile (Context context, int txtResourceId) {
-        TreeMap<String, String> treeMap = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+        TreeMap<String, String> treeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         InputStream inputStream = context.getResources().openRawResource(txtResourceId);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
