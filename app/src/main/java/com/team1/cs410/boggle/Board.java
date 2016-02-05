@@ -113,7 +113,8 @@ public class Board implements View.OnTouchListener {
             }
         }
 
-        return activity.onTouchEvent(event);
+//        return activity.onTouchEvent(event);
+        return true;
     }
 
     // Submit a word on the board. Resets all dice back to enabled, and sets the color of dice that
