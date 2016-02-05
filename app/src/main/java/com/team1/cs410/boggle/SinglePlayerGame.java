@@ -22,21 +22,20 @@ public class SinglePlayerGame extends AppCompatActivity {
     //private ShakeEventManager mShakeDetector;
 
     private Game game;
-    private Timer timer;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player_game);
 
-        // Start new game, and insert game board into wrapper
+        // Create new game, and insert game board into wrapper
         game = new Game(this, this);
         LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
 
         // Get intent and start game timer
         Intent intent = getIntent();
-        timer = new Timer((TextView)this.findViewById(R.id.timer));
+        game.startTime();
     }
 
     // Click event handler for button_clear

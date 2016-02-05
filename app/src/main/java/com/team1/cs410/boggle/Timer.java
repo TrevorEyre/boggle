@@ -17,13 +17,18 @@ public class Timer {
         this.timerLabel = timerLabel;
         countDownTimer = new MyCountDownTimer(startTime, interval);
         this.timerLabel.setText(this.timerLabel.getText() + String.valueOf(startTime / 1000));
-        if (!timerHasStarted) {
-            countDownTimer.start();
-            timerHasStarted = true;
-        } else {
-            countDownTimer.cancel();
-            timerHasStarted = false;
-        }
+    }
+
+    // Start the timer
+    public void startTimer () {
+        countDownTimer.start();
+        timerHasStarted = true;
+    }
+
+    // Stop the timer
+    public void stopTimer () {
+        countDownTimer.cancel();
+        timerHasStarted = false;
     }
 
     public class MyCountDownTimer extends CountDownTimer {

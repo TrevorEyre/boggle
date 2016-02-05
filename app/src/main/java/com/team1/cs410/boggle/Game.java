@@ -3,12 +3,14 @@ package com.team1.cs410.boggle;
 import android.app.Activity;
 import android.content.Context;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class Game {
 
     private Context context;
     private Activity activity;
     private Board gameBoard;
+    private Timer timer;
     private WordList dictionary;
     private WordList wordsFound;
     private int totalScore = 0;
@@ -18,6 +20,7 @@ public class Game {
         this.context = context;
         this.activity = activity;
         this.gameBoard = new Board(context, activity);
+        this.timer = new Timer((TextView)activity.findViewById(R.id.timer));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
     }
@@ -47,6 +50,16 @@ public class Game {
     //  Return total score for this game
     public int getScore () {
         return totalScore;
+    }
+
+    // Start the game timer
+    public void startTime () {
+        timer.startTimer();
+    }
+
+    // Stop the game timer
+    public void stopTime () {
+        timer.stopTimer();
     }
 
     // Return score of submitted word
