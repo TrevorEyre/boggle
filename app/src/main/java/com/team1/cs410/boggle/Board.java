@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board implements View.OnTouchListener {
@@ -77,6 +78,8 @@ public class Board implements View.OnTouchListener {
         return wordList;
     }
 
+    public ArrayList<Button> getButtonList(){return this.buttons;}
+
     // Handler for onTouch event of the dice on the board. Disables dice that are not adjacent to
     // touched die, and sets the correct dice colors.
     @Override
@@ -108,7 +111,9 @@ public class Board implements View.OnTouchListener {
         for (int i = 0; i < boardSize; ++i) {
             if (!buttonNeighbors.contains(i)) {
                 button = buttons.get(i);
+                //button.setBackgroundResource(R.drawable.dice_disabled);
                 button.setEnabled(false);
+                //button.setBackgroundResource(R.drawable.dice_disabled);
                 disabledButtons.add(button);
             }
         }

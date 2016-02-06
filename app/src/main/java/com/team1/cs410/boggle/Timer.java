@@ -2,27 +2,38 @@ package com.team1.cs410.boggle;
 
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.widget.Button;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class Timer {
 
     private CountDownTimer countDownTimer;
     private boolean timerHasStarted = false;
     public TextView timerLabel;
+    public TextView scoreLabel;
+    public TextView score;
     private final long startTime = 180 * 1000;
     private final long interval = 1000;
+    private ArrayList<Button> buttons;
 
     // Constructor
-    public Timer (TextView timerLabel) {
+    public Timer (TextView timerLabel, TextView score, TextView scorelabel) {
         this.timerLabel = timerLabel;
+        this.scoreLabel = scorelabel;
+        this.score=score;
         countDownTimer = new MyCountDownTimer(startTime, interval);
         this.timerLabel.setText(this.timerLabel.getText() + String.valueOf(startTime / 1000));
     }
 
     // Start the timer
-    public void startTimer () {
+    public void startTimer (ArrayList<Button> btn) {
         countDownTimer.start();
         timerHasStarted = true;
+        this.buttons = btn;
     }
 
     // Stop the timer
@@ -37,7 +48,15 @@ public class Timer {
         }
 
         public void onFinish () {
+            String scorestr = (String)score.getText();
             timerLabel.setText("Times up!");
+            scoreLabel.setText("Your score is: ");
+            Button btn;
+            for(int i=0;i< buttons.size();i++)
+            {
+                btn = buttons.get(i);
+                btn.setEnabled(false);
+            }
         }
 
         public void onTick (long millsUntilFinished) {

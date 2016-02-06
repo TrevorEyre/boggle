@@ -20,7 +20,7 @@ public class Game {
         this.context = context;
         this.activity = activity;
         this.gameBoard = new Board(context, activity);
-        this.timer = new Timer((TextView)activity.findViewById(R.id.timer));
+        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
     }
@@ -54,7 +54,7 @@ public class Game {
 
     // Start the game timer
     public void startTime () {
-        timer.startTimer();
+        timer.startTimer(gameBoard.getButtonList());
     }
 
     // Stop the game timer
@@ -64,8 +64,18 @@ public class Game {
 
     // Return score of submitted word
     private int score (String word) {
-        int s = 1;
-
+        int wordlength = word.length();
+        int s=0;
+        if(wordlength == 3 || wordlength == 4)
+            s = 1;
+        else if(wordlength==5)
+            s = 2;
+        else if(wordlength==6)
+            s=3;
+        else if(wordlength==7)
+            s=5;
+        else if(wordlength>=8)
+            s=11;
         totalScore += s;
         return s;
     }
