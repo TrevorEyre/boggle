@@ -1,5 +1,6 @@
 package com.team1.cs410.boggle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +9,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
     }
 
     @Override
@@ -47,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onClickTwoPlayerBasic (View view){
         Intent intent = new Intent(this, TwoPlayerGameBasic.class);
+        startActivity(intent);
+    }
+
+    public void onClickHighScores (View view){
+        Intent intent = new Intent(this, HighScoresActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name","default");
+        bundle.putInt("score", -1);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }
