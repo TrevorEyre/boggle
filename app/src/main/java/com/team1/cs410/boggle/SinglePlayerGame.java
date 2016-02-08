@@ -1,5 +1,8 @@
 package com.team1.cs410.boggle;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -7,12 +10,15 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SinglePlayerGame extends AppCompatActivity {
 
@@ -22,6 +28,7 @@ public class SinglePlayerGame extends AppCompatActivity {
     //private ShakeEventManager mShakeDetector;
 
     private Game game;
+    private String m_Text = "";
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -58,5 +65,47 @@ public class SinglePlayerGame extends AppCompatActivity {
             selectedWord.setTextColor(Color.rgb(0, 200, 83));
         }
         scoreDisplay.setText(Integer.toString(game.getScore()));
+    }
+
+    public void endbuttonclick(View view)
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter your name!");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+                okclick();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void okclick()
+    {
+        int score = game.getScore();
+        //Context context = getApplicationContext();
+        Intent intent = new Intent(this, HighScoresActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name",m_Text);
+        bundle.putInt("score", score);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
