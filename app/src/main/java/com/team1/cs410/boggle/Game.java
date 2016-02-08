@@ -2,6 +2,7 @@ package com.team1.cs410.boggle;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ public class Game {
         this.context = context;
         this.activity = activity;
         this.gameBoard = new Board(context, activity);
-        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl));
+        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
     }
