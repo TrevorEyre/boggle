@@ -118,6 +118,15 @@
             android:layout_gravity="center_vertical"
             android:text="Clear"
             android:onClick="buttonClearClick" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="End"
+            android:id="@+id/button_end"
+            android:onClick="endbuttonclick"
+            android:layout_width="0dp" />
 
     </LinearLayout>
 
