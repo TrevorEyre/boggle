@@ -25,7 +25,7 @@ public class SinglePlayerGame extends AppCompatActivity {
     GestureDetector gestureDetector;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    //private ShakeEventManager mShakeDetector;
+    private ShakeDetector mShakeDetector;
 
     private Game game;
     private String m_Text = "";
@@ -43,7 +43,28 @@ public class SinglePlayerGame extends AppCompatActivity {
         // Get intent and start game timer
         Intent intent = getIntent();
         game.startTime();
-    }
+        // ShakeDetector initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+				/*
+				 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+                //handleShakeEvent(count);
+                //onClickShake(null);
+                Toast.makeText(getBaseContext(), "Motion detected",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        });
+}
 
     // Click event handler for button_clear
     public void buttonClearClick (View view) {
@@ -109,4 +130,19 @@ public class SinglePlayerGame extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
+
 }
+
