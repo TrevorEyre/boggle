@@ -27,13 +27,20 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 
 public class HighScoresActivity extends AppCompatActivity {
-
+    SharedPreferences scoredata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences.Editor editor = scoredata.edit();
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("name");
         int score = bundle.getInt("score");
-        if(name.equals("default")==false && score !=-1)
+        if(name.isEmpty())
+        {
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context,"You did not enter your name. Score will not be recorded!",Toast.LENGTH_LONG);
+            toast.show();
+        }
+        else if(name.equals("default")==false && score !=-1)
         {
             updatescores(name, score);
         }

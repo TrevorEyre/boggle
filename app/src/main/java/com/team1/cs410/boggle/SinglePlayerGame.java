@@ -107,5 +107,6 @@ public class SinglePlayerGame extends AppCompatActivity {
         bundle.putInt("score", score);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 }
