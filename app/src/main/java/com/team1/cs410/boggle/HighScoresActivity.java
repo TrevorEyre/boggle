@@ -27,10 +27,10 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 
 public class HighScoresActivity extends AppCompatActivity {
-    SharedPreferences scoredata;
+    //SharedPreferences scoredata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences.Editor editor = scoredata.edit();
+        //SharedPreferences.Editor editor = scoredata.edit();
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("name");
         int score = bundle.getInt("score");
