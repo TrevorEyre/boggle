@@ -1,5 +1,6 @@
 package com.team1.cs410.boggle;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,7 +27,7 @@ public class SinglePlayerGame extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
-
+    private Activity activity;
     private Game game;
     private String m_Text = "";
 
@@ -34,8 +35,8 @@ public class SinglePlayerGame extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player_game);
-
         // Create new game, and insert game board into wrapper
+        activity = this;
         game = new Game(this, this);
         LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
@@ -61,6 +62,16 @@ public class SinglePlayerGame extends AppCompatActivity {
                 //onClickShake(null);
                 Toast.makeText(getBaseContext(), "Motion detected",
                         Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(getIntent());
+                /*Context context = getApplicationContext();
+                game = new Game(context,activity);
+                LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
+                gameBoardWrapper.addView(game.getBoard());
+
+                // Get intent and start game timer
+                Intent intent = getIntent();
+                game.startTime();*/
             }
 
         });
@@ -143,6 +154,5 @@ public class SinglePlayerGame extends AppCompatActivity {
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
     }
-
 }
 
