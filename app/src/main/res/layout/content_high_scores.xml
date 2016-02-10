@@ -9,7 +9,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_high_scores"
     tools:context="com.team1.cs410.boggle.HighScoresActivity"
-    android:background="@mipmap/boggle2">
+    android:background="@mipmap/boggle4">
 
     <TextView
         android:layout_width="wrap_content"

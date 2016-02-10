@@ -60,6 +60,7 @@ public class SinglePlayerGame extends AppCompatActivity {
 				 */
                 //handleShakeEvent(count);
                 //onClickShake(null);
+
                 Toast.makeText(getBaseContext(), "Motion detected",
                         Toast.LENGTH_SHORT).show();
                 finish();
@@ -135,7 +136,7 @@ public class SinglePlayerGame extends AppCompatActivity {
         //Context context = getApplicationContext();
         Intent intent = new Intent(this, HighScoresActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("name",m_Text);
+        bundle.putString("name", m_Text);
         bundle.putInt("score", score);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -153,6 +154,12 @@ public class SinglePlayerGame extends AppCompatActivity {
         // Add the following line to unregister the Sensor Manager onPause
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
 
