@@ -131,48 +131,48 @@
     </LinearLayout>
 
     <!--<LinearLayout-->
-        <!--android:id="@+id/page_buttons"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/layout_3"-->
-        <!--android:paddingTop="10dp"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:orientation="horizontal">-->
+    <!--android:id="@+id/page_buttons"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/layout_3"-->
+    <!--android:paddingTop="10dp"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:orientation="horizontal">-->
 
-        <!--<TableLayout-->
-            <!--android:id="@+id/table2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="invisible">-->
+    <!--<TableLayout-->
+    <!--android:id="@+id/table2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:visibility="invisible">-->
 
-            <!--<TableRow>-->
-                <!--<TextView-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Your Words"-->
-                    <!--android:textSize="20dp"-->
-                    <!--android:textAlignment="center"-->
-                    <!--android:textColor="@android:color/white" />-->
-            <!--</TableRow>-->
-            <!--<TableRow>-->
-                <!--<TextView-->
-                    <!--android:id="@+id/my_wordlist"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="200dp"-->
-                    <!--android:maxLines="7"-->
-                    <!--android:scrollbars="vertical"-->
-                    <!--android:textColor="@android:color/white" />-->
-            <!--</TableRow>-->
+    <!--<TableRow>-->
+    <!--<TextView-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Your Words"-->
+    <!--android:textSize="20dp"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@android:color/white" />-->
+    <!--</TableRow>-->
+    <!--<TableRow>-->
+    <!--<TextView-->
+    <!--android:id="@+id/my_wordlist"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:maxLines="7"-->
+    <!--android:scrollbars="vertical"-->
+    <!--android:textColor="@android:color/white" />-->
+    <!--</TableRow>-->
 
-        <!--</TableLayout>-->
+    <!--</TableLayout>-->
 
-        <!--<Button-->
-            <!--android:id="@+id/button_exit"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="exit"-->
-            <!--android:visibility="gone" />-->
+    <!--<Button-->
+    <!--android:id="@+id/button_exit"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="exit"-->
+    <!--android:visibility="gone" />-->
 
     <!--</LinearLayout>-->
 </LinearLayout>

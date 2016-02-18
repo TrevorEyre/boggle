@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team1.cs410.boggle" >
-    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+    package="com.team1.cs410.boggle">
+    package="com.tutsplus.matt.bluetoothscanner" >
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +29,7 @@
             android:name=".SinglePlayerGame"
             android:label="@string/title_activity_game_board"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
@@ -31,7 +38,8 @@
             android:name=".TwoPlayerGameBasic"
             android:label="@string/title_activity_game_board2_player"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--<activity
+        <!--
+        <activity
             android:name=".SinglePlayerGame"
             android:label="@string/title_activity_single_player"
             android:parentActivityName=".MainActivity"
@@ -39,15 +47,26 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
-        </activity>-->
+        </activity>
+        -->
         <activity
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DeviceListActivity"
+            android:label="@string/title_activity_device_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ClientServer"
+            android:label="@string/title_activity_client_server"
+            android:theme="@style/AppTheme.NoActionBar">
+            
         </activity>
     </application>
 
