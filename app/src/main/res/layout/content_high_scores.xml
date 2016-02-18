@@ -25,12 +25,119 @@
         android:focusable="false"
         android:focusableInTouchMode="false" />
 
-    <ListView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 1"
+        android:id="@+id/textname1"
+        android:layout_above="@+id/textname2"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="31dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textvalue1"
+        android:layout_alignTop="@+id/textname1"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 2"
+        android:id="@+id/textname2"
+        android:layout_above="@+id/textname3"
+        android:layout_alignLeft="@+id/textname1"
+        android:layout_alignStart="@+id/textname1"
+        android:layout_marginBottom="31dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textvalue2"
+        android:layout_alignTop="@+id/textname2"
+        android:layout_alignLeft="@+id/textvalue1"
+        android:layout_alignStart="@+id/textvalue1"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 3"
+        android:id="@+id/textname3"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/textname2"
+        android:layout_alignStart="@+id/textname2"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textvalue3"
+        android:layout_alignBottom="@+id/textname3"
+        android:layout_alignLeft="@+id/textvalue2"
+        android:layout_alignStart="@+id/textvalue2"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 4"
+        android:id="@+id/textname4"
+        android:layout_below="@+id/textname3"
+        android:layout_alignLeft="@+id/textname3"
+        android:layout_alignStart="@+id/textname3"
+        android:layout_marginTop="27dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textvalue4"
+        android:layout_alignTop="@+id/textname4"
+        android:layout_alignLeft="@+id/textvalue3"
+        android:layout_alignStart="@+id/textvalue3"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player 5"
+        android:id="@+id/textname5"
+        android:layout_below="@+id/textname4"
+        android:layout_alignLeft="@+id/textname4"
+        android:layout_alignStart="@+id/textname4"
+        android:layout_marginTop="27dp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textvalue5"
+        android:layout_alignTop="@+id/textname5"
+        android:layout_alignLeft="@+id/textvalue4"
+        android:layout_alignStart="@+id/textvalue4"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
