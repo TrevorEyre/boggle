@@ -66,7 +66,7 @@
             android:name=".ClientServer"
             android:label="@string/title_activity_client_server"
             android:theme="@style/AppTheme.NoActionBar">
-            
+
         </activity>
     </application>
 
