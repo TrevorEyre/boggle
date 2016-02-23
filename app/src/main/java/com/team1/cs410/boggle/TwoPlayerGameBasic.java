@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +33,13 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     private final long startTime = 180 * 1000;
     private final long interval = 1*1000;
     private static final int REQUEST_ENABLE_BT =1;
+    private static final int REQUEST_DISCOVERABLE=2;
     ArrayList<String> DeviceNames = new ArrayList<String>();
+    ArrayList<String> DeviceAddresses = new ArrayList<String>();
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     ConnectionHelper connectionHelper = new ConnectionHelper();
     Set<BluetoothDevice> pairedDevices;
+    ArrayList<BluetoothDevice> listpairedDevices= new ArrayList<BluetoothDevice>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,30 +59,45 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         }
         else//if found bluetooth device
         {
-            if (!mBluetoothAdapter.isEnabled())//if bluetooth isn't enabled
+            if(gametype.equals("join")) //if this device is hosting the game
             {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT); //starts an activity that returns result in onActivityResult
-            }
-            else{
-                if(gametype.equals("host"))
+                if (!mBluetoothAdapter.isEnabled())//if bluetooth isn't enabled
                 {
-
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT); //starts an activity that returns result in onActivityResult
                 }
+                else//bluetooth is already on, just read paired devices and discover devices
+                {
+                    getpaireddevices();
+
+                    //Show list of paired devices
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Select a device to connect to:")
+                            //.setItems((CharSequence[]) DeviceNames.toString(), new DialogInterface.OnClickListener() {
+                            .setItems(DeviceNames.toArray(new CharSequence[DeviceNames.size()]), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Log.d("device selected", "" + which);
+                                    //connect to 'which'
+                                    Log.d("device selected", "" + which);
+                                    Log.d("Clicked device: ", listpairedDevices.get(which).getName());
+                                    //connectionHelper.connectToDevice(listpairedDevices.get(which),mHandler);
+                                }
+                            });
+                    builder.show();
+                }
+
+            }
+            else if(gametype.equals("host"))
+            {
+
+                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+                //startActivity(discoverableIntent);
+                startActivityForResult(discoverableIntent,REQUEST_DISCOVERABLE);
             }
         }
 
-
-        if(gametype.equals("host"))
-        {
-                //before doing this, select a device
-                //after device is selected, invoke appropriate methods from ConnectionHelper for 'server'
-
-        }
-        else if(gametype.equals("join"))
-        {
-            //after device is selected, invoke appropriate methods from ConnectionHelper for 'client'
-        }
 
         activity = this;
         game = new Game(this, this);
@@ -116,13 +138,28 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                             .setItems(DeviceNames.toArray(new CharSequence[DeviceNames.size()]), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Log.d("device selected","" + which);
+                                    Log.d("device selected", "" + which);
+                                    Log.d("Clicked device: ",listpairedDevices.get(which).getName());
+                                    Handler mHandler = new Handler();
+                                    connectionHelper.connectToDevice(listpairedDevices.get(which), mHandler);
                                 }
                             });
                     builder.show();
-
                 }
             break;
+            case REQUEST_DISCOVERABLE: //if the current request is to make device discoverable
+                if(resultCode==Activity.RESULT_OK)
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else if(resultCode==Activity.RESULT_CANCELED)
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Error! You need to set device to be discoverable!",Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                }
+                break;
         }
     }
 
@@ -136,11 +173,14 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 // Add the name and address to an array adapter to show in a ListView
                 //mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 DeviceNames.add(device.getName());
+                DeviceAddresses.add(device.getAddress());
+                listpairedDevices.add(device);
                 //Show the device list in the log
                 Log.d("Bluetooth device found",device.getName() + "\t" + device.getAddress());
             }
         }
     }
+
     //@Override
     public void onClick(View v)
     {
@@ -154,6 +194,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             timerHasStarted = false;
         }
     }
+
     public class MyCountDownTimer extends CountDownTimer{
         public MyCountDownTimer(long startTime, long interval){
             super(startTime, interval);
