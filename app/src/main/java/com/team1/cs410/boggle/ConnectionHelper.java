@@ -183,6 +183,7 @@ public class ConnectionHelper {
             int bytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
+            Log.d("Thread","Connected thread has started and listening");
             while (true) {
                 try {
                     // Read from the InputStream
@@ -199,6 +200,7 @@ public class ConnectionHelper {
         /* Call this from the main activity to send data to the remote device */
         public void write(byte[] bytes) {
             try {
+                Log.d("Write debug","Writing bytes");
                 mmOutStream.write(bytes);
 
                 // Share the sent message back to the UI Activity
