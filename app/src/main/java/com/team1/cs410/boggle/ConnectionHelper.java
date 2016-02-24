@@ -188,8 +188,9 @@ public class ConnectionHelper {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
+                    Log.d("Read",new String(buffer));
                     // Send the obtained bytes to the UI activity
-                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
+                    mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
                 } catch (IOException e) {
                     break;
@@ -202,7 +203,7 @@ public class ConnectionHelper {
             try {
                 Log.d("Write debug","Writing bytes");
                 mmOutStream.write(bytes);
-
+                Log.d("Write debug","Written bytes");
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, bytes).sendToTarget();
             } catch (IOException e) { }

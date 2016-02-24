@@ -85,8 +85,10 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     //connect to 'which'
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ", listpairedDevices.get(which).getName());
-                                    //connectionHelper.connectToDevice(listpairedDevices.get(which),mHandler);
+                                    Handler mHandler = new Handler();
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
+                                    mConnection.waitForOtherDevice();
+                                    mConnection.write("Ping".getBytes());
                                 }
                             });
                     builder.show();
@@ -97,6 +99,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT2); //starts an activity that returns result in onActivityResult
+
 //                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 //                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 //                //startActivity(discoverableIntent);
@@ -161,9 +164,11 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 //if(resultCode==Activity.RESULT_OK)
                 if(resultCode==Activity.RESULT_OK)
                 {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_SHORT);
                     toast.show();
                     mConnection.accept(mHandler);
+                    mConnection.waitForOtherDevice();
+                    mConnection.write("hello from host".getBytes());
                 }
                 else if(resultCode==Activity.RESULT_CANCELED)
                 {
@@ -217,6 +222,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Log.d("Handler","Inside handler"+msg.what);
 //            FragmentActivity activity = getActivity();
             switch (msg.what) {
 //                case Constants.MESSAGE_STATE_CHANGE:
@@ -237,15 +243,19 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 //                    byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
 //                    String writeMessage = new String(writeBuf);
+
                     String writeMessage = new String("Writing a message");
+
 //                    mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
+                    Log.d("Handler","Reading");
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     Toast.makeText(activity, readMessage, Toast.LENGTH_SHORT).show();
+
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
 //                    // save the connected device's name
