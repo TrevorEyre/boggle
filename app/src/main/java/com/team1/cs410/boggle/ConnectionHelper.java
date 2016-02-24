@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,6 +86,7 @@ public class ConnectionHelper {
                 if (socket != null) {
                     // Do work to manage the connection (in a separate thread)
                     connectedThread = new ConnectedThread(socket, mHandler);
+                    Log.d("About connection","Starting connectedThread");
                     connectedThread.start();
                     try {
                         mmServerSocket.close();
@@ -140,6 +142,7 @@ public class ConnectionHelper {
 
             // Do work to manage the connection (in a separate thread)
             connectedThread = new ConnectedThread(mmSocket, mHandler);
+            Log.d("About connection","Starting connectedThread");
             connectedThread.start();
         }
 

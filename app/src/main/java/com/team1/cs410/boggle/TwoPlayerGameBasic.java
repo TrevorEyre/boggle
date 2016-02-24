@@ -36,6 +36,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     private final long interval = 1*1000;
     private static final int REQUEST_ENABLE_BT =1;
     private static final int REQUEST_DISCOVERABLE=2;
+    private static final int REQUEST_ENABLE_BT2=3;
     ArrayList<String> DeviceNames = new ArrayList<String>();
     ArrayList<String> DeviceAddresses = new ArrayList<String>();
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -59,8 +60,9 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             toast.show();
             this.finish();
         }
-        else//if found bluetooth device
+        else//if found bluetooth adapter
         {
+            mConnection = new ConnectionHelper(getApplicationContext(),mHandler);
             if(gametype.equals("join")) //if this device is hosting the game
             {
                 if (!mBluetoothAdapter.isEnabled())//if bluetooth isn't enabled
@@ -93,11 +95,13 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             }
             else if(gametype.equals("host"))
             {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT2); //starts an activity that returns result in onActivityResult
 //                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 //                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 //                //startActivity(discoverableIntent);
-//                startActivityForResult(discoverableIntent,REQUEST_DISCOVERABLE);
-                mConnection.accept(mHandler);
+//                startActivityForResult(discoverableIntent, REQUEST_DISCOVERABLE);
+
             }
         }
 
@@ -146,16 +150,20 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     Log.d("Clicked device: ",listpairedDevices.get(which).getName());
                                     Handler mHandler = new Handler();
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
+                                    mConnection.waitForOtherDevice();
+                                    mConnection.write("Ping".getBytes());
                                 }
                             });
                     builder.show();
                 }
             break;
-            case REQUEST_DISCOVERABLE: //if the current request is to make device discoverable
+            case REQUEST_ENABLE_BT2: //if the current request is to make device discoverable
+                //if(resultCode==Activity.RESULT_OK)
                 if(resultCode==Activity.RESULT_OK)
                 {
                     Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_LONG);
                     toast.show();
+                    mConnection.accept(mHandler);
                 }
                 else if(resultCode==Activity.RESULT_CANCELED)
                 {
@@ -164,6 +172,21 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                     finish();
                 }
                 break;
+//            case REQUEST_DISCOVERABLE: //if the current request is to make device discoverable
+//                //if(resultCode==Activity.RESULT_OK)
+//                if(resultCode==Activity.RESULT_OK)
+//                {
+//                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_LONG);
+//                    toast.show();
+//                    mConnection.accept(mHandler);
+//                }
+//                else if(resultCode==Activity.RESULT_CANCELED)
+//                {
+//                    Toast toast = Toast.makeText(getApplicationContext(),"Error! You need to set device to be discoverable!",Toast.LENGTH_LONG);
+//                    toast.show();
+//                    finish();
+//                }
+//                break;
         }
     }
 
