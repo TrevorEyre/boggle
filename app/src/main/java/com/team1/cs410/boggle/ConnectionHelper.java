@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Handler;
 
 import java.io.IOException;
@@ -22,6 +23,20 @@ public class ConnectionHelper {
     private AcceptThread acceptThread;
     private ConnectThread connectThread;
     private ConnectedThread connectedThread;
+
+    private int mState;
+    private final Handler mHandler;
+
+    // Constants that indicate the current connection state
+    public static final int STATE_NONE = 0;       // we're doing nothing
+    public static final int STATE_LISTEN = 1;     // now listening for incoming connections
+    public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
+    public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+
+    public ConnectionHelper(Context context, Handler handler) {
+        mState = STATE_NONE;
+        mHandler = handler;
+    }
 
     public void accept(Handler handler) {
         acceptThread = new AcceptThread(handler);
@@ -182,6 +197,9 @@ public class ConnectionHelper {
         public void write(byte[] bytes) {
             try {
                 mmOutStream.write(bytes);
+
+                // Share the sent message back to the UI Activity
+                mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, bytes).sendToTarget();
             } catch (IOException e) { }
         }
 

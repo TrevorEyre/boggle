@@ -13,6 +13,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -37,9 +39,9 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     ArrayList<String> DeviceNames = new ArrayList<String>();
     ArrayList<String> DeviceAddresses = new ArrayList<String>();
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    ConnectionHelper connectionHelper = new ConnectionHelper();
     Set<BluetoothDevice> pairedDevices;
     ArrayList<BluetoothDevice> listpairedDevices= new ArrayList<BluetoothDevice>();
+    private ConnectionHelper mConnection = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ", listpairedDevices.get(which).getName());
                                     //connectionHelper.connectToDevice(listpairedDevices.get(which),mHandler);
+                                    mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
                                 }
                             });
                     builder.show();
@@ -90,11 +93,11 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             }
             else if(gametype.equals("host"))
             {
-
-                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-                //startActivity(discoverableIntent);
-                startActivityForResult(discoverableIntent,REQUEST_DISCOVERABLE);
+//                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+//                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+//                //startActivity(discoverableIntent);
+//                startActivityForResult(discoverableIntent,REQUEST_DISCOVERABLE);
+                mConnection.accept(mHandler);
             }
         }
 
@@ -117,7 +120,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         }
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data)//executed when startActivityforResult returns
+    //executed when startActivityforResult returns
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         switch (requestCode)
         {
@@ -141,7 +145,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ",listpairedDevices.get(which).getName());
                                     Handler mHandler = new Handler();
-                                    connectionHelper.connectToDevice(listpairedDevices.get(which), mHandler);
+                                    mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
                                 }
                             });
                     builder.show();
@@ -162,6 +166,81 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 break;
         }
     }
+
+
+    /**
+     * Set up the UI and background operations for chat.
+     */
+    private void setupChat() {
+        Log.d(getClass().getSimpleName(), "setupChat()");
+
+//        // Initialize the send button with a listener that for click events
+//        mSendButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                // Send a message using content of the edit text widget
+//                View view = getView();
+//                if (null != view) {
+//                    TextView textView = (TextView) view.findViewById(R.id.edit_text_out);
+//                    String message = textView.getText().toString();
+//                    sendMessage(message);
+//                }
+//            }
+//        });
+
+        // Initialize the BluetoothChatService to perform bluetooth connections
+        mConnection = new ConnectionHelper(activity, mHandler);
+    }
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+//            FragmentActivity activity = getActivity();
+            switch (msg.what) {
+//                case Constants.MESSAGE_STATE_CHANGE:
+//                    switch (msg.arg1) {
+//                        case ConnectionHelper.STATE_CONNECTED:
+//                            Toast.makeText(activity, "Connected", Toast.LENGTH_SHORT).show();
+//                            break;
+//                        case ConnectionHelper.STATE_CONNECTING:
+//                            Toast.makeText(activity, "Connecting", Toast.LENGTH_SHORT).show();
+//                            break;
+//                        case ConnectionHelper.STATE_LISTEN:
+//                        case ConnectionHelper.STATE_NONE:
+//                            Toast.makeText(activity, "Unable to connect", Toast.LENGTH_SHORT).show();
+//                            break;
+//                    }
+//                    break;
+                case Constants.MESSAGE_WRITE:
+//                    byte[] writeBuf = (byte[]) msg.obj;
+                    // construct a string from the buffer
+//                    String writeMessage = new String(writeBuf);
+                    String writeMessage = new String("Writing a message");
+//                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    // construct a string from the valid bytes in the buffer
+                    String readMessage = new String(readBuf, 0, msg.arg1);
+//                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    Toast.makeText(activity, readMessage, Toast.LENGTH_SHORT).show();
+                    break;
+//                case Constants.MESSAGE_DEVICE_NAME:
+//                    // save the connected device's name
+//                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+//                    if (null != activity) {
+//                        Toast.makeText(activity, "Connected to "
+//                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+//                case Constants.MESSAGE_TOAST:
+//                    if (null != activity) {
+//                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+            }
+        }
+    };
 
     private void getpaireddevices()
     {
