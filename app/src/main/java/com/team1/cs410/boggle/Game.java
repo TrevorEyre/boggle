@@ -27,6 +27,16 @@ public class Game {
         this.wordsFound = new WordList(dictionary);
     }
 
+    // Initialize game with a preset board
+    public Game (Context context, Activity activity, char[] dice) {
+        this.context = context;
+        this.activity = activity;
+        this.gameBoard = new Board(context, activity, dice);
+        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
+        this.dictionary = gameBoard.getWordList();
+        this.wordsFound = new WordList(dictionary);
+    }
+
     // Try to submit a word from game board. Returns the score for that word.
     public int submitWord () {
         int s;
@@ -85,5 +95,10 @@ public class Game {
     // Return the game board layout
     public LinearLayout getBoard () {
         return gameBoard.getBoard();
+    }
+
+    // Return dice from game board
+    public char[] getDice () {
+        return gameBoard.getDice();
     }
 }

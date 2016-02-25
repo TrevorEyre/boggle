@@ -104,6 +104,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 }
                 else
                 {
+                    mConnection.accept(mHandler);
                     mConnection.waitForOtherDevice();
                     mConnection.write("hello from host".getBytes());
                 }
@@ -116,23 +117,26 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             }
         }
 
-
         activity = this;
+    }
+
+    private void hostGame () {
         game = new Game(this, this);
         LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
-        text = (TextView)this.findViewById(R.id.timer);
-        countDownTimer = new TwoPlayerGameBasic.MyCountDownTimer(startTime, interval);
-        text.setText(text.getText() + String.valueOf(startTime/1000));
-        if(!timerHasStarted){
-            countDownTimer.start();
-            timerHasStarted = true;
-        }
-        else
-        {
-            countDownTimer.cancel();
-            timerHasStarted = false;
-        }
+
+        // Send board to connected device
+        String sendMessage = new String("0" + new String(game.getDice()));
+        mConnection.waitForOtherDevice();
+        mConnection.write(sendMessage.getBytes());
+        game.startTime();
+    }
+
+    private void joinGame (String board) {
+        game = new Game(this, this, board.toCharArray());
+        LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
+        gameBoardWrapper.addView(game.getBoard());
+        game.startTime();
     }
 
     public void onBtnClick()
@@ -268,10 +272,21 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                     Log.d("Handler","Reading");
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
-//                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
-                    Toast.makeText(activity, readMessage, Toast.LENGTH_SHORT).show();
+                    String rawMessage = new String(readBuf, 0, msg.arg1);
+                    int msgType = Integer.parseInt(rawMessage.substring(0, 1));
+                    String readMessage = rawMessage.substring(1, rawMessage.length() + 1);
+                    Log.d("MESSAGE_READ", "rawMessage: " + rawMessage);
+                    Log.d("MESSAGE_READ", "msgType: " + msgType);
+                    Log.d("MESSAGE_READ", "readMessage: " + readMessage);
+//                    Toast.makeText(activity, readMessage, Toast.LENGTH_SHORT).show();
 
+                    switch (msgType) {
+                        case(0): // New game
+                            joinGame(readMessage);
+                            break;
+                        case(1): // Send word
+                            break;
+                    }
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
 //                    // save the connected device's name
