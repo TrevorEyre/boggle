@@ -75,7 +75,7 @@ public class Game {
     }
 
     // Return score of submitted word
-    private int score (String word) {
+    public int score (String word) {
         int wordlength = word.length();
         int s=0;
         if(wordlength == 3 || wordlength == 4)
@@ -100,5 +100,10 @@ public class Game {
     // Return dice from game board
     public char[] getDice () {
         return gameBoard.getDice();
+    }
+
+    // Return selected word
+    public String getSelectedWord () {
+        return gameBoard.getSelectedWord();
     }
 }

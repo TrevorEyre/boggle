@@ -139,6 +139,15 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         game.startTime();
     }
 
+    private void updateScore (String word) {
+        TextView oppScoreTextView = (TextView)this.findViewById(R.id.score_opp);
+        int score = Integer.parseInt(oppScoreTextView.getText().toString());
+        int newScore = game.score(word);
+        score += newScore;
+
+        oppScoreTextView.setText(new Integer(score).toString());
+    }
+
     public void onBtnClick()
     {
         mConnection.waitForOtherDevice();
@@ -286,6 +295,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                             joinGame(readMessage);
                             break;
                         case(1): // Send word
+                            updateScore(readMessage);
                             break;
                     }
                     break;
@@ -341,25 +351,22 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     }
 
 
+    // Click event handler for button_submit
+    public void buttonSubmitClick (View view) {
+        TextView scoreDisplay = (TextView)this.findViewById(R.id.score);
+        TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
 
-    public class MyCountDownTimer extends CountDownTimer{
-        public MyCountDownTimer(long startTime, long interval){
-            super(startTime, interval);
+        int score = game.submitWord();
+        if (score == 0) {
+            selectedWord.setTextColor(Color.rgb(244, 67, 54));
+        } else {
+            selectedWord.setTextColor(Color.rgb(0, 200, 83));
         }
+        scoreDisplay.setText(Integer.toString(game.getScore()));
 
-        public void onFinish(){
-            text.setText("Times up!");
-        }
-        public void onTick(long millsUntilFinished){
-            if(millsUntilFinished/1000 == 30) {
-                text.setTextColor(Color.RED);
-            }
-            text.setText("" + String.format("%02d",((millsUntilFinished/1000)/60))+":"+String.format("%02d",((millsUntilFinished/1000)%60)));
-        }
-
-            /*long remainedSecs = millsUntilFinished/1000;
-            text.setText("" + millsUntilFinished/1000);*/
-
+        String sendMessage = new String("1" + game.getSelectedWord());
+        mConnection.waitForOtherDevice();
+        mConnection.write(sendMessage.getBytes());
     }
 
 }
