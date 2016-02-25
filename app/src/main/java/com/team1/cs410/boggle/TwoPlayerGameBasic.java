@@ -145,7 +145,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         int newScore = game.score(word);
         score += newScore;
 
-        oppScoreTextView.setText(new Integer(score).toString());
+        oppScoreTextView.setText(Integer.toString(score));
     }
 
     public void onBtnClick()
