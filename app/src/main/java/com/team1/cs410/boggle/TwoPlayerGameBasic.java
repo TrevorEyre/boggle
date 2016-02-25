@@ -85,10 +85,11 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     //connect to 'which'
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ", listpairedDevices.get(which).getName());
-                                    Handler mHandler = new Handler();
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
                                     mConnection.waitForOtherDevice();
                                     mConnection.write("Ping".getBytes());
+                                    mConnection.waitForOtherDevice();
+                                    mConnection.write("Pong".getBytes());
                                 }
                             });
                     builder.show();
@@ -97,8 +98,15 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             }
             else if(gametype.equals("host"))
             {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT2); //starts an activity that returns result in onActivityResult
+                if (!mBluetoothAdapter.isEnabled()) {
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT2); //starts an activity that returns result in onActivityResult
+                }
+                else
+                {
+                    mConnection.waitForOtherDevice();
+                    mConnection.write("hello from host".getBytes());
+                }
 
 //                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 //                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
@@ -127,6 +135,12 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         }
     }
 
+    public void onBtnClick()
+    {
+        mConnection.waitForOtherDevice();
+        mConnection.write("Clicked".getBytes());
+    }
+
     //executed when startActivityforResult returns
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -150,11 +164,12 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Log.d("device selected", "" + which);
-                                    Log.d("Clicked device: ",listpairedDevices.get(which).getName());
-                                    Handler mHandler = new Handler();
+                                    Log.d("Clicked device: ", listpairedDevices.get(which).getName());
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
                                     mConnection.waitForOtherDevice();
                                     mConnection.write("Ping".getBytes());
+                                    mConnection.waitForOtherDevice();
+                                    mConnection.write("Pong".getBytes());
                                 }
                             });
                     builder.show();
@@ -166,9 +181,11 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 {
                     Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_SHORT);
                     toast.show();
+                    Log.d("Bluetooth ", "Device On");
                     mConnection.accept(mHandler);
                     mConnection.waitForOtherDevice();
-                    mConnection.write("hello from host".getBytes());
+                    mConnection.write("Hello from host".getBytes());
+
                 }
                 else if(resultCode==Activity.RESULT_CANCELED)
                 {
@@ -245,7 +262,6 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 //                    String writeMessage = new String(writeBuf);
 
                     String writeMessage = new String("Writing a message");
-
 //                    mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
@@ -277,6 +293,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
     private void getpaireddevices()
     {
+        //pairedDevices.clear();
         pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices
         if (pairedDevices.size() > 0) {
@@ -306,6 +323,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             timerHasStarted = false;
         }
     }
+
+
 
     public class MyCountDownTimer extends CountDownTimer{
         public MyCountDownTimer(long startTime, long interval){

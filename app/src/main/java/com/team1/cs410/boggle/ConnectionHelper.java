@@ -40,6 +40,7 @@ public class ConnectionHelper {
     }
 
     public void accept(Handler handler) {
+        //mHandler=handler;
         acceptThread = new AcceptThread(handler);
         acceptThread.start();
     }
@@ -190,9 +191,13 @@ public class ConnectionHelper {
                     bytes = mmInStream.read(buffer);
                     Log.d("Read",new String(buffer));
                     // Send the obtained bytes to the UI activity
-                    mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
+//                    mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+//                            .sendToTarget();
+                    mHandler.obtainMessage(Constants.MESSAGE_READ,bytes,-1,buffer).sendToTarget();
+                    Log.d("Read","Sent to handler" + new String(buffer));
                 } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("Read: ","Exception in read");
                     break;
                 }
             }
