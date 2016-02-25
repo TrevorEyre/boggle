@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".TwoPlayerGameBasic"
+    tools:context=".SinglePlayerGame"
     tools:showIn="@layout/activity_two_player_game_basic"
     android:background="#494646">
     <LinearLayout
@@ -41,6 +42,7 @@
                 android:text="3:00"
                 android:textSize="18dp"
                 android:textColor="@android:color/white"/>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -82,241 +84,68 @@
         </LinearLayout>
 
     </LinearLayout>
+    <!-- Your word -->
     <LinearLayout
-        android:id="@+id/layout_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="208dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false"
-            android:rowCount="5"
-            android:columnCount="4"
-            android:id="@+id/gridLayout">
-
-
-            <Button
-                android:layout_row="1"
-                android:layout_column="0"
-                android:text="A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button11"
-                android:onClick="boardbuttonclick"
-                />
-
-            <Button
-                android:layout_row="1"
-                android:layout_column="1"
-                android:text="F"
-                android:id="@+id/button12"
-                android:onClick="boardbuttonclick"/>
-            <Button
-                android:layout_row="1"
-                android:layout_column="2"
-                android:text="Z"
-                android:id="@+id/button13"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="1"
-                android:layout_column="3"
-                android:text="A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button14"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="2"
-                android:layout_column="0"
-                android:text="G"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button21"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="2"
-                android:layout_column="1"
-                android:text="K"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button22"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="2"
-                android:layout_column="2"
-                android:text="C"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button23"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="2"
-                android:layout_column="3"
-                android:text="R"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button24"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="3"
-                android:layout_column="0"
-                android:text="D"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button31"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="4"
-                android:layout_column="0"
-                android:text="A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button41"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="3"
-                android:layout_column="1"
-                android:text="O"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button32"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="3"
-                android:layout_column="2"
-                android:text="A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button33"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="3"
-                android:layout_column="3"
-                android:text="T"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button34"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="4"
-                android:layout_column="1"
-                android:text="G"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button42"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="4"
-                android:layout_column="2"
-                android:text="P"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button43"
-                android:onClick="boardbuttonclick"/>
-
-            <Button
-                android:layout_row="4"
-                android:layout_column="3"
-                android:text="A"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button44"
-                android:onClick="boardbuttonclick"
-                />
-
-        </GridLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_2"
-        android:orientation="vertical">
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/page_buttons"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_3"
-        android:paddingTop="10dp"
-        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        >
-        <TableLayout
-            android:id="@+id/table2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible">
-            <TableRow>
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Your Words"
-                    android:textSize="20dp"
-                    android:textAlignment="center"
-                    android:textColor="#fdfcfbfb"/>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="oppwords"
-                    android:textSize="20dp"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"/>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
 
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:id="@+id/my_wordlist"
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"
-                    android:maxLines="7"
-                    android:scrollbars="vertical"
-                    android:textColor="@android:color/white"
-                    />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-                <TextView
-                    android:id="@+id/opp_wordlist"
-                    android:layout_width="150dp"
-                    android:layout_height="200dp"
-                    android:maxLines="10"
-                    android:scrollbars="vertical"
-                    android:textColor="@android:color/white"/>
-            </TableRow>
-        </TableLayout>
-        <Button
-            android:id="@+id/button_exit"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/input_word"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="exit"
-            android:visibility="gone"
-            />
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:textSize="18dp" />
+
     </LinearLayout>
-</RelativeLayout>
+
+    <!-- Wrapper for game board -->
+    <LinearLayout
+        android:id="@+id/game_board_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="70"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <!-- Game buttons -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="Submit"
+            android:onClick="buttonSubmitClick" />
+        <Button
+            android:id="@+id/button_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="Clear"
+            android:onClick="buttonClearClick" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="End"
+            android:id="@+id/button_end"
+            android:onClick="endbuttonclick"
+            android:layout_width="0dp" />
+
+    </LinearLayout>
+</LinearLayout>

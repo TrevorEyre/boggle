@@ -28,7 +28,7 @@
     <Button
         android:layout_width="270dp"
         android:layout_height="60dp"
-        android:text="Two Player "
+        android:text="Two Player"
         android:background="@android:drawable/dialog_frame"
         android:id="@+id/button3"
         android:shadowColor="#A8A8A8"

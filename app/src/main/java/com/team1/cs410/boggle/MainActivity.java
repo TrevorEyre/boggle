@@ -1,6 +1,8 @@
 package com.team1.cs410.boggle;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,8 +53,33 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
     public void onClickTwoPlayerBasic (View view){
-        Intent intent = new Intent(this, TwoPlayerGameBasic.class);
-        startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Host or join?")
+                .setPositiveButton("Host", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(),TwoPlayerGameBasic.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("gametype","host");
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Join", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(),TwoPlayerGameBasic.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("gametype","join");
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+        //builder.create();
+        builder.show();
+
+        /*Intent intent = new Intent(this, TwoPlayerGameBasic.class);
+        startActivity(intent);*/
     }
 
     public void onClickHighScores (View view){

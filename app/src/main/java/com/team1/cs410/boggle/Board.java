@@ -59,6 +59,25 @@ public class Board implements View.OnTouchListener {
         Log.d(getClass().getSimpleName(), "Words found: " + Integer.toString(wordList.size()));
     }
 
+    // Initialize game board with a set of dice
+    public Board (Context context, Activity activity, char[] dice) {
+        this.context = context;
+        this.activity = activity;
+        buttons = new ArrayList<>();
+        disabledButtons = new ArrayList<>();
+        pressedButtons = new ArrayList<>();
+        dictionary = new WordList(context, R.raw.worddictionary);
+        wordList = new WordList(dictionary);
+        neighbors = initNeighbors();
+
+        this.dice = dice;
+        gameBoard = initBoard();
+        solveBoard();
+        printBoard();
+        wordList.print();
+        Log.d(getClass().getSimpleName(), "Words found: " + Integer.toString(wordList.size()));
+    }
+
     // Return currently selected word
     public String getSelectedWord () {
         StringBuilder word = new StringBuilder();
@@ -71,6 +90,11 @@ public class Board implements View.OnTouchListener {
     // Return the game board layout
     public LinearLayout getBoard () {
         return gameBoard;
+    }
+
+    // Return raw board dice
+    public char[] getDice () {
+        return dice;
     }
 
     // Return full list of available words for this board

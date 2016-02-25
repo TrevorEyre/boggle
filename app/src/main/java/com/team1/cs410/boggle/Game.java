@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Game {
 
@@ -21,6 +22,16 @@ public class Game {
         this.context = context;
         this.activity = activity;
         this.gameBoard = new Board(context, activity);
+        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
+        this.dictionary = gameBoard.getWordList();
+        this.wordsFound = new WordList(dictionary);
+    }
+
+    // Initialize game with a preset board
+    public Game (Context context, Activity activity, char[] dice) {
+        this.context = context;
+        this.activity = activity;
+        this.gameBoard = new Board(context, activity, dice);
         this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
@@ -64,7 +75,7 @@ public class Game {
     }
 
     // Return score of submitted word
-    private int score (String word) {
+    public int score (String word) {
         int wordlength = word.length();
         int s=0;
         if(wordlength == 3 || wordlength == 4)
@@ -84,5 +95,15 @@ public class Game {
     // Return the game board layout
     public LinearLayout getBoard () {
         return gameBoard.getBoard();
+    }
+
+    // Return dice from game board
+    public char[] getDice () {
+        return gameBoard.getDice();
+    }
+
+    // Return selected word
+    public String getSelectedWord () {
+        return gameBoard.getSelectedWord();
     }
 }
