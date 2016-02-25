@@ -138,6 +138,8 @@ public class SinglePlayerGame extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("name", m_Text);
         bundle.putInt("score", score);
+        bundle.putString("wordsFound", game.getWordsFound());
+        bundle.putString("wordsNotFound", game.getWordsNotFound());
         intent.putExtras(bundle);
         startActivity(intent);
         finish();

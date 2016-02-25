@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +34,8 @@ public class HighScoresActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("name");
         int score = bundle.getInt("score");
+        String wordsFound = bundle.getString("wordsFound");
+        String wordsNotFound = bundle.getString("wordsNotFound");
 
         if(prefs.getBoolean("firstrun",true)) //Check if the app is on it's first run ever on this device
         {//If it is, create the file and write default values to it.
@@ -77,6 +80,12 @@ public class HighScoresActivity extends AppCompatActivity {
             {
                 Log.d("Everythingloaded",names[i] + scores[i]);
             }
+
+            // Hide words found/not found labels
+            this.findViewById(R.id.wordsFoundLabel).setVisibility(View.GONE);
+            this.findViewById(R.id.wordsFound).setVisibility(View.GONE);
+            this.findViewById(R.id.wordsNotFoundLabel).setVisibility(View.GONE);
+            this.findViewById(R.id.wordsNotFound).setVisibility(View.GONE);
 
             //Set the textviews
             TextView tview1,tview2,tview3,tview4,tview5,tview6,tview7,tview8,tview9,tview10;
@@ -124,6 +133,12 @@ public class HighScoresActivity extends AppCompatActivity {
                 scores[i]=Integer.parseInt(allscores[i]);
             }
             updatescores(name, score);
+
+            // Print found words and unfound words
+            TextView wordsFoundTextView = (TextView)this.findViewById(R.id.wordsFound);
+            TextView wordsNotFoundTextView = (TextView)this.findViewById(R.id.wordsNotFound);
+            wordsFoundTextView.setText(wordsFound);
+            wordsNotFoundTextView.setText(wordsNotFound);
         }
 
     }

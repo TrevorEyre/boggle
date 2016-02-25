@@ -92,6 +92,17 @@ public class Game {
         return s;
     }
 
+    // Return all words found in this game
+    public String getWordsFound () {
+        return wordsFound.toString();
+    }
+
+    // Return all words that weren't found in this game
+    public String getWordsNotFound () {
+        WordList wordsNotFound = this.dictionary.remove(wordsFound);
+        return wordsNotFound.toString();
+    }
+
     // Return the game board layout
     public LinearLayout getBoard () {
         return gameBoard.getBoard();

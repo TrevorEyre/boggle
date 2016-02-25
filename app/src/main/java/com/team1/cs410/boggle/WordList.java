@@ -18,6 +18,12 @@ public class WordList {
     private TreeMap<String, String> wordList;
     private WordList dictionary;
 
+    // Constructor - Initialize empty WordList
+    public WordList () {
+        this.wordList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        this.dictionary = null;
+    }
+
     // Constructor - Initialize WordList with dictionary to check against
     public WordList (WordList dictionary) {
         this.wordList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -42,6 +48,18 @@ public class WordList {
 
         this.wordList.put(word, word);
         return true;
+    }
+
+    // Returns WordList minus all words in listToRemove. Original WordList is unaltered
+    public WordList remove (WordList listToRemove) {
+        WordList returnList = new WordList();
+        returnList.wordList = (TreeMap)this.wordList.clone();
+        Iterator i = listToRemove.wordList.entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry mapEntry = (Map.Entry)i.next();
+            returnList.wordList.remove(mapEntry.getKey());
+        }
+        return returnList;
     }
 
     // Search tree for wordToCheck, returning true if found, false otherwise
@@ -82,6 +100,20 @@ public class WordList {
                 return 0;
             }
         }
+    }
+
+    // Return wordList as string
+    public String toString () {
+        StringBuilder returnString = new StringBuilder();
+        Iterator i = this.wordList.entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry mapEntry = (Map.Entry)i.next();
+            returnString.append((String)mapEntry.getValue()).append("\n");
+        }
+        if (returnString.length() > 0) {
+            returnString.setLength(returnString.length() - 1);
+        }
+        return returnString.toString();
     }
 
     // Iterate through tree and print all values to console
