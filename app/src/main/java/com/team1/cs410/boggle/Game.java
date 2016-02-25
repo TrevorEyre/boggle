@@ -38,7 +38,7 @@ public class Game {
     }
 
     // Try to submit a word from game board. Returns the score for that word.
-    public int submitWord () {
+    public String submitWord () {
         int s;
         String word = gameBoard.getSelectedWord();
         boolean isValid = wordsFound.add(word);
@@ -49,9 +49,10 @@ public class Game {
             s = score(word);
         } else {
             s = 0;
+            word = null;
         }
 
-        return s;
+        return word;
     }
 
     // Clear the currently selected dice on the board
@@ -113,8 +114,4 @@ public class Game {
         return gameBoard.getDice();
     }
 
-    // Return selected word
-    public String getSelectedWord () {
-        return gameBoard.getSelectedWord();
-    }
 }

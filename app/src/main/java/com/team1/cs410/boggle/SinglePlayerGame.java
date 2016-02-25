@@ -91,8 +91,8 @@ public class SinglePlayerGame extends AppCompatActivity {
         TextView scoreDisplay = (TextView)this.findViewById(R.id.score);
         TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
 
-        int score = game.submitWord();
-        if (score == 0) {
+        String word = game.submitWord();
+        if (word == null) {
             selectedWord.setTextColor(Color.rgb(244, 67, 54));
         } else {
             selectedWord.setTextColor(Color.rgb(0, 200, 83));

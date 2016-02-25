@@ -86,10 +86,10 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ", listpairedDevices.get(which).getName());
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
-                                    mConnection.waitForOtherDevice();
-                                    mConnection.write("Ping".getBytes());
-                                    mConnection.waitForOtherDevice();
-                                    mConnection.write("Pong".getBytes());
+//                                    mConnection.waitForOtherDevice();
+//                                    mConnection.write("Ping".getBytes());
+//                                    mConnection.waitForOtherDevice();
+//                                    mConnection.write("Pong".getBytes());
                                 }
                             });
                     builder.show();
@@ -139,7 +139,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         game.startTime();
     }
 
-    private void updateScore (String word) {
+    private void receiveOpponentWord (String word) {
         TextView oppScoreTextView = (TextView)this.findViewById(R.id.score_opp);
         int score = Integer.parseInt(oppScoreTextView.getText().toString());
         int newScore = game.score(word);
@@ -295,7 +295,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                             joinGame(readMessage);
                             break;
                         case(1): // Send word
-                            updateScore(readMessage);
+                            receiveOpponentWord(readMessage);
                             break;
                     }
                     break;
@@ -356,15 +356,15 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         TextView scoreDisplay = (TextView)this.findViewById(R.id.score);
         TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
 
-        int score = game.submitWord();
-        if (score == 0) {
+        String word = game.submitWord();
+        if (word == null) {
             selectedWord.setTextColor(Color.rgb(244, 67, 54));
         } else {
             selectedWord.setTextColor(Color.rgb(0, 200, 83));
         }
         scoreDisplay.setText(Integer.toString(game.getScore()));
 
-        String sendMessage = new String("1" + game.getSelectedWord());
+        String sendMessage = new String("1" + word);
         mConnection.waitForOtherDevice();
         mConnection.write(sendMessage.getBytes());
     }
