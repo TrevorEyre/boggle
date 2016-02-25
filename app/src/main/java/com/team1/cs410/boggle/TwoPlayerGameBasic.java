@@ -105,8 +105,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 else
                 {
                     mConnection.accept(mHandler);
-                    mConnection.waitForOtherDevice();
-                    mConnection.write("hello from host".getBytes());
+//                    mConnection.waitForOtherDevice();
+//                    mConnection.write("hello from host".getBytes());
                 }
 
 //                Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -170,10 +170,10 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                                     Log.d("device selected", "" + which);
                                     Log.d("Clicked device: ", listpairedDevices.get(which).getName());
                                     mConnection.connectToDevice(listpairedDevices.get(which), mHandler);
-                                    mConnection.waitForOtherDevice();
-                                    mConnection.write("Ping".getBytes());
-                                    mConnection.waitForOtherDevice();
-                                    mConnection.write("Pong".getBytes());
+//                                    mConnection.waitForOtherDevice();
+//                                    mConnection.write("Ping".getBytes());
+//                                    mConnection.waitForOtherDevice();
+//                                    mConnection.write("Pong".getBytes());
                                 }
                             });
                     builder.show();
@@ -187,8 +187,9 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                     toast.show();
                     Log.d("Bluetooth ", "Device On");
                     mConnection.accept(mHandler);
-                    mConnection.waitForOtherDevice();
-                    mConnection.write("Hello from host".getBytes());
+//                    mConnection.waitForOtherDevice();
+//                    mConnection.write("Hello from host".getBytes());
+                    hostGame();
 
                 }
                 else if(resultCode==Activity.RESULT_CANCELED)
@@ -274,7 +275,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                     // construct a string from the valid bytes in the buffer
                     String rawMessage = new String(readBuf, 0, msg.arg1);
                     int msgType = Integer.parseInt(rawMessage.substring(0, 1));
-                    String readMessage = rawMessage.substring(1, rawMessage.length() + 1);
+                    String readMessage = rawMessage.substring(1, rawMessage.length());
                     Log.d("MESSAGE_READ", "rawMessage: " + rawMessage);
                     Log.d("MESSAGE_READ", "msgType: " + msgType);
                     Log.d("MESSAGE_READ", "readMessage: " + readMessage);
