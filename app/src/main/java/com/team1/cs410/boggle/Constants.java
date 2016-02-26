@@ -32,10 +32,15 @@ public interface Constants {
 
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
-    public static final int MESSAGE_DEVICE_NAME = 4;
-    public static final int MESSAGE_TOAST = 5;
+    public static final int MESSAGE_HOST_GAME = 2;
+    public static final int MESSAGE_READ = 3;
+    public static final int MESSAGE_WRITE = 4;
+    public static final int MESSAGE_DEVICE_NAME = 5;
+    public static final int MESSAGE_TOAST = 6;
+
+    // Message types for MESSAGE_READ handler
+    public static final int READ_NEW_GAME = 1;
+    public static final int READ_SEND_WORD = 2;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";

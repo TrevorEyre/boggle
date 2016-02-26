@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     package="com.team1.cs410.boggle">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
-
-    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -41,17 +40,6 @@
             android:name=".TwoPlayerGameBasic"
             android:label="@string/title_activity_game_board2_player"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--
-        <activity
-            android:name=".SinglePlayerGame"
-            android:label="@string/title_activity_single_player"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team1.cs410.boggle.MainActivity" />
-        </activity>
-        -->
         <activity
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"
@@ -61,15 +49,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
         </activity>
-        <activity
-            android:name=".DeviceListActivity"
-            android:label="@string/title_activity_device_list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ClientServer"
-            android:label="@string/title_activity_client_server"
-            android:theme="@style/AppTheme.NoActionBar">
-
+        <activity android:name=".BluetoothDevicesActivity">
         </activity>
     </application>
 

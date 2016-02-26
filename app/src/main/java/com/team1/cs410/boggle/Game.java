@@ -45,7 +45,7 @@ public class Game {
 
         // Get score of submitted word
         if (isValid) {
-            updateScore(word);
+            totalScore += score(word);
         } else {
             word = null;
         }
@@ -71,11 +71,6 @@ public class Game {
     // Stop the game timer
     public void stopTime () {
         timer.stopTimer();
-    }
-
-    // Update total score for this game
-    private void updateScore(String word) {
-        totalScore += score(word);
     }
 
     // Return score of submitted word
