@@ -56,8 +56,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         if(mBluetoothAdapter==null)//check if bluetoothadapter is available
         {
             //If not, then there's no point in continuing with the activity
-            Toast toast = Toast.makeText(getApplicationContext(), "Cannot find bluetooth", Toast.LENGTH_SHORT);
-            toast.show();
+//            Toast toast = Toast.makeText(getApplicationContext(), "Cannot find bluetooth", Toast.LENGTH_SHORT);
+//            toast.show();
             this.finish();
         }
         else//if found bluetooth adapter
@@ -162,8 +162,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
             case REQUEST_ENABLE_BT://if the current request is to enable bluetooth
                 if(resultCode == Activity.RESULT_CANCELED)//if the user doesn't grant permission
                 {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Error! Bluetooth is required for two player mode",Toast.LENGTH_LONG);
-                    toast.show();
+//                    Toast toast = Toast.makeText(getApplicationContext(),"Error! Bluetooth is required for two player mode",Toast.LENGTH_LONG);
+//                    toast.show();
                     finish();
                 }
                 else if(resultCode == Activity.RESULT_OK)//if the user grants permission
@@ -192,8 +192,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 //if(resultCode==Activity.RESULT_OK)
                 if(resultCode==Activity.RESULT_OK)
                 {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_SHORT);
-                    toast.show();
+//                    Toast toast = Toast.makeText(getApplicationContext(),"Your device is now discoverable",Toast.LENGTH_SHORT);
+//                    toast.show();
                     Log.d("Bluetooth ", "Device On");
                     mConnection.accept(mHandler);
 //                    mConnection.waitForOtherDevice();
@@ -203,8 +203,8 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 }
                 else if(resultCode==Activity.RESULT_CANCELED)
                 {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Error! You need to set device to be discoverable!",Toast.LENGTH_LONG);
-                    toast.show();
+//                    Toast toast = Toast.makeText(getApplicationContext(),"Error! You need to set device to be discoverable!",Toast.LENGTH_LONG);
+//                    toast.show();
                     finish();
                 }
                 break;
@@ -357,16 +357,17 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
 
         String word = game.submitWord();
+        Log.d("buttonSubmitClick", "submit: " + word);
         if (word == null) {
             selectedWord.setTextColor(Color.rgb(244, 67, 54));
         } else {
+            // Valid word. Send to opponent
             selectedWord.setTextColor(Color.rgb(0, 200, 83));
+            String sendMessage = new String("1" + word);
+            mConnection.waitForOtherDevice();
+            mConnection.write(sendMessage.getBytes());
         }
         scoreDisplay.setText(Integer.toString(game.getScore()));
-
-        String sendMessage = new String("1" + word);
-        mConnection.waitForOtherDevice();
-        mConnection.write(sendMessage.getBytes());
     }
 
 }

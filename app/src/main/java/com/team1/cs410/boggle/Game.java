@@ -39,16 +39,14 @@ public class Game {
 
     // Try to submit a word from game board. Returns the score for that word.
     public String submitWord () {
-        int s;
         String word = gameBoard.getSelectedWord();
         boolean isValid = wordsFound.add(word);
         gameBoard.submitWord(isValid);
 
         // Get score of submitted word
         if (isValid) {
-            s = score(word);
+            updateScore(word);
         } else {
-            s = 0;
             word = null;
         }
 
@@ -75,21 +73,25 @@ public class Game {
         timer.stopTimer();
     }
 
+    // Update total score for this game
+    private void updateScore(String word) {
+        totalScore += score(word);
+    }
+
     // Return score of submitted word
     public int score (String word) {
         int wordlength = word.length();
-        int s=0;
-        if(wordlength == 3 || wordlength == 4)
+        int s = 0;
+        if (wordlength == 3 || wordlength == 4)
             s = 1;
-        else if(wordlength==5)
+        else if (wordlength == 5)
             s = 2;
-        else if(wordlength==6)
-            s=3;
-        else if(wordlength==7)
-            s=5;
-        else if(wordlength>=8)
-            s=11;
-        totalScore += s;
+        else if (wordlength == 6)
+            s = 3;
+        else if (wordlength == 7)
+            s = 5;
+        else if (wordlength >= 8)
+            s = 11;
         return s;
     }
 
