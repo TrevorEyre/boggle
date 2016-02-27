@@ -26,14 +26,12 @@ import java.util.Set;
 // devices detected in the area after discovery. When a device is chosen
 // by the user, the MAC address of the device is sent back to the parent
 // Activity in the result Intent.
-public class BluetoothDevicesActivity extends AppCompatActivity {
+public class BluetoothDevicesActivity extends Activity {
 
     // Tag for debug statements
     private static final String TAG = "BluetoothDevices";
 
-    // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-
     private BluetoothAdapter bluetoothAdapter;
     private ArrayAdapter<String> newDevicesArrayAdapter;
 
@@ -42,18 +40,26 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Setup the window
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_bluetooth_devices);
 
         // Set result CANCELED in case the user backs out
         setResult(Activity.RESULT_CANCELED);
 
-        // Initialize the button to perform device discovery
+        // Initialize the button to perform device scan
         Button scanButton = (Button)findViewById(R.id.button_scan);
-        scanButton.setOnClickListener(new View.OnClickListener () {
-            public void onClick (View v) {
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 discoverDevices();
                 v.setVisibility(View.GONE);
+            }
+        });
+
+        // Initialize the button to make device discoverable
+        Button discoverableButton = (Button)findViewById(R.id.button_discoverable);
+        discoverableButton.setOnClickListener(new View.OnClickListener () {
+            public void onClick (View v) {
+                makeDiscoverable();
             }
         });
 
@@ -113,7 +119,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
         Log.d(TAG, "discoverDevices()");
 
         // Indicate scanning in the title
-        setProgressBarIndeterminateVisibility(true);
+//        setProgressBarIndeterminateVisibility(true);
         setTitle("Scanning for new devices");
 
         // Turn on sub-title for new devices
@@ -126,6 +132,16 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
 
         // Request discover from BluetoothAdapter
         bluetoothAdapter.startDiscovery();
+    }
+
+    // Make device discoverable
+    public void makeDiscoverable () {
+        Log.d(TAG, "makeDiscoverable()");
+        if (bluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 60);
+            startActivity(discoverableIntent);
+        }
     }
 
     // The on-click listener for all devices in the ListViews
@@ -165,7 +181,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                setProgressBarIndeterminateVisibility(false);
+//                setProgressBarIndeterminateVisibility(false);
                 setTitle("Select a device to connect");
                 if (newDevicesArrayAdapter.getCount() == 0) {
                     newDevicesArrayAdapter.add("No devices found");
@@ -173,4 +189,5 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
             }
         }
     };
+
 }

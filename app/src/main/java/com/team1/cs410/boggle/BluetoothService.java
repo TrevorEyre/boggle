@@ -262,7 +262,7 @@ public class BluetoothService {
                     }
                 }
             }
-            Log.i(TAG, "END acceptThread, socket Type: " + socketType);
+            Log.d(TAG, "END acceptThread, socket Type: " + socketType);
 
         }
 
@@ -301,7 +301,7 @@ public class BluetoothService {
         }
 
         public void run() {
-            Log.i(TAG, "BEGIN connectThread SocketType:" + socketType);
+            Log.d(TAG, "BEGIN connectThread SocketType:" + socketType);
             setName("ConnectThread" + socketType);
 
             // Always cancel discovery because it will slow down a connection
@@ -368,7 +368,7 @@ public class BluetoothService {
         }
 
         public void run() {
-            Log.i(TAG, "BEGIN connectedThread");
+            Log.d(TAG, "BEGIN connectedThread");
             byte[] buffer = new byte[1024];
             int bytes;
 

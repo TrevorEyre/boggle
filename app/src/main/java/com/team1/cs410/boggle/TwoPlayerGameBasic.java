@@ -1,8 +1,10 @@
 package com.team1.cs410.boggle;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +12,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +39,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     private boolean isHost;
     private TextView score;
     private TextView opponentScore;
+    private Button buttonConnect;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothService bluetoothService = null;
     private String connectedDeviceName = null;
@@ -42,13 +47,10 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two_player_game_basic);
-
         activity = this;
-        Bundle bundle = getIntent().getExtras();
-        String gametype = bundle.getString("gametype");
-//        isHost = (gametype == "host");
 
         // Bluetooth is not supported, exit activity
         if (bluetoothAdapter == null) {
@@ -57,9 +59,9 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onStart() {
+        Log.d(TAG, "onStart()");
         super.onStart();
         // If BT is not on, request that it be enabled. Otherwise, set up game
         if (!bluetoothAdapter.isEnabled()) {
@@ -75,22 +77,30 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume()");
         super.onResume();
 
         if (bluetoothService != null) {
             // Start bluetooth services if we haven't already
             if (bluetoothService.getState() == bluetoothService.STATE_NONE) {
+                Log.d(TAG, "onResume() - start bluetooth");
                 bluetoothService.start();
-            }
 
-            // If we aren't connected to a device, start BluetoothDevicesActivity
-            int state = bluetoothService.getState();
-            if (state != bluetoothService.STATE_CONNECTED
-                    && state != bluetoothService.STATE_CONNECTING) {
-                ensureDiscoverable();
+//                ensureDiscoverable();
+                Log.d(TAG, "onResume() - start BluetoothDevicesActivity");
                 Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
                 startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
             }
+
+            // If we aren't connected to a device, start BluetoothDevicesActivity
+//            int state = bluetoothService.getState();
+//            if (state != bluetoothService.STATE_CONNECTED
+//                    && state != bluetoothService.STATE_CONNECTING) {
+//                ensureDiscoverable();
+//                Log.d(TAG, "onResume() - start BluetoothDevicesActivity");
+//                Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
+//                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+//            }
         }
     }
 
@@ -106,6 +116,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
     private void setupGame() {
         score = (TextView) findViewById(R.id.score);
         opponentScore = (TextView) findViewById(R.id.score_opp);
+        buttonConnect = (Button) findViewById(R.id.button_connect);
         bluetoothService = new BluetoothService(activity, handler);
     }
 
@@ -156,11 +167,48 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
         score.setText(Integer.toString(game.getScore()));
     }
 
+    // Click event handler for button_connect
+    public void buttonConnectClick (View view) {
+        Log.d(TAG, "buttonConnectClick()");
+        Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
+        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+    }
+
+    public void endbuttonclick(View view) {
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Enter your name!");
+//
+//        // Set up the input
+//        final EditText input = new EditText(this);
+//        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        builder.setView(input);
+//
+//        // Set up the buttons
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                m_Text = input.getText().toString();
+//                okclick();
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
+    }
+
     // Return from bluetooth activities
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
             // Return from BluetoothDevicesActivity
             case REQUEST_CONNECT_DEVICE:
+                Log.d(TAG, "onActivityResult() - REQUEST_CONNECT_DEVICE");
                 if (resultCode == Activity.RESULT_OK) {
                     connectDevice(intent);
                 }
@@ -168,6 +216,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
             // Return from bluetooth enable request
             case REQUEST_ENABLE_BT:
+                Log.d(TAG, "onActivityResult() - REQUEST_ENABLE_BT");
                 if (resultCode == Activity.RESULT_OK) {
                     // Bluetooth is now enabled, so set up a new game
                     setupGame();
@@ -183,18 +232,10 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
     // Get device MAC address and attempt to establish connection with other device
     private void connectDevice(Intent data) {
+        Log.d(TAG, "connectDevice()");
         String address = data.getExtras().getString(BluetoothDevicesActivity.EXTRA_DEVICE_ADDRESS);
         BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         bluetoothService.connect(device);
-    }
-
-    // Make this device discoverable
-    private void ensureDiscoverable() {
-        if (bluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivity(discoverableIntent);
-        }
     }
 
     // Change status when trying to connect Bluetooth
@@ -214,6 +255,7 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
                             setStatus("Connected to " + connectedDeviceName);
+                            buttonConnect.setVisibility(View.GONE);
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             setStatus("Connecting...");
@@ -227,12 +269,12 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
                 // Successfully connected to remote device. Start hosted game
                 case Constants.MESSAGE_HOST_GAME:
+                    Log.d(TAG, "Handler - MESSAGE_HOST_GAME");
                     hostGame();
                     break;
 
                 // Send message to connected device
                 case Constants.MESSAGE_WRITE:
-                    // Write message
                     Log.d(TAG, "Handler - MESSAGE_WRITE");
                     break;
 
@@ -240,7 +282,6 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
                 case Constants.MESSAGE_READ:
                     // Read buffer and get message type. First character in buffer is an int flag
                     // which tells what type of message this is.
-                    Log.d(TAG, "Handler - MESSAGE_READ");
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     int messageType = Integer.parseInt(readMessage.substring(0, 1));
@@ -248,9 +289,11 @@ public class TwoPlayerGameBasic extends AppCompatActivity {
 
                     switch (messageType) {
                         case (Constants.READ_NEW_GAME):
+                            Log.d(TAG, "Handler - READ_NEW_GAME");
                             joinGame(readMessage);
                             break;
                         case (Constants.READ_SEND_WORD):
+                            Log.d(TAG, "Handler - READ_SEND_WORD");
                             receiveOpponentWord(readMessage);
                             break;
                     }

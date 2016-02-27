@@ -43,6 +43,12 @@
         android:id="@+id/button_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_scan" />
+        android:text="Scan for devices" />
+
+    <Button
+        android:id="@+id/button_discoverable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Make me discoverable" />
 
 </LinearLayout>
