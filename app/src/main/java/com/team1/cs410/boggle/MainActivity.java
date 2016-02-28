@@ -1,20 +1,11 @@
 package com.team1.cs410.boggle;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,12 +39,24 @@ public class MainActivity extends AppCompatActivity {
 
     // Player selects New Game from menu
     public void onClickSinglePlayerMultipleLevel (View view) {
-        Intent intent = new Intent(this, SinglePlayerGame.class);
+        Intent intent = new Intent(this, SinglePlayerActivity.class);
         startActivity(intent);
         finish();
     }
+
     public void onClickTwoPlayerBasic (View view){
-        Intent intent = new Intent(this, TwoPlayerGameBasic.class);
+        Intent intent = new Intent(this, TwoPlayerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_BASIC);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public void onClickTwoPlayerCutthroat (View view) {
+        Intent intent = new Intent(this, TwoPlayerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

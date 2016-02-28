@@ -21,4 +21,5 @@
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for devices</string>
     <string name="title_activity_client_server">ClientServer</string>
+    <string name="title_activity_two_player_scores">TwoPlayerScoresActivity</string>
 </resources>

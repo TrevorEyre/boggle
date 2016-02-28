@@ -1,6 +1,5 @@
 package com.team1.cs410.boggle;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,41 +8,47 @@ import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SinglePlayerGame extends AppCompatActivity {
+public class SinglePlayerActivity extends AppCompatActivity {
 
+    // Tag for debug statements
+    private static final String TAG = "SinglePlayerActivity";
+
+    // Member fields
+    Context context;
     GestureDetector gestureDetector;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
-    private Activity activity;
     private Game game;
-    private String m_Text = "";
+
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_player_game);
+        setContentView(R.layout.activity_single_player);
+
         // Create new game, and insert game board into wrapper
-        activity = this;
-        game = new Game(this, this);
+        context = this;
+        game = new Game(this, this, gameHandler);
         LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
 
         // Get intent and start game timer
         Intent intent = getIntent();
         game.startTime();
+
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -100,50 +105,63 @@ public class SinglePlayerGame extends AppCompatActivity {
         scoreDisplay.setText(Integer.toString(game.getScore()));
     }
 
-    public void endbuttonclick(View view)
-    {
+    public void endbuttonclick (View view) {
+        endGame();
+    }
 
+    private void endGame () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter your name!");
+        builder.setTitle("Time's up!");
+
+        // Set up view for end game dialog
+        LinearLayout layout = new LinearLayout(this);
+        layout.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                )
+        );
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        // Set up name label
+        TextView nameLabel = new TextView(this);
+        nameLabel.setText("Enter your name");
+        layout.addView(nameLabel);
 
         // Set up the input
         final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        layout.addView(input);
+
+        builder.setView(layout);
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                okclick();
+                String name = input.getText().toString();
+                int score = game.getScore();
+                Intent intent = new Intent(context, HighScoresActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", name);
+                bundle.putInt("score", score);
+                bundle.putString("wordsFound", game.getWordsFound());
+                bundle.putString("wordsNotFound", game.getWordsNotFound());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
 
         builder.show();
     }
 
-    public void okclick()
-    {
-        int score = game.getScore();
-        //Context context = getApplicationContext();
-        Intent intent = new Intent(this, HighScoresActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", m_Text);
-        bundle.putInt("score", score);
-        bundle.putString("wordsFound", game.getWordsFound());
-        bundle.putString("wordsNotFound", game.getWordsNotFound());
-        intent.putExtras(bundle);
-        startActivity(intent);
-        finish();
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -163,5 +181,20 @@ public class SinglePlayerGame extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
+    // The Handler that receives messages back from game
+    private final Handler gameHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+
+                // Game timer went off
+                case Constants.MESSAGE_TIME_UP:
+                    Log.d(TAG, "Handler - MESSAGE_TIME_UP");
+                    endGame();
+                    break;
+            }
+        }
+    };
 }
 

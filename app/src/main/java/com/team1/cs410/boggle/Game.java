@@ -2,6 +2,7 @@ package com.team1.cs410.boggle;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,38 +10,39 @@ import android.widget.Toast;
 
 public class Game {
 
-    private Context context;
-    private Activity activity;
+    private Handler handler;
     private Board gameBoard;
     private Timer timer;
     private WordList dictionary;
-    private WordList wordsFound;
+    private WordList wordsFound;    // Words found by you and opponent
+    private WordList youWordsFound; // Words found by you
     private int totalScore = 0;
 
     // Public constructor
-    public Game (Context context, Activity activity) {
-        this.context = context;
-        this.activity = activity;
+    public Game (Context context, Activity activity, Handler handler) {
+        this.handler = handler;
         this.gameBoard = new Board(context, activity);
-        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
+        this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
+        this.youWordsFound = new WordList(dictionary);
     }
 
     // Initialize game with a preset board
-    public Game (Context context, Activity activity, char[] dice) {
-        this.context = context;
-        this.activity = activity;
+    public Game (Context context, Activity activity, Handler handler, char[] dice) {
+        this.handler = handler;
         this.gameBoard = new Board(context, activity, dice);
-        this.timer = new Timer((TextView)activity.findViewById(R.id.timer), (TextView) activity.findViewById(R.id.score), (TextView)activity.findViewById(R.id.score_lbl), (Button)activity.findViewById(R.id.button_submit), (Button)activity.findViewById(R.id.button_clear));
+        this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
+        this.youWordsFound = new WordList(dictionary);
     }
 
     // Try to submit a word from game board. Returns the score for that word.
     public String submitWord () {
         String word = gameBoard.getSelectedWord();
         boolean isValid = wordsFound.add(word);
+        if (isValid) {youWordsFound.add(word);}
         gameBoard.submitWord(isValid);
 
         // Get score of submitted word
@@ -51,6 +53,17 @@ public class Game {
         }
 
         return word;
+    }
+
+    // Add a word to list of found words, without incrementing score
+    public boolean addWord (String word) {
+        boolean isValid = wordsFound.add(word);
+        wordsFound.print();
+        return isValid;
+    }
+
+    public boolean addWord () {
+        return wordsFound.add(gameBoard.getSelectedWord());
     }
 
     // Clear the currently selected dice on the board
@@ -90,14 +103,30 @@ public class Game {
         return s;
     }
 
+    // Return score of an array of words
+    public int score (String[] words) {
+        int s = 0;
+        for (int i = 0; i < words.length; ++i) {
+            s += score(words[i]);
+        }
+        return s;
+    }
+
     // Return all words found in this game
     public String getWordsFound () {
-        return wordsFound.toString();
+        return youWordsFound.toString();
     }
 
     // Return all words that weren't found in this game
     public String getWordsNotFound () {
-        WordList wordsNotFound = this.dictionary.remove(wordsFound);
+        WordList wordsNotFound = dictionary.remove(wordsFound);
+        return wordsNotFound.toString();
+    }
+
+    // Return all words that weren't found in this game, also removing opponent's words
+    public String getWordsNotFound (String[] words) {
+        WordList tmp = dictionary.remove(wordsFound);
+        WordList wordsNotFound = tmp.remove(words);
         return wordsNotFound.toString();
     }
 

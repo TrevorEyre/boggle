@@ -8,8 +8,8 @@
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SinglePlayerGame"
+            android:name=".SinglePlayerActivity"
             android:label="@string/title_activity_game_board"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -37,7 +37,7 @@
                 android:value="com.team1.cs410.boggle.MainActivity" />
         </activity>
         <activity
-            android:name=".TwoPlayerGameBasic"
+            android:name=".TwoPlayerActivity"
             android:label="@string/title_activity_game_board2_player"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -49,9 +49,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
         </activity>
-        <activity android:name=".BluetoothDevicesActivity"
-            android:theme="@android:style/Theme.Dialog">
-        </activity>
+        <activity
+            android:name=".BluetoothDevicesActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".TwoPlayerScoresActivity"
+            android:label="@string/title_activity_two_player_scores"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

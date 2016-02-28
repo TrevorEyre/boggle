@@ -30,6 +30,10 @@ package com.team1.cs410.boggle;
  */
 public interface Constants {
 
+    // Multiplayer game modes
+    public static final int MODE_BASIC = 1;
+    public static final int MODE_CUTTHROAT = 2;
+
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_HOST_GAME = 2;
@@ -38,9 +42,13 @@ public interface Constants {
     public static final int MESSAGE_DEVICE_NAME = 5;
     public static final int MESSAGE_TOAST = 6;
 
-    // Message types for MESSAGE_READ handler
+    // MESSAGE_READ flags in BluetoothChatService Handler
     public static final int READ_NEW_GAME = 1;
     public static final int READ_SEND_WORD = 2;
+    public static final int READ_END_GAME = 3;
+
+    // Message types sent from Game Handler
+    public static final int MESSAGE_TIME_UP = 1;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";

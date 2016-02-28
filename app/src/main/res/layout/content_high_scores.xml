@@ -24,8 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="High Scores"
-                android:id="@+id/textView"
+                android:text="Score:"
+                android:id="@+id/yourScore"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
@@ -33,6 +33,18 @@
                 android:textSize="48dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="High Scores"
+                android:id="@+id/textView"
+                android:layout_below="@id/yourScore"
+                android:layout_centerHorizontal="true"
+                android:textSize="48dp"
+                android:layout_marginTop="32dp"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
