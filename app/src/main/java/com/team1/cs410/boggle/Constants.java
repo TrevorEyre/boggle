@@ -46,6 +46,7 @@ public interface Constants {
     public static final int READ_NEW_GAME = 1;
     public static final int READ_SEND_WORD = 2;
     public static final int READ_END_GAME = 3;
+    public static final int READ_END_TIMER = 4;
 
     // Message types sent from Game Handler
     public static final int MESSAGE_TIME_UP = 1;

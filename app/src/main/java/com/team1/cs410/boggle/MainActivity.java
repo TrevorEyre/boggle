@@ -82,10 +82,23 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("gameMode", Constants.MODE_BASIC);
         bundle.putInt("round",1);
-        bundle.putInt("timer",0);
+        bundle.putInt("timer",180000);
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+
+    public void onClickTwoPlayerMultiRoundCutThroat(View view)
+    {
+        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
+        bundle.putInt("round",1);
+        bundle.putInt("timer",180000);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed()
     {

@@ -164,6 +164,10 @@ public class Game {
         return wordsNotFound.toString();
     }
 
+    public int getWordCount(){
+        return youWordsFound.size();
+    }
+
     // Return the game board layout
     public LinearLayout getBoard () {
         return gameBoard.getBoard();

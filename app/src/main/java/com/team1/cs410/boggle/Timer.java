@@ -38,10 +38,13 @@ public class Timer {
         this.gameHandler = gameHandler;
         this.timerLabel = timerLabel;
         //this.startTime = 180 + startTime;
-        this.startTime = (180+startTime)*1000;
+        //this.startTime = (180+startTime)*1000;
+        //this.startTime = startTime * 1000;
+        this.startTime = startTime;
         Log.d("Timer:",String.valueOf(this.startTime));
         countDownTimer = new MyCountDownTimer(this.startTime,interval);
-        this.timerLabel.setText(this.timerLabel.getText() + String.valueOf((startTime+180)/1000));
+        //this.timerLabel.setText(this.timerLabel.getText() + String.valueOf((startTime+180)/1000));
+        this.timerLabel.setText(this.timerLabel.getText()+String.valueOf((startTime)/1000));
         //this.absolutetimerlabel = absolutetimerlabel;
         this.ismultiround=flag;
         if(this.ismultiround==true)

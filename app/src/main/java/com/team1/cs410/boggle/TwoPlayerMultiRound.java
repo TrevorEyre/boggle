@@ -1,8 +1,10 @@
 package com.team1.cs410.boggle;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -177,6 +179,20 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         endGame();
     }
 
+    private void youEndTimer(){
+        //Start intent for two player scores
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        String sendMessage = new String(Constants.READ_END_TIMER + "");
+        bluetoothService.write(sendMessage.getBytes());
+        builder.setMessage("You lose!")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+    }
+
     // End game. Gets total score for you and opponent, and starts score activity
     private void endGame() {
         // Exit if you or opponent still playing
@@ -188,8 +204,11 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
         Intent intent = new Intent(this, TwoPlayerMultiRound.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("round",round+1);
-        bundle.putInt("timer",game.getScore());
+        bundle.putInt("round", round + 1);
+        //Log.d("tosendtimer")
+        TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
+        int timertosend = Integer.parseInt(absolutetimer.getText().toString());
+        bundle.putInt("timer",game.getScore()+timertosend);
         intent.putExtras(bundle);
 //        bundle.putInt("score", score);
 //        bundle.putInt("oppScore", oppTotalScore);
@@ -219,8 +238,14 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
     }
 
     public void buttonEndClick(View view){
-        game.stopTime();
-        youEndGame();
+        if(game.getWordCount()>=5) {
+            game.stopTime();
+            youEndGame();
+        }
+        else
+        {
+            Toast.makeText(activity, "You need to find at least five words before ending the round!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Click event handler for button_clear
@@ -287,7 +312,8 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                 // Game timer went off
                 case Constants.MESSAGE_TIME_UP:
                     Log.d(TAG, "gameHandler - MESSAGE_TIME_UP");
-                    youEndGame();
+                    //youEndGame();
+                    youEndTimer();
                     break;
             }
         }
@@ -349,6 +375,19 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                         case (Constants.READ_END_GAME):
                             Log.d(TAG, "Handler - READ_END_GAME");
                             opponentEndGame(readMessage);
+                            break;
+                        case (Constants.READ_END_TIMER):
+                            //Start intent for two player scores
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            String sendMessage = new String(Constants.READ_END_TIMER + "");
+                            bluetoothService.write(sendMessage.getBytes());
+                            builder.setMessage("You win!")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
                             break;
                     }
                     break;
