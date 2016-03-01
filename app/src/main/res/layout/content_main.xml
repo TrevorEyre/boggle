@@ -57,11 +57,11 @@
         android:textStyle="italic"
         android:textSize="20sp"
         android:textColor="#ffff32be"
+        android:onClick="onClickTwoPlayerCutthroat"
         android:layout_above="@+id/button4"
         android:layout_alignLeft="@+id/button3"
         android:layout_alignStart="@+id/button3"
-        android:layout_marginTop="5dp"
-        android:onClick="onClickTwoPlayerCutthroat"/>
+        android:layout_marginBottom="60dp" />
 
     <Button
         android:layout_width="270dp"
@@ -81,4 +81,24 @@
         android:layout_alignStart="@+id/button5"
         android:textColor="#ffff32be"
         android:onClick="onClickHighScores"/>
+
+    <Button
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:text="Two Player Multi"
+        android:background="@android:drawable/dialog_frame"
+        android:id="@+id/button"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:textColor="#ffff32be"
+        android:onClick="onClickTwoPlayerMultiRound"
+        android:layout_above="@+id/button4"
+        android:layout_alignLeft="@+id/button5"
+        android:layout_alignStart="@+id/button5"
+        android:layout_alignRight="@+id/button5"
+        android:layout_alignEnd="@+id/button5" />
 </RelativeLayout>

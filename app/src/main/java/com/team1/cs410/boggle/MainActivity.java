@@ -3,6 +3,7 @@ package com.team1.cs410.boggle;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,14 +71,29 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+//    public void onClickTwoPlayerCutthroat(View view){
+//        Intent intent = new Intent(this, TwoPlayerCutThroat.class);
+//        startActivity(intent);
+//    }
+
+    public void onClickTwoPlayerMultiRound(View view)
+    {
+        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_BASIC);
+        bundle.putInt("round",1);
+        bundle.putInt("timer",0);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     @Override
     public void onBackPressed()
     {
-        //super.onBackPressed();
-        //Intent intent = new Intent(Intent.ACTION_MAIN);
-        //intent.addCategory(Intent.CATEGORY_HOME);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(intent);
+//        super.onBackPressed();
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
         finish();
         //finish();
     }

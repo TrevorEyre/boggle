@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team1.cs410.boggle">
+    package="com.team1.cs410.boggle" >
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -16,11 +16,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
             android:name=".SinglePlayerActivity"
             android:label="@string/title_activity_game_board"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
@@ -44,7 +44,7 @@
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team1.cs410.boggle.MainActivity" />
@@ -56,6 +56,11 @@
             android:name=".TwoPlayerScoresActivity"
             android:label="@string/title_activity_two_player_scores"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TwoPlayerMultiRound"
+            android:label="@string/title_activity_two_player_multi_round"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

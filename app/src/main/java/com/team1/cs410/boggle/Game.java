@@ -3,6 +3,7 @@ package com.team1.cs410.boggle;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class Game {
     private WordList wordsFound;    // Words found by you and opponent
     private WordList youWordsFound; // Words found by you
     private int totalScore = 0;
+    private int roundcount= 1;
 
     // Public constructor
     public Game (Context context, Activity activity, Handler handler) {
@@ -26,6 +28,7 @@ public class Game {
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
+        this.roundcount=1;
     }
 
     // Initialize game with a preset board
@@ -36,6 +39,37 @@ public class Game {
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
+        this.roundcount=1;
+    }
+
+    //Constructor for multi round two player
+    public Game (Context context, Activity activity, Handler handler, long timervalue, int roundcount) {
+        this.handler = handler;
+        this.gameBoard = new Board(context, activity);
+        //this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
+        Log.d("Sending to timer ","Timer: " + timervalue + " Count: " + roundcount);
+        this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer),(TextView)activity.findViewById(R.id.absolutetimervalue),timervalue,true);
+        this.dictionary = gameBoard.getWordList();
+        this.wordsFound = new WordList(dictionary);
+        this.youWordsFound = new WordList(dictionary);
+        this.roundcount = roundcount;
+        TextView roundview = (TextView)activity.findViewById(R.id.round);
+        roundview.setText(String.valueOf(roundcount));
+    }
+
+    //Constructor for multi round two player with preset board
+    public Game (Context context, Activity activity, Handler handler, char[] dice, long timervalue, int roundcount) {
+        this.handler = handler;
+        this.gameBoard = new Board(context, activity, dice);
+        //this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
+        Log.d("Sending to timer ","Timer: " + timervalue + " Count: " + roundcount);
+        this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer),(TextView)activity.findViewById(R.id.absolutetimervalue),timervalue,true);
+        this.dictionary = gameBoard.getWordList();
+        this.wordsFound = new WordList(dictionary);
+        this.youWordsFound = new WordList(dictionary);
+        this.roundcount = roundcount;
+        TextView roundview = (TextView)activity.findViewById(R.id.round);
+        roundview.setText(String.valueOf(roundcount));
     }
 
     // Try to submit a word from game board. Returns the score for that word.

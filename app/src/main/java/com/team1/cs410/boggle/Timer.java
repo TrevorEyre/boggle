@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +19,10 @@ public class Timer {
     private Handler gameHandler;
     private CountDownTimer countDownTimer;
     public TextView timerLabel;
-    private final long startTime = 180 * 1000;
+    private long startTime = 180 * 1000;
     private final long interval = 1000;
+    public TextView absolutetimerlabel;
+    public boolean ismultiround;
 
     // Constructor
     public Timer (Handler gameHandler, TextView timerLabel) {
@@ -28,6 +31,25 @@ public class Timer {
         countDownTimer = new MyCountDownTimer(startTime, interval);
         this.timerLabel.setText(this.timerLabel.getText() + String.valueOf(startTime / 1000));
     }
+
+    //Constructor for Multiround timer
+    public Timer(Handler gameHandler, TextView timerLabel, TextView absolutetimerlabel,long startTime, boolean flag)
+    {
+        this.gameHandler = gameHandler;
+        this.timerLabel = timerLabel;
+        //this.startTime = 180 + startTime;
+        this.startTime = (180+startTime)*1000;
+        Log.d("Timer:",String.valueOf(this.startTime));
+        countDownTimer = new MyCountDownTimer(this.startTime,interval);
+        this.timerLabel.setText(this.timerLabel.getText() + String.valueOf((startTime+180)/1000));
+        //this.absolutetimerlabel = absolutetimerlabel;
+        this.ismultiround=flag;
+        if(this.ismultiround==true)
+        {
+            this.absolutetimerlabel=absolutetimerlabel;
+        }
+    }
+
 
     // Start the timer
     public void startTimer (ArrayList<Button> btn) {
@@ -42,6 +64,7 @@ public class Timer {
     public class MyCountDownTimer extends CountDownTimer {
         public MyCountDownTimer (long startTime, long interval) {
             super(startTime, interval);
+            Log.d("Timer:", String.valueOf(startTime));
         }
 
         public void onFinish () {
@@ -54,6 +77,10 @@ public class Timer {
                 timerLabel.setTextColor(Color.rgb(244, 67, 54));
             }
             timerLabel.setText("" + String.format("%02d", ((millsUntilFinished/1000)/60)) + ":" + String.format("%02d", ((millsUntilFinished/1000)%60)));
+            if(ismultiround ==true) {
+                absolutetimerlabel.setText("" + millsUntilFinished);
+                Log.d("AbsoluteTimerLabel",absolutetimerlabel.getText().toString());
+            }
         }
 
     }
