@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    Activity activity;
+    // Tag for debug statements
+    private static final String TAG = "MainActivity";
 
     // Constants that indicate the current menu
     private static final int MENU_MAIN = 0;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private View optCreditsBack;
 
     // Member fields
+    Activity activity;
     private int animationDuration;
     private int currentMenu;
 

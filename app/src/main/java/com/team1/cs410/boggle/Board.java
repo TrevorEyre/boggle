@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board implements View.OnTouchListener {
+
+    // Tag for debug statements
+    private static final String TAG = "Board";
 
     // Constant properties
     private final int rowSize = 4;
@@ -56,7 +61,7 @@ public class Board implements View.OnTouchListener {
         }
         printBoard();
         wordList.print();
-        Log.d(getClass().getSimpleName(), "Words found: " + Integer.toString(wordList.size()));
+        Log.d(TAG, "Words found: " + Integer.toString(wordList.size()));
     }
 
     // Initialize game board with a set of dice
@@ -75,7 +80,7 @@ public class Board implements View.OnTouchListener {
         solveBoard();
         printBoard();
         wordList.print();
-        Log.d(getClass().getSimpleName(), "Words found: " + Integer.toString(wordList.size()));
+        Log.d(TAG, "Words found: " + Integer.toString(wordList.size()));
     }
 
     // Return currently selected word
@@ -328,7 +333,7 @@ public class Board implements View.OnTouchListener {
                 button.setLayoutParams(buttonParams);
                 button.setId(buttonIndex);
                 button.setText(Character.toString(dice[buttonIndex]));
-                button.setOnTouchListener(this);
+//                button.setOnTouchListener(this);
                 buttons.add(button);
                 boardRow.addView(button);
             }
@@ -338,6 +343,110 @@ public class Board implements View.OnTouchListener {
 
         return board;
     }
+
+    // Set up game board
+//    private View initBoard () {
+//        GridView board = new GridView(context);
+//        board.setLayoutParams(
+//                new GridView.LayoutParams(
+//                        GridView.LayoutParams.MATCH_PARENT,
+//                        GridView.LayoutParams.MATCH_PARENT
+//                )
+//        );
+//        board.setNumColumns(4);
+//
+//
+//        LinearLayout board = new LinearLayout(context);
+//        board.setLayoutParams(
+//                new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT
+//                )
+//        );
+//        board.setOrientation(LinearLayout.VERTICAL);
+//
+//        // Create new row of buttons
+//        for (int row = 0; row < rowSize; ++row) {
+//            LinearLayout boardRow = new LinearLayout(context);
+//            boardRow.setLayoutParams(
+//                    new LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.MATCH_PARENT, // Width
+//                            0,                                      // Height
+//                            1                                       // Weight
+//                    )
+//            );
+//            boardRow.setOrientation(LinearLayout.HORIZONTAL);
+//
+//            // Add buttons to row
+//            for (int col = 0; col < colSize; ++col) {
+//                int buttonIndex = row * rowSize + col;
+//                Button button = new Button(new ContextThemeWrapper(context, R.style.dice), null, R.style.dice);
+//                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+//                        0,                                      // Width
+//                        LinearLayout.LayoutParams.MATCH_PARENT, // Height
+//                        1                                       // Weight
+//                );
+//                buttonParams.setMargins(2, 2, 2, 2);
+//                button.setLayoutParams(buttonParams);
+//                button.setId(buttonIndex);
+//                button.setText(Character.toString(dice[buttonIndex]));
+//                button.setOnTouchListener(this);
+//                buttons.add(button);
+//                boardRow.addView(button);
+//            }
+//
+//            board.addView(boardRow);
+//        }
+//
+//        return board;
+//    }
+
+//    board.setOnTouchListener(new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View v, MotionEvent m) {
+//            int pointerCount = m.getPointerCount();
+//
+//            for (int i = 0; i < pointerCount; i++)
+//            {
+//                int x = (int) m.getX(i);
+//                int y = (int) m.getY(i);
+//                int id = m.getPointerId(i);
+//                int action = m.getActionMasked();
+//                int actionIndex = m.getActionIndex();
+//                String actionString;
+//
+//
+//                switch (action)
+//                {
+//                    case MotionEvent.ACTION_DOWN:
+//                        actionString = "DOWN";
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        actionString = "UP";
+//                        break;
+//                    case MotionEvent.ACTION_POINTER_DOWN:
+//                        actionString = "PNTR DOWN";
+//                        break;
+//                    case MotionEvent.ACTION_POINTER_UP:
+//                        actionString = "PNTR UP";
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        actionString = "MOVE";
+//                        break;
+//                    default:
+//                        actionString = "";
+//                }
+//
+//                String touchStatus = "Action: " + actionString + " Index: " + actionIndex + " ID: " + id + " X: " + x + " Y: " + y;
+//
+//                Log.d(TAG, touchStatus);
+//            }
+//
+//            return false;
+//        }
+//    });
+//
+//    return board;
 
 
     // PRINT FUNCTIONS FOR DEBUGGING
@@ -351,7 +460,7 @@ public class Board implements View.OnTouchListener {
             row.append(dice[n++]).append(" ");
             row.append(dice[n++]).append(" ");
             row.append(dice[n++]).append(" ");
-            Log.d(getClass().getSimpleName(), row.toString());
+            Log.d(TAG, row.toString());
         }
     }
 
@@ -360,7 +469,7 @@ public class Board implements View.OnTouchListener {
         for (int i = 0; i < boardSize; ++i) {
             ArrayList<Integer> n = neighbors.get(i);
             for (int j = 0; j < n.size(); ++j) {
-                Log.d(getClass().getSimpleName(), Integer.toString(i) + ": " + n.get(j).toString());
+                Log.d(TAG, Integer.toString(i) + ": " + n.get(j).toString());
             }
         }
     }

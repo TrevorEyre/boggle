@@ -36,4 +36,5 @@
     <string name="title_activity_client_server">ClientServer</string>
     <string name="title_activity_two_player_scores">TwoPlayerScoresActivity</string>
     <string name="title_activity_multiplayer_menu">MultiplayerMenuActivity</string>
+    <string name="title_activity_board_test">BoardTestActivity</string>
 </resources>
