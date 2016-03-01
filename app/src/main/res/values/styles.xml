@@ -3,9 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#66bb89</item>
+        <item name="colorPrimaryDark">#4d8c66</item>
+        <item name="colorAccent">#f44336</item>
+        <item name="android:windowAnimationStyle">@style/FadeAnimation.Activity</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,6 +18,62 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="FadeAnimation.Activity" parent="android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- Menus -->
+    <style name="menu_layout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+    </style>
+
+    <style name="menu_header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#999999</item>
+    </style>
+
+    <style name="menu_option">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#666666</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="menu_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+
+    <style name="menu_back">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#999999</item>
+        <item name="android:clickable">true</item>
+    </style>
+
     <style name="dice" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:background">@drawable/dice</item>
@@ -25,7 +82,7 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">-1</item>
         <item name="android:shadowRadius">0.2</item>
-        <item name="android:textSize">16dip</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:focusable">false</item>
         <item name="android:clickable">true</item>

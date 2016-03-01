@@ -39,7 +39,13 @@
         <activity
             android:name=".TwoPlayerActivity"
             android:label="@string/title_activity_game_board2_player"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.team1.cs410.boggle.MainActivity" />
+
         <activity
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"

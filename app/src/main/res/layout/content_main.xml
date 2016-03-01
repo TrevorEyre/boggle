@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context="com.team1.cs410.boggle.MainActivity"
     tools:showIn="@layout/activity_main" >
 
     <ImageView
@@ -13,58 +13,155 @@
         android:src="@drawable/grass_background"
         android:scaleType="centerCrop" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="103dp"
         android:layout_marginTop="48dp"
-        android:layout_marginBottom="16dp" >
+        android:src="@drawable/word_zen"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"/>
 
-        <ImageView
-            android:layout_width="240dp"
-            android:layout_height="103dp"
-            android:src="@drawable/word_zen"
-            android:scaleType="centerCrop"
-            android:layout_centerHorizontal="true"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:layout_marginBottom="48dp">
 
-        <TextView
-            android:id="@+id/menu_single_player"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:text="Single Player"
-            android:textSize="24dp"
-            android:textColor="#666666" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/menu_multi_player"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:gravity="center"
-            android:text="Multiplayer"
-            android:textSize="24dp"
-            android:textColor="#666666" />
+            <LinearLayout
+                android:id="@+id/menu_main"
+                style="@style/menu_layout">
 
-        <TextView
-            android:id="@+id/menu_high_scores"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:gravity="center"
-            android:text="High Scores"
-            android:textSize="24dp"
-            android:textColor="#666666" />
+                <TextView
+                    android:id="@+id/menu_main_single_player"
+                    style="@style/menu_option"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/menu_main_single_player" />
+                <TextView
+                    android:id="@+id/menu_main_multiplayer"
+                    style="@style/menu_option"
+                    android:text="@string/menu_main_multiplayer" />
+                <TextView
+                    android:id="@+id/menu_main_high_scores"
+                    style="@style/menu_option"
+                    android:text="@string/menu_main_high_scores" />
+                <TextView
+                    android:id="@+id/menu_main_credits"
+                    style="@style/menu_option"
+                    android:text="@string/menu_main_credits" />
 
-        <TextView
-            android:id="@+id/menu_credits"
-            android:layout_width="200dp"
-            android:layout_height="56dp"
-            android:gravity="center"
-            android:text="Credits"
-            android:textSize="24dp"
-            android:textColor="#666666" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/menu_multiplayer"
+                style="@style/menu_layout"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/menu_multiplayer_header" />
+                <TextView
+                    android:id="@+id/menu_multiplayer_basic"
+                    style="@style/menu_option"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/menu_multiplayer_basic" />
+                <TextView
+                    android:id="@+id/menu_multiplayer_cutthroat"
+                    style="@style/menu_option"
+                    android:text="@string/menu_multiplayer_cutthroat" />
+                <TextView
+                    android:id="@+id/menu_multiplayer_multi_round"
+                    style="@style/menu_option"
+                    android:text="@string/menu_multiplayer_multi_round" />
+                <TextView
+                    android:id="@+id/menu_multiplayer_info"
+                    style="@style/menu_option"
+                    android:text="@string/menu_multiplayer_info" />
+                <TextView
+                    android:id="@+id/menu_multiplayer_back"
+                    style="@style/menu_back"
+                    android:text="@string/menu_back" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menu_credits"
+                style="@style/menu_layout"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/menu_credits_header" />
+                <TextView
+                    style="@style/menu_info"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="Deven Bawale\nShweta Agrawal\nTrevor Eyre" />
+                <TextView
+                    style="@style/menu_info"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="Grass vector background image designed by Freepik.com" />
+                <TextView
+                    style="@style/menu_info"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="Zen font: Small Town Skyline by Brittney Murphy" />
+                <TextView
+                    android:id="@+id/menu_credits_back"
+                    style="@style/menu_back"
+                    android:text="@string/menu_back" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menu_multiplayer_information"
+                style="@style/menu_layout"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="48dp"
+                    android:text="Multiplayer Information" />
+                <TextView
+                    style="@style/menu_info"
+                    android:text="Multiplayer allows you to connect to another device over Bluetooth and play together. You can choose from one of the modes below." />
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="24dp"
+                    android:text="Basic Mode" />
+                <TextView
+                    style="@style/menu_info"
+                    android:text="In basic multiplayer mode, both players work on separate copies of the same board. Both players can find the same words, and receive points for them. At the end of the game, the player with the highest score wins." />
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="24dp"
+                    android:text="Cutthroat Mode" />
+                <TextView
+                    style="@style/menu_info"
+                    android:text="In cutthroat mode, both players work on separate copies of the same board. However, once a word is found by a player, the other player can no longer receive points for that word. At the end of the game, the player with the highest score wins." />
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="24dp"
+                    android:text="Multi-round Mode" />
+                <TextView
+                    style="@style/menu_info"
+                    android:text="In multi-round mode, the first round starts with the usual amount of time. The points achieved for each player in one round are added to the amount of time in the next round. Each player must stop the timer to signify ending the round. A round cannot be stopped unless at least 5 words are found. The remaining time rolls over to the next round. The first player to run out of time before the other loses." />
+                <TextView
+                    android:id="@+id/menu_multiplayer_information_back"
+                    style="@style/menu_back"
+                    android:text="@string/menu_back" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
