@@ -62,6 +62,15 @@ public class WordList {
         return returnList;
     }
 
+    public WordList remove (String[] arryToRemove) {
+        WordList returnList = new WordList();
+        returnList.wordList = (TreeMap)this.wordList.clone();
+        for (int i = 0; i < arryToRemove.length; ++i) {
+            returnList.wordList.remove(arryToRemove[i]);
+        }
+        return returnList;
+    }
+
     // Search tree for wordToCheck, returning true if found, false otherwise
     private boolean check (String word) {
         word = word.toLowerCase();

@@ -59,7 +59,7 @@ public class HighScoresActivity extends AppCompatActivity {
             prefs.edit().putBoolean("firstrun",false).commit();
         }
 
-        else if((name.equals("default")&& score==-1)||name.isEmpty()) //If this activity is called from main activity then do these things
+        else if(name.equals("default") && score == -1) //If this activity is called from main activity then do these things
         {
             readdata=readfile(); //Read data from file
             Log.d("Read from file",readdata);
@@ -82,10 +82,11 @@ public class HighScoresActivity extends AppCompatActivity {
             }
 
             // Hide words found/not found labels
-            this.findViewById(R.id.wordsFoundLabel).setVisibility(View.GONE);
-            this.findViewById(R.id.wordsFound).setVisibility(View.GONE);
-            this.findViewById(R.id.wordsNotFoundLabel).setVisibility(View.GONE);
-            this.findViewById(R.id.wordsNotFound).setVisibility(View.GONE);
+            findViewById(R.id.yourScore).setVisibility(View.GONE);
+            findViewById(R.id.wordsFoundLabel).setVisibility(View.GONE);
+            findViewById(R.id.wordsFound).setVisibility(View.GONE);
+            findViewById(R.id.wordsNotFoundLabel).setVisibility(View.GONE);
+            findViewById(R.id.wordsNotFound).setVisibility(View.GONE);
 
             //Set the textviews
             TextView tview1,tview2,tview3,tview4,tview5,tview6,tview7,tview8,tview9,tview10;
@@ -134,9 +135,13 @@ public class HighScoresActivity extends AppCompatActivity {
             }
             updatescores(name, score);
 
+            // Update your score label
+            TextView yourScore = (TextView)findViewById(R.id.yourScore);
+            yourScore.setText("Score: " + score);
+
             // Print found words and unfound words
-            TextView wordsFoundTextView = (TextView)this.findViewById(R.id.wordsFound);
-            TextView wordsNotFoundTextView = (TextView)this.findViewById(R.id.wordsNotFound);
+            TextView wordsFoundTextView = (TextView)findViewById(R.id.wordsFound);
+            TextView wordsNotFoundTextView = (TextView)findViewById(R.id.wordsNotFound);
             wordsFoundTextView.setText(wordsFound);
             wordsNotFoundTextView.setText(wordsNotFound);
         }

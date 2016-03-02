@@ -10,9 +10,17 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SinglePlayerGame"
-    tools:showIn="@layout/activity_two_player_game_basic"
+    tools:context=".SinglePlayerActivity"
+    tools:showIn="@layout/activity_two_player"
     android:background="#494646">
+
+    <Button
+        android:id="@+id/button_connect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Connect to device"
+        android:onClick="buttonConnectClick" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +59,7 @@
             android:orientation="horizontal">
             <TextView android:id="@+id/scorelbl" android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="scores"
+                android:text="score"
                 android:textSize="18dp"
                 android:textColor="@android:color/white"/>
 
@@ -70,7 +78,7 @@
             <TextView android:id="@+id/scorelbl_opp" android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/score_opp"
-                android:text="scores"
+                android:text="score"
                 android:textSize="18dp"
                 android:textColor="@android:color/white"/>
 
@@ -137,15 +145,6 @@
             android:layout_gravity="center_vertical"
             android:text="Clear"
             android:onClick="buttonClearClick" />
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="End"
-            android:id="@+id/button_end"
-            android:onClick="endbuttonclick"
-            android:layout_width="0dp" />
 
     </LinearLayout>
 </LinearLayout>
