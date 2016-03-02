@@ -173,6 +173,10 @@ public class Game {
         return gameBoard.getBoard();
     }
 
+    public void disablebuttons(){
+        gameBoard.disableboard();
+    }
+
     // Return dice from game board
     public char[] getDice () {
         return gameBoard.getDice();

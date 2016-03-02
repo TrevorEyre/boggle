@@ -164,6 +164,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     // Your game ended. Send message to opponent and try to end game
     private void youEndGame () {
+        game.disablebuttons();
         String sendMessage = new String(Constants.READ_END_GAME + game.getWordsFound());
         bluetoothService.write(sendMessage.getBytes());
         gameOver = true;
@@ -181,9 +182,11 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     private void youEndTimer(){
         //Start intent for two player scores
+        Log.d("GameEnd","Inside youEndTimer");
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         String sendMessage = new String(Constants.READ_END_TIMER + "");
         bluetoothService.write(sendMessage.getBytes());
+        Log.d("GameEnd","Sent message to timeout");
         builder.setMessage("You lose!")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -191,6 +194,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                         finish();
                     }
                 });
+        builder.show();
     }
 
     // End game. Gets total score for you and opponent, and starts score activity
@@ -208,7 +212,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         //Log.d("tosendtimer")
         TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
         int timertosend = Integer.parseInt(absolutetimer.getText().toString());
-        bundle.putInt("timer",game.getScore()+timertosend);
+        bundle.putInt("timer",(game.getScore()*1000)+timertosend);
         intent.putExtras(bundle);
 //        bundle.putInt("score", score);
 //        bundle.putInt("oppScore", oppTotalScore);
@@ -244,7 +248,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(activity, "You need to find at least five words before ending the round!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -379,8 +383,9 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                         case (Constants.READ_END_TIMER):
                             //Start intent for two player scores
                             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                            String sendMessage = new String(Constants.READ_END_TIMER + "");
-                            bluetoothService.write(sendMessage.getBytes());
+                            //String sendMessage = new String(Constants.READ_END_TIMER + "");
+                            //bluetoothService.write(sendMessage.getBytes());
+                            Log.d("GameEnd","Readed *cough* end timer");
                             builder.setMessage("You win!")
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
@@ -388,6 +393,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                                             finish();
                                         }
                                     });
+                            builder.show();
                             break;
                     }
                     break;

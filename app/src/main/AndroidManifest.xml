@@ -20,6 +20,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +32,7 @@
             android:name=".SinglePlayerActivity"
             android:label="@string/title_activity_game_board"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -39,10 +41,12 @@
         <activity
             android:name=".TwoPlayerActivity"
             android:label="@string/title_activity_game_board2_player"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
@@ -51,14 +55,17 @@
         </activity>
         <activity
             android:name=".BluetoothDevicesActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".TwoPlayerScoresActivity"
             android:label="@string/title_activity_two_player_scores"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TwoPlayerMultiRound"
             android:label="@string/title_activity_two_player_multi_round"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

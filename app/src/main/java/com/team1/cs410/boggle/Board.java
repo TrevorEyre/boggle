@@ -292,6 +292,16 @@ public class Board implements View.OnTouchListener {
         return n;
     }
 
+    public void disableboard()
+    {
+        Button button;
+        for(int i=0;i<buttons.size();i++)
+        {
+            button = buttons.get(i);
+            button.setEnabled(false);
+        }
+    }
+
     // Set up game board
     private LinearLayout initBoard () {
         LinearLayout board = new LinearLayout(context);
