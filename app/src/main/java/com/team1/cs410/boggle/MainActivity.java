@@ -95,12 +95,16 @@ public class MainActivity extends AppCompatActivity {
         optHighScores.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(activity, HighScoresActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("name", "default");
-                bundle.putInt("score", -1);
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Intent intent = new Intent(activity, HighScoresActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("name", "default");
+//                bundle.putInt("score", -1);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//                finish();
+//                return false;
+
+                startActivity(new Intent(activity, BoardTestActivity.class));
                 finish();
                 return false;
             }

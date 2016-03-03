@@ -8,48 +8,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.team1.cs410.boggle.BoardTestActivity"
     tools:showIn="@layout/activity_board_test">
 
-    <GridLayout
+    <GridView
+        android:id="@+id/gridboard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:columnCount="4"
-        android:rowCount="4">
+        android:layout_height="wrap_content"
+        android:numColumns="4"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="4dp"
+        android:verticalSpacing="4dp"
+        android:listSelector="@android:color/transparent" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/word_zen"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_columnSpan="1"
-            android:scaleType="fitCenter" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/word_zen"
-            android:layout_row="1"
-            android:layout_column="2"
-            android:layout_columnSpan="1" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/word_zen"
-            android:layout_row="1"
-            android:layout_column="3"
-            android:layout_columnSpan="1" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/word_zen"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_columnSpan="1" />
-
-    </GridLayout>
 </RelativeLayout>
