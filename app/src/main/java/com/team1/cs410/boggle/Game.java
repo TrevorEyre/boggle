@@ -2,51 +2,55 @@ package com.team1.cs410.boggle;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class Game {
 
-    private Handler handler;
+    // Tag for debug statements
+    private static final String TAG = "Game";
+
+    private Handler activityHandler;
     private Board gameBoard;
     private Timer timer;
     private WordList dictionary;
     private WordList wordsFound;    // Words found by you and opponent
     private WordList youWordsFound; // Words found by you
     private int totalScore = 0;
-    private int roundcount= 1;
+    private int roundcount = 1;
+
 
     // Public constructor
     public Game (Context context, Activity activity, Handler handler) {
-        this.handler = handler;
-        this.gameBoard = new Board(context, activity);
+        this.activityHandler = handler;
+        this.gameBoard = new Board(boardHandler, context);
         this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
-        this.roundcount=1;
+        this.roundcount = 1;
     }
 
     // Initialize game with a preset board
     public Game (Context context, Activity activity, Handler handler, char[] dice) {
-        this.handler = handler;
-        this.gameBoard = new Board(context, activity, dice);
+        this.activityHandler = handler;
+        this.gameBoard = new Board(boardHandler, context, dice);
         this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
         this.dictionary = gameBoard.getWordList();
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
-        this.roundcount=1;
+        this.roundcount = 1;
     }
 
-    //Constructor for multi round two player
+    // Constructor for multi round two player
     public Game (Context context, Activity activity, Handler handler, long timervalue, int roundcount) {
-        this.handler = handler;
-        this.gameBoard = new Board(context, activity);
+        this.activityHandler = handler;
+        this.gameBoard = new Board(boardHandler, context);
         //this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
         Log.d("Sending to timer ","Timer: " + timervalue + " Count: " + roundcount);
         this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer),(TextView)activity.findViewById(R.id.absolutetimervalue),timervalue,true);
@@ -58,11 +62,10 @@ public class Game {
         roundview.setText(String.valueOf(roundcount));
     }
 
-    //Constructor for multi round two player with preset board
+    // Constructor for multi round two player with preset board
     public Game (Context context, Activity activity, Handler handler, char[] dice, long timervalue, int roundcount) {
-        this.handler = handler;
-        this.gameBoard = new Board(context, activity, dice);
-        //this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer));
+        this.activityHandler = handler;
+        this.gameBoard = new Board(boardHandler, context, dice);
         Log.d("Sending to timer ","Timer: " + timervalue + " Count: " + roundcount);
         this.timer = new Timer(handler, (TextView)activity.findViewById(R.id.timer),(TextView)activity.findViewById(R.id.absolutetimervalue),timervalue,true);
         this.dictionary = gameBoard.getWordList();
@@ -74,31 +77,26 @@ public class Game {
     }
 
     // Try to submit a word from game board. Returns the score for that word.
-    public String submitWord () {
-        String word = gameBoard.getSelectedWord();
-        boolean isValid = wordsFound.add(word);
-        if (isValid) {youWordsFound.add(word);}
-        gameBoard.submitWord(isValid);
+    public int submitWord (String word) {
+        int result = wordsFound.add(word);
+        if (result == Constants.SUBMIT_VALID) {
+            youWordsFound.add(word);
+        }
+        gameBoard.wordSubmitted(result);
 
         // Get score of submitted word
-        if (isValid) {
+        if (result == Constants.SUBMIT_VALID) {
             totalScore += score(word);
-        } else {
-            word = null;
         }
 
-        return word;
+        return result;
     }
 
     // Add a word to list of found words, without incrementing score
     public boolean addWord (String word) {
-        boolean isValid = wordsFound.add(word);
+        int result = wordsFound.add(word);
         wordsFound.print();
-        return isValid;
-    }
-
-    public boolean addWord () {
-        return wordsFound.add(gameBoard.getSelectedWord());
+        return (result == Constants.SUBMIT_VALID);
     }
 
     // Clear the currently selected dice on the board
@@ -113,7 +111,7 @@ public class Game {
 
     // Start the game timer
     public void startTime () {
-        timer.startTimer(gameBoard.getButtonList());
+        timer.startTimer();
     }
 
     // Stop the game timer
@@ -175,12 +173,50 @@ public class Game {
     }
 
     public void disablebuttons(){
-        gameBoard.disableboard();
+        gameBoard.disableBoard();
     }
 
     // Return dice from game board
     public char[] getDice () {
         return gameBoard.getDice();
     }
+
+
+    // The Handler that receives messages back from the board
+    private final Handler boardHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle bundle;
+            Message message;
+
+            switch (msg.what) {
+
+                // User selected new dice. Signal activityHandler
+                case Constants.MESSAGE_SELECT_WORD:
+                    Log.d(TAG, "boardHandler - MESSAGE_SELECTED_WORD");
+                    String selectedWord = msg.getData().getString(Constants.SELECTED_WORD);
+                    message = activityHandler.obtainMessage(Constants.MESSAGE_SELECT_WORD);
+                    bundle = new Bundle();
+                    bundle.putString(Constants.SELECTED_WORD, selectedWord);
+                    message.setData(bundle);
+                    activityHandler.sendMessage(message);
+                    break;
+
+                // User submitted a word. Check word, and send result to activityHandler
+                case Constants.MESSAGE_SUBMIT_WORD:
+                    Log.d(TAG, "boardHandler - MESSAGE_SUBMIT_WORD");
+                    String submittedWord = msg.getData().getString(Constants.SUBMITTED_WORD);
+                    int result = submitWord(submittedWord);
+
+                    message = activityHandler.obtainMessage(Constants.MESSAGE_SUBMIT_WORD);
+                    bundle = new Bundle();
+                    bundle.putString(Constants.SUBMITTED_WORD, submittedWord);
+                    bundle.putInt(Constants.SUBMIT_RESULT, result);
+                    message.setData(bundle);
+                    activityHandler.sendMessage(message);
+                    break;
+            }
+        }
+    };
 
 }

@@ -1,17 +1,21 @@
 package com.team1.cs410.boggle;
 
 
-import android.app.Activity;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +23,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements View.OnTouchListener {
+
+public class Board {
 
     // Tag for debug statements
     private static final String TAG = "Board";
@@ -28,23 +33,14 @@ public class Board implements View.OnTouchListener {
     private final int ROW_SIZE = 4;
     private final int COL_SIZE = 4;
     private final int BOARD_SIZE = ROW_SIZE * COL_SIZE;
-    private final int DICE_COLOR = Color.rgb(102, 102, 102);
-    private final int SELECTED_DICE_COLOR = Color.rgb(3, 169, 244);
-    private final int VALID_DICE_COLOR = Color.rgb(76, 175, 80);
-    private final int INVALID_DICE_COLOR = Color.rgb(244, 67, 54);
-
 
     // Member fields
+    private Handler handler;
     private Context context;
-    private Activity activity;
     private char[] dice;
-    private View gameBoard;
-    private ArrayList<Button> buttons;
     private ArrayList<ArrayList<Integer>> neighbors;
     private int[] visited;
-    private ArrayList<Button> disabledButtons;
-    private ArrayList<Button> pressedButtons;
-
+    private GridView gameBoard;
     private ArrayList<View> boardDice;
     private ArrayList<View> selectedDice;
     private ArrayList<View> enabledDice;
@@ -54,23 +50,10 @@ public class Board implements View.OnTouchListener {
     private WordList dictionary;
     private WordList wordList;
 
+
     // Constructor
-    public Board (Context context, Activity activity) {
-        this.context = context;
-        this.activity = activity;
-        buttons = new ArrayList<>();
-        disabledButtons = new ArrayList<>();
-        pressedButtons = new ArrayList<>();
-
-        boardDice = new ArrayList<>();
-        selectedDice = new ArrayList<>();
-        enabledDice = new ArrayList<>();
-
-        dictionary = new WordList(context, R.raw.worddictionary);
-        wordList = new WordList(dictionary);
-        neighbors = initNeighbors();
-        selectedWord = new StringBuilder();
-        firstBoardTouch = true;
+    public Board (Handler handler, Context context) {
+        init(handler, context);
 
         // Generate random board, ensuring it contains at least 5 valid words
         while (wordList.size() < 5) {
@@ -81,40 +64,27 @@ public class Board implements View.OnTouchListener {
         }
     }
 
-    // Initialize game board with a set of dice
-    public Board (Context context, Activity activity, char[] dice) {
-        this.context = context;
-        this.activity = activity;
-        buttons = new ArrayList<>();
-        disabledButtons = new ArrayList<>();
-        pressedButtons = new ArrayList<>();
+    // Constructor. Initializes game board with a set of dice
+    public Board (Handler handler, Context context, char[] dice) {
+        init(handler, context);
 
+        this.dice = dice;
+        gameBoard = initBoard();
+        solveBoard();
+    }
+
+    // Common initialization for all constructors
+    private void init (Handler handler, Context context) {
+        this.handler = handler;
+        this.context = context;
         boardDice = new ArrayList<>();
         selectedDice = new ArrayList<>();
         enabledDice = new ArrayList<>();
-
         dictionary = new WordList(context, R.raw.worddictionary);
         wordList = new WordList(dictionary);
         neighbors = initNeighbors();
         selectedWord = new StringBuilder();
         firstBoardTouch = true;
-
-        this.dice = dice;
-        gameBoard = initBoard();
-        solveBoard();
-        printBoard();
-        wordList.print();
-        Log.d(TAG, "Words found: " + Integer.toString(wordList.size()));
-    }
-
-    // Return currently selected word
-    public String getSelectedWord () {
-//        StringBuilder word = new StringBuilder();
-//        for (int i = 0; i < pressedButtons.size(); ++i)  {
-//            word.append(pressedButtons.get(i).getText());
-//        }
-//        return word.toString();
-        return selectedWord.toString();
     }
 
     // Return the game board layout
@@ -132,53 +102,80 @@ public class Board implements View.OnTouchListener {
         return wordList;
     }
 
-    public ArrayList<Button> getButtonList() {
-        return this.buttons;
-    }
+    // Signals that word was checked and submitted by Game. Sets dice color,
+    // based on result, and resets board
+    public void wordSubmitted (int result) {
+        View view;
+        SquareImageView background;
+        TextView letter;
+        int backgroundResource;
+        int letterColor;
 
-    // Submit a word on the board. Resets all dice back to enabled, and sets the color of dice that
-    // were submitted, based on whether they formed a valid word or not.
-    public void submitWord (boolean isValid) {
-        Button button;
-
-        // Update selected word label
-        TextView selectedWord = (TextView)activity.findViewById(R.id.input_word);
-        selectedWord.setText(getSelectedWord());
-
-        // Re-enable all dice
-        for (int i = 0; i < buttons.size(); ++i) {
-            button = buttons.get(i);
-            button.setEnabled(true);
-            if (!pressedButtons.contains(button)) {
-//                button.setBackgroundResource(R.drawable.dice_enabled);
-            }
+        // Set color of selected dice
+        if (result == Constants.SUBMIT_VALID) {
+            backgroundResource = R.drawable.dice_valid;
+            letterColor = Constants.COLOR_VALID_DICE;
+        } else if (result == Constants.SUBMIT_INVALID) {
+            backgroundResource = R.drawable.dice_invalid;
+            letterColor = Constants.COLOR_INVALID_DICE;
+        } else {
+            backgroundResource = R.drawable.dice_already_found;
+            letterColor = Constants.COLOR_ALREADY_FOUND_DICE;
         }
 
-        // Set background color of submitted dice
-        int backgroundResource = (isValid) ? R.drawable.dice_valid : R.drawable.dice_invalid;
-        for (int i = 0; i < pressedButtons.size(); ++i) {
-            button = pressedButtons.get(i);
-            button.setBackgroundResource(backgroundResource);
-//            ObjectAnimator colorFade = ObjectAnimator.ofInt(button, "backgroundResource", backgroundResource, R.drawable.dice_enabled);
-//            colorFade.setDuration(1000);
-//            colorFade.start();
+        for (int i = 0; i < selectedDice.size(); ++i) {
+            view = selectedDice.get(i);
+            background = (SquareImageView) view.findViewById(R.id.background);
+            letter = (TextView) view.findViewById(R.id.letter);
+
+            // Set up transition for dice background
+            TransitionDrawable transition = new TransitionDrawable(
+                    new Drawable[] {
+                            context.getResources().getDrawable(backgroundResource),
+                            context.getResources().getDrawable(R.drawable.dice)
+                    }
+            );
+
+            // Set up transition for letter color
+            final ObjectAnimator letterTransition = ObjectAnimator.ofInt(letter, "textColor", letterColor, Constants.COLOR_DICE);
+            letterTransition.setDuration(1000);
+            letterTransition.setEvaluator(new ArgbEvaluator());
+            letterTransition.setInterpolator(new DecelerateInterpolator(2));
+
+            background.setImageDrawable(transition);
+            letter.setTextColor(letterColor);
+            transition.startTransition(750);
+            letterTransition.start();
         }
 
-        disabledButtons.clear();
-        pressedButtons.clear();
+        // Reset dice
+        enabledDice.clear();
+        selectedDice.clear();
+        selectedWord.setLength(0);
+        for (int i = 0; i < gameBoard.getChildCount(); ++i) {
+            enabledDice.add(gameBoard.getChildAt(i));
+        }
     }
 
-    // Re-enables all dice and resets their background color
+    // Re-enables all dice and resets their color
     public void clearSelected () {
-        Button button;
-        for (int i = 0; i < buttons.size(); ++i) {
-            button = buttons.get(i);
-            button.setEnabled(true);
-//            button.setBackgroundResource(R.drawable.dice_enabled);
-        }
+        SquareImageView background;
+        TextView letter;
 
-        disabledButtons.clear();
-        pressedButtons.clear();
+        // Clear selected dice
+        enabledDice.clear();
+        selectedDice.clear();
+        selectedWord.setLength(0);
+
+        // Re-enable all dice, and reset colors
+        for (int i = 0; i < gameBoard.getChildCount(); ++i) {
+            View v = gameBoard.getChildAt(i);
+            enabledDice.add(v);
+            background = (SquareImageView) v.findViewById(R.id.background);
+            letter = (TextView) v.findViewById(R.id.letter);
+            background.setImageResource(R.drawable.dice);
+            letter.setTextColor(Constants.COLOR_DICE);
+        }
     }
 
     // Kicks off board solving algorithm
@@ -282,65 +279,12 @@ public class Board implements View.OnTouchListener {
         return n;
     }
 
-    public void disableboard()
-    {
-        Button button;
-        for(int i=0;i<buttons.size();i++)
-        {
-            button = buttons.get(i);
-            button.setEnabled(false);
-        }
+    public void disableBoard() {
+        enabledDice.clear();
     }
 
     // Set up game board
-//    private LinearLayout initBoard () {
-//        LinearLayout board = new LinearLayout(context);
-//        board.setLayoutParams(
-//                new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                        LinearLayout.LayoutParams.MATCH_PARENT
-//                )
-//        );
-//        board.setOrientation(LinearLayout.VERTICAL);
-//
-//        // Create new row of buttons
-//        for (int row = 0; row < ROW_SIZE; ++row) {
-//            LinearLayout boardRow = new LinearLayout(context);
-//            boardRow.setLayoutParams(
-//                    new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT, // Width
-//                            0,                                      // Height
-//                            1                                       // Weight
-//                    )
-//            );
-//            boardRow.setOrientation(LinearLayout.HORIZONTAL);
-//
-//            // Add buttons to row
-//            for (int col = 0; col < COL_SIZE; ++col) {
-//                int buttonIndex = row * ROW_SIZE + col;
-//                Button button = new Button(new ContextThemeWrapper(context, R.style.dice), null, R.style.dice);
-//                LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-//                        0,                                      // Width
-//                        LinearLayout.LayoutParams.MATCH_PARENT, // Height
-//                        1                                       // Weight
-//                );
-//                buttonParams.setMargins(2, 2, 2, 2);
-//                button.setLayoutParams(buttonParams);
-//                button.setId(buttonIndex);
-//                button.setText(Character.toString(dice[buttonIndex]));
-////                button.setOnTouchListener(this);
-//                buttons.add(button);
-//                boardRow.addView(button);
-//            }
-//
-//            board.addView(boardRow);
-//        }
-//
-//        return board;
-//    }
-
-    // Set up game board
-    private View initBoard () {
+    private GridView initBoard () {
         // Create GridView to hold the board dice
         final GridView board = new GridView(context);
         board.setLayoutParams(
@@ -355,21 +299,8 @@ public class Board implements View.OnTouchListener {
         board.setVerticalSpacing(4);
         board.setHorizontalSpacing(4);
 
-        // Add dice to board
+        // Add dice to board and set touch listener
         board.setAdapter(new BoardAdapter(context, dice));
-//        for (int i = 0; i < board.getCount(); ++i) {
-//            boardDice.add(board.getChildAt(i));
-//            enabledDice.add(board.getChildAt(i));
-//        }
-//        Log.d(TAG, "getChildCount - " + board.getCount());
-//        Log.d(TAG, "boardDiceCount - " + boardDice.size());
-//        Log.d(TAG, "enabledDiceCount - " + enabledDice.size());
-//        for (int i = 0; i < boardDice.size(); ++i) {
-//            Log.d(TAG, boardDice.get(i).toString());
-//        }
-
-
-        // Set board touch listener
         board.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -390,6 +321,7 @@ public class Board implements View.OnTouchListener {
                 if (action == MotionEvent.ACTION_UP) {
                     submitDice();
                 } else if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
+                    // Position will be -1 if touch is not on any dice
                     if (position != -1) {
                         selectDice(x, y, board.getChildAt(position));
                     }
@@ -431,76 +363,30 @@ public class Board implements View.OnTouchListener {
                     // Set background and text color
                     background = (SquareImageView) touchedDice.findViewById(R.id.background);
                     background.setImageResource(R.drawable.dice_selected);
-                    letter.setTextColor(SELECTED_DICE_COLOR);
+                    letter.setTextColor(Constants.COLOR_SELECTED_DICE);
                     selectedWord.append(letter.getText());
+
+                    // Send message to Game Handler
+                    Message msg = handler.obtainMessage(Constants.MESSAGE_SELECT_WORD);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.SELECTED_WORD, selectedWord.toString());
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
                 }
             }
         }
     }
 
+    // Submit currently selected dice. Messages handler from Game to check word
     private void submitDice() {
         Log.d(TAG, "submitDice()");
 
-        SquareImageView background;
-        TextView letter;
-
-        GridView board = (GridView) gameBoard;
-        enabledDice.clear();
-        selectedDice.clear();
-        for (int i = 0; i < board.getChildCount(); ++i) {
-            View v = board.getChildAt(i);
-            enabledDice.add(v);
-            background = (SquareImageView) v.findViewById(R.id.background);
-            letter = (TextView) v.findViewById(R.id.letter);
-            background.setImageResource(R.drawable.dice);
-            letter.setTextColor(DICE_COLOR);
-
-        }
+        Message msg = handler.obtainMessage(Constants.MESSAGE_SUBMIT_WORD);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.SUBMITTED_WORD, selectedWord.toString());
+        msg.setData(bundle);
+        handler.sendMessage(msg);
     }
-
-
-    // Handler for onTouch event of the dice on the board. Disables dice that are not adjacent to
-    // touched die, and sets the correct dice colors.
-    @Override
-    public boolean onTouch (View view, MotionEvent event) {
-        Button button;
-        ArrayList<Integer> buttonNeighbors = neighbors.get(view.getId());
-        TextView selectedWord = (TextView)activity.findViewById(R.id.input_word);
-
-        // Disable clicked button
-        pressedButtons.add((Button) view);
-        view.setEnabled(false);
-//        view.setBackgroundResource(R.drawable.dice_pressed);
-
-        // Update selected word label
-        selectedWord.setTextColor(Color.WHITE);
-        selectedWord.setText(getSelectedWord());
-
-        // Reset all buttons that haven't been pressed
-        for (int i = 0; i < buttons.size(); ++i) {
-            button = buttons.get(i);
-            if (!pressedButtons.contains(button)) {
-                button.setEnabled(true);
-//                button.setBackgroundResource(R.drawable.dice_enabled);
-            }
-        }
-        disabledButtons.clear();
-
-        // Add all non-neighboring dice to disabled list
-        for (int i = 0; i < BOARD_SIZE; ++i) {
-            if (!buttonNeighbors.contains(i)) {
-                button = buttons.get(i);
-                //button.setBackgroundResource(R.drawable.dice_disabled);
-                button.setEnabled(false);
-                //button.setBackgroundResource(R.drawable.dice_disabled);
-                disabledButtons.add(button);
-            }
-        }
-
-//        return activity.onTouchEvent(event);
-        return true;
-    }
-
 
     private class BoardAdapter extends BaseAdapter {
         private List<Item> items = new ArrayList<Item>();

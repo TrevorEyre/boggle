@@ -41,6 +41,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
     private boolean oppGameOver;
     private String oppWordsFound;
     private int oppTotalScore;
+    private TextView selectedWordLabel;
 
 
     @Override
@@ -111,6 +112,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
         oppScore = (TextView) findViewById(R.id.score_opp);
         buttonConnect = (Button) findViewById(R.id.button_connect);
         bluetoothService = new BluetoothService(activity, handler);
+        selectedWordLabel = (TextView) findViewById(R.id.input_word);
     }
 
     // Host a game. Create new game object, and send board to connected device
@@ -188,20 +190,20 @@ public class TwoPlayerActivity extends AppCompatActivity {
         finish();
     }
 
-    // Click event handler for button_submit
-    public void buttonSubmitClick(View view) {
-        TextView selectedWord = (TextView) this.findViewById(R.id.input_word);
-        String word = game.submitWord();
-        Log.d(TAG, "submitWord() " + word);
+    // Event handler for submitting a word
+    private void wordSubmitted(int result, String submittedWord) {
+        Log.d(TAG, "submitWord() " + submittedWord);
 
-        if (word == null) {
-            selectedWord.setTextColor(Color.rgb(244, 67, 54));
-        } else {
-            // Valid word. Send to opponent
-            selectedWord.setTextColor(Color.rgb(0, 200, 83));
-            String sendMessage = new String(Constants.READ_SEND_WORD + word);
+        if (result == Constants.SUBMIT_VALID) {
+            selectedWordLabel.setTextColor(Constants.COLOR_VALID_DICE);
+            String sendMessage = new String(Constants.READ_SEND_WORD + submittedWord);
             bluetoothService.write(sendMessage.getBytes());
+        } else if (result == Constants.SUBMIT_INVALID) {
+            selectedWordLabel.setTextColor(Constants.COLOR_INVALID_DICE);
+        } else {
+            selectedWordLabel.setTextColor(Constants.COLOR_ALREADY_FOUND_DICE);
         }
+
         score.setText(Integer.toString(game.getScore()));
     }
 
@@ -266,6 +268,20 @@ public class TwoPlayerActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
+                // User selected dice
+                case Constants.MESSAGE_SELECT_WORD:
+                    String selectedWord = msg.getData().getString(Constants.SELECTED_WORD);
+                    selectedWordLabel.setTextColor(Constants.COLOR_DICE);
+                    selectedWordLabel.setText(selectedWord);
+                    break;
+
+                // User submitted a word
+                case Constants.MESSAGE_SUBMIT_WORD:
+                    int result = msg.getData().getInt(Constants.SUBMIT_RESULT);
+                    String submittedWord = msg.getData().getString(Constants.SUBMITTED_WORD);
+                    wordSubmitted(result, submittedWord);
+                    break;
+
                 // Game timer went off
                 case Constants.MESSAGE_TIME_UP:
                     Log.d(TAG, "gameHandler - MESSAGE_TIME_UP");
@@ -274,6 +290,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
             }
         }
     };
+
 
     // The Handler that receives messages back from BluetoothService
     private final Handler handler = new Handler() {

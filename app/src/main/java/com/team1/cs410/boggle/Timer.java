@@ -55,7 +55,7 @@ public class Timer {
 
 
     // Start the timer
-    public void startTimer (ArrayList<Button> btn) {
+    public void startTimer () {
         countDownTimer.start();
     }
 

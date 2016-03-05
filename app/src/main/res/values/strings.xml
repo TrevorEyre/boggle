@@ -38,4 +38,7 @@
     <string name="title_activity_multiplayer_menu">MultiplayerMenuActivity</string>
     <string name="title_activity_board_test">BoardTestActivity</string>
     <string name="title_activity_two_player_multi_round">TwoPlayerMultiRound</string>
+
+    <!-- Game -->
+    <string name="score_lbl">Score</string>
 </resources>

@@ -36,18 +36,18 @@ public class WordList {
         this.dictionary = null;
     }
 
-    // Adds a new word to the WordList. Returns true upon successful add, false otherwise. Checks
-    // that word is valid length, has not already been added to the WordList, and exists in dictionary.
-    public boolean add (String word) {
+    // Adds a new word to the WordList. Returns submit result as int. Checks that word
+    // is valid length, has not already been added to the WordList, and exists in dictionary.
+    public int add (String word) {
         word = word.toLowerCase();
-        if (word.length() < 3 || word.length() > 16) {return false;}
-        if (check(word)) {return false;}
+        if (word.length() < 3 || word.length() > 16) {return Constants.SUBMIT_INVALID;}
+        if (check(word)) {return Constants.SUBMIT_ALREADY_FOUND;}
         if (dictionary != null) {
-            if (!dictionary.check(word)) {return false;}
+            if (!dictionary.check(word)) {return Constants.SUBMIT_INVALID;}
         }
 
         this.wordList.put(word, word);
-        return true;
+        return Constants.SUBMIT_VALID;
     }
 
     // Returns WordList minus all words in listToRemove. Original WordList is unaltered

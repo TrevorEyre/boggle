@@ -21,6 +21,6 @@
         android:layout_centerVertical="true"
         android:typeface="sans"
         android:textSize="40sp"
-        android:textColor="#999999" />
+        android:textColor="#666666" />
 
 </RelativeLayout>
