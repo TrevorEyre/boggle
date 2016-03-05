@@ -209,8 +209,13 @@ public class TwoPlayerActivity extends AppCompatActivity {
     private void wordSubmitted(int result, String submittedWord) {
         Log.d(TAG, "submitWord() " + submittedWord);
 
+        score.setText(Integer.toString(game.getScore()));
+
         if (result == Constants.SUBMIT_VALID) {
             selectedWordLabel.setTextColor(Constants.COLOR_VALID_DICE);
+            String displayWord = selectedWordLabel.getText().toString();
+            displayWord = displayWord + " (" + game.score(submittedWord) + ")";
+            selectedWordLabel.setText(displayWord);
             String sendMessage = new String(Constants.READ_SEND_WORD + submittedWord);
             bluetoothService.write(sendMessage.getBytes());
         } else if (result == Constants.SUBMIT_INVALID) {
@@ -218,8 +223,6 @@ public class TwoPlayerActivity extends AppCompatActivity {
         } else {
             selectedWordLabel.setTextColor(Constants.COLOR_ALREADY_FOUND_DICE);
         }
-
-        score.setText(Integer.toString(game.getScore()));
     }
 
     // Return from bluetooth activities
