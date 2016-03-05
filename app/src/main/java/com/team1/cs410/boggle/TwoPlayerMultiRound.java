@@ -6,15 +6,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -38,7 +35,8 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
     private int gameMode;
     private TextView score;
     private TextView oppScore;
-    private Button buttonConnect;
+    private View menuConnect;
+    private View menuEndRound;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothService bluetoothService = null;
     private String connectedDeviceName = null;
@@ -114,15 +112,45 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
     // Set up game UI elements and start BluetoothService
     private void setupGame() {
         gameOver = false;
         oppGameOver = false;
         score = (TextView) findViewById(R.id.score);
         oppScore = (TextView) findViewById(R.id.score_opp);
-        buttonConnect = (Button) findViewById(R.id.button_connect);
         bluetoothService = new BluetoothService(activity, handler);
         selectedWordLabel = (TextView) findViewById(R.id.input_word);
+
+        menuConnect = findViewById(R.id.menu_connect);
+        menuConnect.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(TAG, "menuConnectClick()");
+                Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                return false;
+            }
+        });
+
+        menuEndRound = findViewById(R.id.menu_end_round);
+        menuEndRound.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (game.getWordCount() >= 5) {
+                    game.stopTime();
+                    youEndGame();
+                } else {
+                    Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
     }
 
     // Host a game. Create new game object, and send board to connected device
@@ -245,32 +273,6 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         score.setText(Integer.toString(game.getScore()));
     }
 
-    public void buttonEndClick(View view){
-        if(game.getWordCount()>=5) {
-            game.stopTime();
-            youEndGame();
-        }
-        else
-        {
-            Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // Click event handler for button_clear
-    public void buttonClearClick (View view) {
-        TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
-        selectedWord.setText("");
-
-        game.clearSelected();
-    }
-
-    // Click event handler for button_connect
-    public void buttonConnectClick (View view) {
-        Log.d(TAG, "buttonConnectClick()");
-        Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
-        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-    }
-
     // Return from bluetooth activities
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -353,7 +355,8 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
                             setStatus("Connected to " + connectedDeviceName);
-                            buttonConnect.setVisibility(View.GONE);
+                            menuConnect.setVisibility(View.GONE);
+                            menuEndRound.setVisibility(View.VISIBLE);
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             setStatus("Connecting...");

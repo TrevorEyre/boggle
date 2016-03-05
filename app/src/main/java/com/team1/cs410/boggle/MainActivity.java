@@ -23,20 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Menu views
     private View menuMain;
-    private View optSinglePlayer;
-    private View optMultiplayer;
-    private View optHighScores;
-    private View optCredits;
     private View menuMultiplayer;
-    private View optMultiplayerBasic;
-    private View optMultiplayerCutthroat;
-    private View optMultiplayerMultiRound;
-    private View optMultiplayerInfo;
-    private View optMultiplayerBack;
     private View menuMultiplayerInformation;
-    private View optMultiplayerInformationBack;
     private View menuCredits;
-    private View optCreditsBack;
 
     // Member fields
     Activity activity;
@@ -55,20 +44,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize menu views
         menuMain = findViewById(R.id.menu_main);
-        optSinglePlayer = findViewById(R.id.menu_main_single_player);
-        optMultiplayer = findViewById(R.id.menu_main_multiplayer);
-        optHighScores = findViewById(R.id.menu_main_high_scores);
-        optCredits = findViewById(R.id.menu_main_credits);
+        View optSinglePlayer = findViewById(R.id.menu_main_single_player);
+        View optMultiplayer = findViewById(R.id.menu_main_multiplayer);
+        View optHighScores = findViewById(R.id.menu_main_high_scores);
+        View optCredits = findViewById(R.id.menu_main_credits);
         menuMultiplayer = findViewById(R.id.menu_multiplayer);
-        optMultiplayerBasic = findViewById(R.id.menu_multiplayer_basic);
-        optMultiplayerCutthroat = findViewById(R.id.menu_multiplayer_cutthroat);
-        optMultiplayerMultiRound = findViewById(R.id.menu_multiplayer_multi_round);
-        optMultiplayerInfo = findViewById(R.id.menu_multiplayer_info);
-        optMultiplayerBack = findViewById(R.id.menu_multiplayer_back);
+        View optMultiplayerBasic = findViewById(R.id.menu_multiplayer_basic);
+        View optMultiplayerCutthroat = findViewById(R.id.menu_multiplayer_cutthroat);
+        View optMultiplayerMultiRound = findViewById(R.id.menu_multiplayer_multi_round);
+        View optMultiplayerMultiRoundCutthroat = findViewById(R.id.menu_multiplayer_multi_round_cutthroat);
+        View optMultiplayerInfo = findViewById(R.id.menu_multiplayer_info);
+        View optMultiplayerBack = findViewById(R.id.menu_multiplayer_back);
         menuMultiplayerInformation = findViewById(R.id.menu_multiplayer_information);
-        optMultiplayerInformationBack = findViewById(R.id.menu_multiplayer_information_back);
+        View optMultiplayerInformationBack = findViewById(R.id.menu_multiplayer_information_back);
         menuCredits = findViewById(R.id.menu_credits);
-        optCreditsBack = findViewById(R.id.menu_credits_back);
+        View optCreditsBack = findViewById(R.id.menu_credits_back);
 
         // Main menu
         // Single player click event
@@ -95,16 +85,12 @@ public class MainActivity extends AppCompatActivity {
         optHighScores.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                Intent intent = new Intent(activity, HighScoresActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("name", "default");
-//                bundle.putInt("score", -1);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//                finish();
-//                return false;
-
-                startActivity(new Intent(activity, BoardTestActivity.class));
+                Intent intent = new Intent(activity, HighScoresActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "default");
+                bundle.putInt("score", -1);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 finish();
                 return false;
             }
@@ -161,7 +147,30 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerMultiRound.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(activity, TwoPlayerMultiRound.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("gameMode", Constants.MODE_BASIC);
+                bundle.putInt("round", 1);
+                bundle.putInt("timer", 180000);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+                return false;
+            }
+        });
 
+        // Multi-round cutthroat mode click event
+        optMultiplayerMultiRoundCutthroat.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(activity, TwoPlayerMultiRound.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
+                bundle.putInt("round", 1);
+                bundle.putInt("timer",180000);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
                 return false;
             }
         });
@@ -242,35 +251,6 @@ public class MainActivity extends AppCompatActivity {
                         hide.setVisibility(View.GONE);
                     }
                 });
-    }
-
-
-//    public void onClickTwoPlayerCutthroat(View view){
-//        Intent intent = new Intent(this, TwoPlayerCutThroat.class);
-//        startActivity(intent);
-//    }
-
-    public void onClickTwoPlayerMultiRound(View view)
-    {
-        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("gameMode", Constants.MODE_BASIC);
-        bundle.putInt("round",1);
-        bundle.putInt("timer",180000);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-
-    public void onClickTwoPlayerMultiRoundCutThroat(View view)
-    {
-        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
-        bundle.putInt("round",1);
-        bundle.putInt("timer",180000);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
 }

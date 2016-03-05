@@ -10,6 +10,7 @@
     <string name="menu_main_credits">Credits</string>
 
     <string name="menu_back">Back</string>
+    <string name="menu_back_to_main">Back to Main Menu</string>
     <string name="menu_credits_header">Developers:</string>
 
     <!-- Multiplayer Menu -->
@@ -17,6 +18,7 @@
     <string name="menu_multiplayer_basic">Basic</string>
     <string name="menu_multiplayer_cutthroat">Cutthroat</string>
     <string name="menu_multiplayer_multi_round">Multi-round</string>
+    <string name="menu_multiplayer_multi_round_cutthroat">Multi-round Cutthroat</string>
     <string name="menu_multiplayer_info">More Info</string>
 
     <string name="title_activity_game_board2_player">GameBoard2Player</string>
@@ -41,4 +43,16 @@
 
     <!-- Game -->
     <string name="score_lbl">Score</string>
+    <string name="score_opp_lbl">Opp</string>
+    <string name="round_lbl">Round</string>
+    <string name="menu_connect">Connect to Device</string>
+    <string name="menu_end_round">End Round</string>
+
+    <!-- Score screens, single and multiplayer -->
+    <string name="yourScore">Score: </string>
+    <string name="high_scores_lbl">High Scores</string>
+    <string name="words_found_lbl">Words Found</string>
+    <string name="words_not_found_lbl">Not Found</string>
+    <string name="you_lbl">You</string>
+    <string name="opp_lbl">Opponent</string>
 </resources>

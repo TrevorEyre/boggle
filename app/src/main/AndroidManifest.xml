@@ -24,7 +24,6 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -72,11 +71,6 @@
             android:label="@string/title_activity_two_player_multi_round"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".BoardTestActivity"
-            android:label="@string/title_activity_board_test"
-            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

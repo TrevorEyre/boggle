@@ -6,7 +6,7 @@
         <item name="colorPrimary">#66bb89</item>
         <item name="colorPrimaryDark">#4d8c66</item>
         <item name="colorAccent">#f44336</item>
-        <item name="android:windowAnimationStyle">@style/FadeAnimation.Activity</item>
+        <!--<item name="android:windowAnimationStyle">@style/FadeAnimation.Activity</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -43,7 +43,7 @@
     </style>
 
     <style name="menu_option">
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">240dp</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:gravity">center</item>
@@ -72,6 +72,46 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#999999</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <!-- Game styles -->
+    <style name="game_stats">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#999999</item>
+    </style>
+
+    <style name="game_options">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">#666666</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!-- Score screens -->
+    <style name="scores_header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#66bb89</item>
+    </style>
+
+    <style name="scores_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#666666</item>
     </style>
 
 </resources>

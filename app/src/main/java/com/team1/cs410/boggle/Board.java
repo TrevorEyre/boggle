@@ -336,7 +336,6 @@ public class Board {
 
 
     private void selectDice(int x, int y, View touchedDice) {
-        Log.d(TAG, "selectDice() - " + touchedDice.toString());
 
         SquareImageView background;
         TextView letter;
@@ -379,7 +378,6 @@ public class Board {
 
     // Submit currently selected dice. Messages handler from Game to check word
     private void submitDice() {
-        Log.d(TAG, "submitDice()");
 
         Message msg = handler.obtainMessage(Constants.MESSAGE_SUBMIT_WORD);
         Bundle bundle = new Bundle();

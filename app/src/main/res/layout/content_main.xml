@@ -78,6 +78,10 @@
                     style="@style/menu_option"
                     android:text="@string/menu_multiplayer_multi_round" />
                 <TextView
+                    android:id="@+id/menu_multiplayer_multi_round_cutthroat"
+                    style="@style/menu_option"
+                    android:text="@string/menu_multiplayer_multi_round_cutthroat" />
+                <TextView
                     android:id="@+id/menu_multiplayer_info"
                     style="@style/menu_option"
                     android:text="@string/menu_multiplayer_info" />
@@ -144,7 +148,7 @@
                     android:text="Cutthroat Mode" />
                 <TextView
                     style="@style/menu_info"
-                    android:text="In cutthroat mode, both players work on separate copies of the same board. However, once a word is found by a player, the other player can no longer receive points for that word. At the end of the game, the player with the highest score wins." />
+                    android:text="In cutthroat mode, both players work on one copy of the same board. Once a word is found by a player, the other player can no longer receive points for that word. At the end of the game, the player with the highest score wins." />
                 <TextView
                     style="@style/menu_header"
                     android:layout_marginTop="24dp"
@@ -152,6 +156,13 @@
                 <TextView
                     style="@style/menu_info"
                     android:text="In multi-round mode, the first round starts with the usual amount of time. The points achieved for each player in one round are added to the amount of time in the next round. Each player must stop the timer to signify ending the round. A round cannot be stopped unless at least 5 words are found. The remaining time rolls over to the next round. The first player to run out of time before the other loses." />
+                <TextView
+                    style="@style/menu_header"
+                    android:layout_marginTop="24dp"
+                    android:text="Multi-round Cutthroat Mode" />
+                <TextView
+                    style="@style/menu_info"
+                    android:text="In multi-round cutthroat mode, gameplay is the same as in multi-round mode, except that when a player finds a word, the other player can no longer receive points for that word." />
                 <TextView
                     android:id="@+id/menu_multiplayer_information_back"
                     style="@style/menu_back"

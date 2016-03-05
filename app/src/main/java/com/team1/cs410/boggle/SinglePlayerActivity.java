@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,21 +85,22 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     // A word was submitted. Update selected word label based on result
-    private void wordSubmitted (int result) {
+    private void wordSubmitted (int result, String submittedWord) {
+        Log.d(TAG, "submitWord() " + submittedWord);
+
         TextView scoreDisplay = (TextView)this.findViewById(R.id.score);
         scoreDisplay.setText(Integer.toString(game.getScore()));
 
         if (result == Constants.SUBMIT_VALID) {
             selectedWordLabel.setTextColor(Constants.COLOR_VALID_DICE);
+            String displayWord = selectedWordLabel.getText().toString();
+            displayWord = displayWord + " (" + game.score(submittedWord) + ")";
+            selectedWordLabel.setText(displayWord);
         } else if (result == Constants.SUBMIT_INVALID) {
             selectedWordLabel.setTextColor(Constants.COLOR_INVALID_DICE);
         } else {
             selectedWordLabel.setTextColor(Constants.COLOR_ALREADY_FOUND_DICE);
         }
-    }
-
-    public void endbuttonclick (View view) {
-        endGame();
     }
 
     private void endGame () {
@@ -188,7 +188,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 // User submitted a word
                 case Constants.MESSAGE_SUBMIT_WORD:
                     int result = msg.getData().getInt(Constants.SUBMIT_RESULT);
-                    wordSubmitted(result);
+                    String submittedWord = msg.getData().getString(Constants.SUBMITTED_WORD);
+                    wordSubmitted(result, submittedWord);
                     break;
 
                 // Game timer went off

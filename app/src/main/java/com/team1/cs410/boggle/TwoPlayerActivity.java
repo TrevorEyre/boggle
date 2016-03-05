@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +32,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
     private int gameMode;
     private TextView score;
     private TextView oppScore;
-    private Button buttonConnect;
+    private View menuConnect;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothService bluetoothService = null;
     private String connectedDeviceName = null;
@@ -86,7 +85,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
         if (bluetoothService != null) {
             // Start bluetooth services if we haven't already, and
             // start BluetoothDevicesActivity
-            if (bluetoothService.getState() == bluetoothService.STATE_NONE) {
+            if (bluetoothService.getState() == BluetoothService.STATE_NONE) {
                 Log.d(TAG, "onResume() - start bluetooth");
                 bluetoothService.start();
                 Log.d(TAG, "onResume() - start BluetoothDevicesActivity");
@@ -104,15 +103,31 @@ public class TwoPlayerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
     // Set up game UI elements and start BluetoothService
     private void setupGame() {
         gameOver = false;
         oppGameOver = false;
         score = (TextView) findViewById(R.id.score);
         oppScore = (TextView) findViewById(R.id.score_opp);
-        buttonConnect = (Button) findViewById(R.id.button_connect);
         bluetoothService = new BluetoothService(activity, handler);
         selectedWordLabel = (TextView) findViewById(R.id.input_word);
+
+        menuConnect = findViewById(R.id.menu_connect);
+        menuConnect.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(TAG, "menuConnectClick()");
+                Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+                return false;
+            }
+        });
     }
 
     // Host a game. Create new game object, and send board to connected device
@@ -207,21 +222,6 @@ public class TwoPlayerActivity extends AppCompatActivity {
         score.setText(Integer.toString(game.getScore()));
     }
 
-    // Click event handler for button_clear
-    public void buttonClearClick (View view) {
-        TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
-        selectedWord.setText("");
-
-        game.clearSelected();
-    }
-
-    // Click event handler for button_connect
-    public void buttonConnectClick (View view) {
-        Log.d(TAG, "buttonConnectClick()");
-        Intent serverIntent = new Intent(activity, BluetoothDevicesActivity.class);
-        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-    }
-
     // Return from bluetooth activities
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -304,7 +304,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
                             setStatus("Connected to " + connectedDeviceName);
-                            buttonConnect.setVisibility(View.GONE);
+                            menuConnect.setVisibility(View.GONE);
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             setStatus("Connecting...");

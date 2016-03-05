@@ -1,11 +1,13 @@
 package com.team1.cs410.boggle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import java.io.FileInputStream;
@@ -16,17 +18,20 @@ import java.io.IOException;
 
 public class HighScoresActivity extends AppCompatActivity {
 
+    private Activity activity;
     private int[] scores= new int[5];
     private String[] names= new String[5];
-    TextView tview1,tview2,tview3,tview4,tview5,tview6,tview7,tview8,tview9,tview10;
     SharedPreferences prefs = null;
     String filename = "myfile";
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_scores);
 
+        activity = this;
         String readdata = "";
         prefs=getSharedPreferences("firstcheck",Context.MODE_PRIVATE);
 
@@ -146,7 +151,18 @@ public class HighScoresActivity extends AppCompatActivity {
             wordsNotFoundTextView.setText(wordsNotFound);
         }
 
+        // Back button click event
+        TextView backButton = (TextView) findViewById(R.id.menu_back);
+        backButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                startActivity(new Intent(activity, MainActivity.class));
+                finish();
+                return false;
+            }
+        });
     }
+
     public void updatescores(String name, int score)
     {
         //Context context = getApplicationContext();
