@@ -48,7 +48,7 @@ public class BoardTestActivity extends AppCompatActivity {
                             if (posX > child.getLeft() + tv.getLeft() && posX < child.getRight() + tv.getRight()
                                     && posY > child.getTop() + tv.getTop() && posY < child.getBottom() + tv.getBottom()) {
                                 background = (SquareImageView) child.findViewById(R.id.background);
-                                background.setImageResource(R.drawable.dice_highlight);
+                                background.setImageResource(R.drawable.dice_selected);
                                 tv.setTextColor(Color.rgb(3, 169, 244));
                             }
                             break;
@@ -57,7 +57,7 @@ public class BoardTestActivity extends AppCompatActivity {
                                 child = gridView.getChildAt(i);
                                 tv = (TextView) child.findViewById(R.id.letter);
                                 background = (SquareImageView) child.findViewById(R.id.background);
-                                background.setImageResource(R.drawable.dice_background);
+                                background.setImageResource(R.drawable.dice);
                                 tv.setTextColor(Color.rgb(153, 153, 153));
                             }
                             break;
@@ -75,22 +75,22 @@ public class BoardTestActivity extends AppCompatActivity {
         public MyAdapter(Context context) {
             inflater = LayoutInflater.from(context);
 
-            items.add(new Item("A", R.drawable.dice_background));
-            items.add(new Item("B", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
-            items.add(new Item("A", R.drawable.dice_background));
-            items.add(new Item("B", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
-            items.add(new Item("A", R.drawable.dice_background));
-            items.add(new Item("B", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
-            items.add(new Item("A", R.drawable.dice_background));
-            items.add(new Item("B", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
-            items.add(new Item("A", R.drawable.dice_background));
-            items.add(new Item("B", R.drawable.dice_background));
-            items.add(new Item("C", R.drawable.dice_background));
+            items.add(new Item("A", R.drawable.dice));
+            items.add(new Item("B", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
+            items.add(new Item("A", R.drawable.dice));
+            items.add(new Item("B", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
+            items.add(new Item("A", R.drawable.dice));
+            items.add(new Item("B", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
+            items.add(new Item("A", R.drawable.dice));
+            items.add(new Item("B", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
+            items.add(new Item("A", R.drawable.dice));
+            items.add(new Item("B", R.drawable.dice));
+            items.add(new Item("C", R.drawable.dice));
         }
 
         @Override
