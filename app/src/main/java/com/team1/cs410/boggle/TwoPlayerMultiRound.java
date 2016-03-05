@@ -1,14 +1,19 @@
 package com.team1.cs410.boggle;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
 
-public class TwoPlayerActivity extends AppCompatActivity {
+public class TwoPlayerMultiRound extends AppCompatActivity {
 
-    // Tag for debug statements
     private static final String TAG = "TwoPlayerActivity";
 
     // Intent request codes
@@ -41,17 +46,19 @@ public class TwoPlayerActivity extends AppCompatActivity {
     private boolean oppGameOver;
     private String oppWordsFound;
     private int oppTotalScore;
-
-
+    private int round;
+    private int timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two_player);
+        setContentView(R.layout.activity_two_player_multi_round);
         activity = this;
 
         // Get extras from previous activity
         Bundle bundle = getIntent().getExtras();
+        round = bundle.getInt("round");
+        timer = bundle.getInt("timer");
         gameMode = bundle.getInt("gameMode");
 
         // Bluetooth is not supported, exit activity
@@ -59,6 +66,7 @@ public class TwoPlayerActivity extends AppCompatActivity {
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
         }
+
     }
 
     @Override
@@ -116,7 +124,9 @@ public class TwoPlayerActivity extends AppCompatActivity {
     // Host a game. Create new game object, and send board to connected device
     private void hostGame() {
         isHost = true;
-        game = new Game(this, this, gameHandler);
+//        game = new Game(this, this, gameHandler);
+        Log.d(TAG,"Timer: " + timer + " Round: " + round);
+        game = new Game(this,this,gameHandler,timer,round);
         LinearLayout gameBoardWrapper = (LinearLayout) findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
 
@@ -124,12 +134,15 @@ public class TwoPlayerActivity extends AppCompatActivity {
         String sendMessage = Constants.READ_NEW_GAME + new String(game.getDice());
         bluetoothService.write(sendMessage.getBytes());
         game.startTime();
+
     }
 
     // Join a game. Initialize game object with board received from host
     private void joinGame(String board) {
         isHost = false;
-        game = new Game(this, this, gameHandler, board.toCharArray());
+//        game = new Game(this, this, gameHandler, board.toCharArray());
+        Log.d(TAG,"Timer: " + timer + " Round: " + round);
+        game = new Game(this,this,gameHandler,board.toCharArray(),timer,round);
         LinearLayout gameBoardWrapper = (LinearLayout) findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.addView(game.getBoard());
         game.startTime();
@@ -145,13 +158,13 @@ public class TwoPlayerActivity extends AppCompatActivity {
         // Update your word list if in cutthroat mode
         if (gameMode == Constants.MODE_CUTTHROAT) {
             Log.d(TAG, "receiveOpponentWord() - MODE_CUTTHROAT");
-            Toast.makeText(activity, "Opponent found: " + word, Toast.LENGTH_SHORT).show();
             game.addWord(word);
         }
     }
 
     // Your game ended. Send message to opponent and try to end game
     private void youEndGame () {
+        game.disablebuttons();
         String sendMessage = new String(Constants.READ_END_GAME + game.getWordsFound());
         bluetoothService.write(sendMessage.getBytes());
         gameOver = true;
@@ -167,6 +180,23 @@ public class TwoPlayerActivity extends AppCompatActivity {
         endGame();
     }
 
+    private void youEndTimer(){
+        //Start intent for two player scores
+        Log.d("GameEnd","Inside youEndTimer");
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        String sendMessage = new String(Constants.READ_END_TIMER + "");
+        bluetoothService.write(sendMessage.getBytes());
+        Log.d("GameEnd","Sent message to timeout");
+        builder.setMessage("You lose!")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        builder.show();
+    }
+
     // End game. Gets total score for you and opponent, and starts score activity
     private void endGame() {
         // Exit if you or opponent still playing
@@ -175,15 +205,21 @@ public class TwoPlayerActivity extends AppCompatActivity {
         }
 
         // Bundle game stats and start TwoPlayerScoresActivity
-        int score = game.getScore();
-        Intent intent = new Intent(this, TwoPlayerScoresActivity.class);
+
+        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("score", score);
-        bundle.putInt("oppScore", oppTotalScore);
-        bundle.putString("wordsFound", game.getWordsFound());
-        bundle.putString("oppWordsFound", oppWordsFound);
-        bundle.putString("wordsNotFound", game.getWordsNotFound(oppWordsFound.split("\\n")));
+        bundle.putInt("round", round + 1);
+        //Log.d("tosendtimer")
+        TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
+        int timertosend = Integer.parseInt(absolutetimer.getText().toString());
+        bundle.putInt("timer",(game.getScore()*1000)+timertosend);
         intent.putExtras(bundle);
+//        bundle.putInt("score", score);
+//        bundle.putInt("oppScore", oppTotalScore);
+//        bundle.putString("wordsFound", game.getWordsFound());
+//        bundle.putString("oppWordsFound", oppWordsFound);
+//        bundle.putString("wordsNotFound", game.getWordsNotFound(oppWordsFound.split("\\n")));
+//        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
@@ -203,6 +239,17 @@ public class TwoPlayerActivity extends AppCompatActivity {
             bluetoothService.write(sendMessage.getBytes());
         }
         score.setText(Integer.toString(game.getScore()));
+    }
+
+    public void buttonEndClick(View view){
+        if(game.getWordCount()>=5) {
+            game.stopTime();
+            youEndGame();
+        }
+        else
+        {
+            Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Click event handler for button_clear
@@ -269,7 +316,8 @@ public class TwoPlayerActivity extends AppCompatActivity {
                 // Game timer went off
                 case Constants.MESSAGE_TIME_UP:
                     Log.d(TAG, "gameHandler - MESSAGE_TIME_UP");
-                    youEndGame();
+                    //youEndGame();
+                    youEndTimer();
                     break;
             }
         }
@@ -331,6 +379,21 @@ public class TwoPlayerActivity extends AppCompatActivity {
                         case (Constants.READ_END_GAME):
                             Log.d(TAG, "Handler - READ_END_GAME");
                             opponentEndGame(readMessage);
+                            break;
+                        case (Constants.READ_END_TIMER):
+                            //Start intent for two player scores
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            //String sendMessage = new String(Constants.READ_END_TIMER + "");
+                            //bluetoothService.write(sendMessage.getBytes());
+                            Log.d("GameEnd","Readed *cough* end timer");
+                            builder.setMessage("You win!")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    });
+                            builder.show();
                             break;
                     }
                     break;

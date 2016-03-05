@@ -243,5 +243,44 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
+//    public void onClickTwoPlayerCutthroat(View view){
+//        Intent intent = new Intent(this, TwoPlayerCutThroat.class);
+//        startActivity(intent);
+//    }
+
+    public void onClickTwoPlayerMultiRound(View view)
+    {
+        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_BASIC);
+        bundle.putInt("round",1);
+        bundle.putInt("timer",180000);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+    public void onClickTwoPlayerMultiRoundCutThroat(View view)
+    {
+        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
+        bundle.putInt("round",1);
+        bundle.putInt("timer",180000);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+//        super.onBackPressed();
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+        finish();
+        //finish();
     }
 }
