@@ -174,7 +174,7 @@ public class HighScoresActivity extends AppCompatActivity {
         //Copy everything into a new array with new score appended
         int temparray[] = new int[6];
         String tempnames[] = new String[6];
-        for(int i=0;i<4;i++)
+        for(int i=0;i<=4;i++)
         {
             temparray[i]=this.scores[i];
             tempnames[i]=this.names[i];
@@ -202,7 +202,7 @@ public class HighScoresActivity extends AppCompatActivity {
         }
 
         //Copy everything back
-        for(int i=0;i<4;i++)
+        for(int i=0;i<=4;i++)
         {
             this.names[i]=tempnames[i];
             this.scores[i]=temparray[i];
@@ -242,14 +242,14 @@ public class HighScoresActivity extends AppCompatActivity {
             for(int i=0;i<5;i++)
             {
                 outputStream2.write(names[i].getBytes());
-                if(i<4)
+                if(i<=4)
                     outputStream2.write(" ".getBytes());
             }
             outputStream2.write("&".getBytes());
             for(int i=0;i<5;i++)
             {
                 outputStream2.write(Integer.toString(scores[i]).getBytes());
-                if(i<4)
+                if(i<=4)
                     outputStream2.write(" ".getBytes());
             }
             outputStream2.close();
