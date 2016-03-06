@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    int backButtonCount =0;
     // Tag for debug statements
     private static final String TAG = "MainActivity";
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         optSinglePlayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, SinglePlayerActivity.class);
                 startActivity(intent);
                 finish();
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuMain, menuMultiplayer, MENU_MULTIPLAYER);
                 return false;
             }
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         optHighScores.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, HighScoresActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "default");
@@ -100,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         optCredits.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuMain, menuCredits, MENU_CREDITS);
                 return false;
             }
@@ -109,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         optCreditsBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuCredits, menuMain, MENU_MAIN);
                 return false;
             }
@@ -119,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerBasic.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, TwoPlayerActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("gameMode", Constants.MODE_BASIC);
@@ -133,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerCutthroat.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, TwoPlayerActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
@@ -147,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerMultiRound.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, TwoPlayerMultiRound.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("gameMode", Constants.MODE_BASIC);
@@ -163,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerMultiRoundCutthroat.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 Intent intent = new Intent(activity, TwoPlayerMultiRound.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
@@ -179,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerInfo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuMultiplayer, menuMultiplayerInformation, MENU_MULTIPLAYER_INFO);
                 return false;
             }
@@ -188,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuMultiplayer, menuMain, MENU_MAIN);
                 return false;
             }
@@ -197,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         optMultiplayerInformationBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                backButtonCount =0;
                 crossfade(menuMultiplayerInformation, menuMultiplayer, MENU_MULTIPLAYER);
                 return false;
             }
@@ -207,7 +221,19 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         switch (currentMenu) {
             case MENU_MAIN:
-                finish();
+//                finish();
+                if(backButtonCount >= 1)
+                {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+                    backButtonCount++;
+                }
                 break;
             case MENU_MULTIPLAYER:
                 crossfade(menuMultiplayer, menuMain, MENU_MAIN);
