@@ -178,6 +178,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        game.stopTime();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
