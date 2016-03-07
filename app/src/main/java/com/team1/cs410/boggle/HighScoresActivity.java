@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -206,6 +208,10 @@ public class HighScoresActivity extends AppCompatActivity {
         {
             this.names[i]=tempnames[i];
             this.scores[i]=temparray[i];
+        }
+        if(score>=this.scores[4])
+        {
+            Toast.makeText(this,"New High Score!",Toast.LENGTH_SHORT).show();
         }
 
         //Set the views accordingly

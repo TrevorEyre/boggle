@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +39,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+        TextView endview = (TextView)findViewById(R.id.end_game);
+        endview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                endGame();
+                return false;
+            }
+        });
 
         selectedWordLabel = (TextView) findViewById(R.id.input_word);
 
@@ -67,7 +77,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 //handleShakeEvent(count);
                 //onClickShake(null);
 
-                Toast.makeText(getBaseContext(), "Motion detected",
+                Toast.makeText(getBaseContext(), "New game",
                         Toast.LENGTH_SHORT).show();
                 finish();
                 startActivity(getIntent());
@@ -105,7 +115,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private void endGame () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Time's up!");
+        builder.setTitle("Game Over!");
 
         // Set up view for end game dialog
         LinearLayout layout = new LinearLayout(this);

@@ -81,7 +81,23 @@
 
         </LinearLayout>
 
-    <!-- Game buttons -->
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:id="@+id/end_game"
+                android:layout_width="match_parent"
+                style="@style/menu_option"
+                android:layout_marginTop="32dp"
+                android:text="End" />
+
+
+        </LinearLayout>
+
+
+        <!-- Game buttons -->
     <!--<LinearLayout-->
         <!--android:orientation="horizontal"-->
         <!--android:layout_width="match_parent"-->
