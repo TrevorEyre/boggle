@@ -43,7 +43,6 @@ public class HighScoresActivity extends AppCompatActivity {
         int score = bundle.getInt("score");
         String wordsFound = bundle.getString("wordsFound");
         String wordsNotFound = bundle.getString("wordsNotFound");
-
         if(prefs.getBoolean("firstrun",true)) //Check if the app is on it's first run ever on this device
         {//If it is, create the file and write default values to it.
             Log.d("SharedPrefs","This is the first run");
@@ -124,33 +123,37 @@ public class HighScoresActivity extends AppCompatActivity {
         }
         else if(!name.equals("default") && score !=-1)
         {
-            //loadarrays();
-            readdata=readfile(); //Read data from file
-
-
-            //Load data into corresponding arrays from file
-            String readsplit[] = readdata.split("&");
-            String allnames[] = readsplit[0].split(" ");
-            String allscores[] = readsplit[1].split(" ");
-            for(int i=0;i<allnames.length;i++)
+            if(name.equals(""))
             {
-                names[i]=allnames[i];
+                Toast.makeText(getApplicationContext(),"You didn't enter a name. Score will not be recorded",Toast.LENGTH_SHORT).show();
             }
-            for(int i=0;i<allscores.length;i++)
-            {
-                scores[i]=Integer.parseInt(allscores[i]);
+            else {
+                //loadarrays();
+                readdata = readfile(); //Read data from file
+
+
+                //Load data into corresponding arrays from file
+                String readsplit[] = readdata.split("&");
+                String allnames[] = readsplit[0].split(" ");
+                String allscores[] = readsplit[1].split(" ");
+                for (int i = 0; i < allnames.length; i++) {
+                    names[i] = allnames[i];
+                }
+                for (int i = 0; i < allscores.length; i++) {
+                    scores[i] = Integer.parseInt(allscores[i]);
+                }
+                updatescores(name, score);
+
+                // Update your score label
+                TextView yourScore = (TextView) findViewById(R.id.yourScore);
+                yourScore.setText("Score: " + score);
+
+                // Print found words and unfound words
+                TextView wordsFoundTextView = (TextView) findViewById(R.id.wordsFound);
+                TextView wordsNotFoundTextView = (TextView) findViewById(R.id.wordsNotFound);
+                wordsFoundTextView.setText(wordsFound);
+                wordsNotFoundTextView.setText(wordsNotFound);
             }
-            updatescores(name, score);
-
-            // Update your score label
-            TextView yourScore = (TextView)findViewById(R.id.yourScore);
-            yourScore.setText("Score: " + score);
-
-            // Print found words and unfound words
-            TextView wordsFoundTextView = (TextView)findViewById(R.id.wordsFound);
-            TextView wordsNotFoundTextView = (TextView)findViewById(R.id.wordsNotFound);
-            wordsFoundTextView.setText(wordsFound);
-            wordsNotFoundTextView.setText(wordsNotFound);
         }
 
         // Back button click event

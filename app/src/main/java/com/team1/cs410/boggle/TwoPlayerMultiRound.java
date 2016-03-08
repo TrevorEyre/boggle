@@ -114,6 +114,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        bluetoothAdapter.disable();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -196,7 +197,9 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     // Your game ended. Send message to opponent and try to end game
     private void youEndGame () {
-        game.disablebuttons();
+//        game.disablebuttons();
+        LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
+        gameBoardWrapper.setVisibility(View.INVISIBLE);
         String sendMessage = new String(Constants.READ_END_GAME + game.getWordsFound());
         bluetoothService.write(sendMessage.getBytes());
         gameOver = true;
@@ -218,11 +221,14 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         String sendMessage = new String(Constants.READ_END_TIMER + "");
         bluetoothService.write(sendMessage.getBytes());
-        Log.d("GameEnd","Sent message to timeout");
+        Log.d("GameEnd", "Sent message to timeout");
+        bluetoothService.stop();
         builder.setMessage("You lose!")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        bluetoothAdapter.disable();
                         finish();
                     }
                 });
@@ -235,7 +241,8 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         if(!gameOver || !oppGameOver) {
             return;
         }
-
+        bluetoothService.stop();
+        bluetoothAdapter.disable();
         // Bundle game stats and start TwoPlayerScoresActivity
 
         Intent intent = new Intent(this, TwoPlayerMultiRound.class);
@@ -410,10 +417,14 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                             //String sendMessage = new String(Constants.READ_END_TIMER + "");
                             //bluetoothService.write(sendMessage.getBytes());
                             Log.d("GameEnd","Readed *cough* end timer");
+                            bluetoothService.stop();
+                            game.stopTime();
                             builder.setMessage("You win!")
                                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            bluetoothAdapter.disable();
                                             finish();
                                         }
                                     });

@@ -190,7 +190,8 @@ public class TwoPlayerActivity extends AppCompatActivity {
         if(!gameOver || !oppGameOver) {
             return;
         }
-
+        bluetoothService.stop();
+        bluetoothAdapter.disable();
         // Bundle game stats and start TwoPlayerScoresActivity
         int score = game.getScore();
         Intent intent = new Intent(this, TwoPlayerScoresActivity.class);
