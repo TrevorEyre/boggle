@@ -254,7 +254,12 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         //Log.d("tosendtimer")
         TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
         int timertosend = Integer.parseInt(absolutetimer.getText().toString());
-        bundle.putInt("timer",(game.getScore()*1000)+timertosend);
+        bundle.putInt("timer", (game.getScore() * 1000) + timertosend);
+        if(gameMode==Constants.MODE_CUTTHROAT)
+            bundle.putInt("gameMode",Constants.MODE_CUTTHROAT);
+        else
+            bundle.putInt("gameMode",Constants.MODE_BASIC);
+
         intent.putExtras(bundle);
 //        bundle.putInt("score", score);
 //        bundle.putInt("oppScore", oppTotalScore);
