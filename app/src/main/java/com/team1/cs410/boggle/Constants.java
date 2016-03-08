@@ -24,6 +24,7 @@ package com.team1.cs410.boggle;
  */
 
 
+import android.graphics.Color;
 
 /**
  * Defines several constants used between BluetoothChatService and the UI.
@@ -48,12 +49,35 @@ public interface Constants {
     public static final int READ_END_GAME = 3;
     public static final int READ_END_TIMER = 4;
 
-    // Message types sent from Game Handler
-    public static final int MESSAGE_TIME_UP = 1;
-
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
+
+    // Message types sent from Game Handler
+    public static final int MESSAGE_SUBMIT_WORD = 1;
+    public static final int MESSAGE_SELECT_WORD = 2;
+    public static final int MESSAGE_TIME_UP = 3;
+
+    // Message types sent from Board Handler
+//    public static final int MESSAGE_SUBMIT_WORD = 1; (Used in Game Handler and Board Handler)
+//    public static final int MESSAGE_SELECT_WORD = 2;
+
+    // Key names received from Board Handler
+    public static final String SELECTED_WORD = "selected_word";
+    public static final String SUBMITTED_WORD = "submitted_word";
+    public static final String SUBMIT_RESULT = "submit_result";
+
+    // Results of submitting a word in game
+    public static final int SUBMIT_VALID = 1;
+    public static final int SUBMIT_INVALID = 2;
+    public static final int SUBMIT_ALREADY_FOUND = 3;
+
+    // Colors
+    public static final int COLOR_DICE = Color.rgb(102, 102, 102);
+    public static final int COLOR_SELECTED_DICE = Color.rgb(3, 169, 244);
+    public static final int COLOR_VALID_DICE = Color.rgb(76, 175, 80);
+    public static final int COLOR_INVALID_DICE = Color.rgb(244, 67, 54);
+    public static final int COLOR_ALREADY_FOUND_DICE = Color.rgb(255, 152, 0);
 
 }
 

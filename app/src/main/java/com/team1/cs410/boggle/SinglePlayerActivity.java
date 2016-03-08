@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,12 +32,24 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
     private Game game;
+    private TextView selectedWordLabel;
 
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+        TextView endview = (TextView)findViewById(R.id.end_game);
+        endview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                game.stopTime();
+                endGame();
+                return false;
+            }
+        });
+
+        selectedWordLabel = (TextView) findViewById(R.id.input_word);
 
         // Create new game, and insert game board into wrapper
         context = this;
@@ -66,7 +78,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 //handleShakeEvent(count);
                 //onClickShake(null);
 
-                Toast.makeText(getBaseContext(), "Motion detected",
+                Toast.makeText(getBaseContext(), "New game",
                         Toast.LENGTH_SHORT).show();
                 finish();
                 startActivity(getIntent());
@@ -81,37 +93,30 @@ public class SinglePlayerActivity extends AppCompatActivity {
             }
 
         });
-}
-
-    // Click event handler for button_clear
-    public void buttonClearClick (View view) {
-        TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
-        selectedWord.setText("");
-
-        game.clearSelected();
     }
 
-    // Click event handler for button_submit
-    public void buttonSubmitClick (View view) {
+    // A word was submitted. Update selected word label based on result
+    private void wordSubmitted (int result, String submittedWord) {
+        Log.d(TAG, "submitWord() " + submittedWord);
+
         TextView scoreDisplay = (TextView)this.findViewById(R.id.score);
-        TextView selectedWord = (TextView)this.findViewById(R.id.input_word);
-
-        String word = game.submitWord();
-        if (word == null) {
-            selectedWord.setTextColor(Color.rgb(244, 67, 54));
-        } else {
-            selectedWord.setTextColor(Color.rgb(0, 200, 83));
-        }
         scoreDisplay.setText(Integer.toString(game.getScore()));
-    }
 
-    public void endbuttonclick (View view) {
-        endGame();
+        if (result == Constants.SUBMIT_VALID) {
+            selectedWordLabel.setTextColor(Constants.COLOR_VALID_DICE);
+            String displayWord = selectedWordLabel.getText().toString();
+            displayWord = displayWord + " (" + game.score(submittedWord) + ")";
+            selectedWordLabel.setText(displayWord);
+        } else if (result == Constants.SUBMIT_INVALID) {
+            selectedWordLabel.setTextColor(Constants.COLOR_INVALID_DICE);
+        } else {
+            selectedWordLabel.setTextColor(Constants.COLOR_ALREADY_FOUND_DICE);
+        }
     }
 
     private void endGame () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Time's up!");
+        builder.setTitle("Game Over!");
 
         // Set up view for end game dialog
         LinearLayout layout = new LinearLayout(this);
@@ -125,6 +130,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         // Set up name label
         TextView nameLabel = new TextView(this);
+        nameLabel.setTextSize(24);
+        nameLabel.setPadding(16, 16, 16, 16);
         nameLabel.setText("Enter your name");
         layout.addView(nameLabel);
 
@@ -152,12 +159,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 finish();
             }
         });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
 
         builder.show();
     }
@@ -178,6 +179,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        game.stopTime();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -187,6 +189,20 @@ public class SinglePlayerActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+
+                // User selected dice
+                case Constants.MESSAGE_SELECT_WORD:
+                    String selectedWord = msg.getData().getString(Constants.SELECTED_WORD);
+                    selectedWordLabel.setTextColor(Constants.COLOR_DICE);
+                    selectedWordLabel.setText(selectedWord);
+                    break;
+
+                // User submitted a word
+                case Constants.MESSAGE_SUBMIT_WORD:
+                    int result = msg.getData().getInt(Constants.SUBMIT_RESULT);
+                    String submittedWord = msg.getData().getString(Constants.SUBMITTED_WORD);
+                    wordSubmitted(result, submittedWord);
+                    break;
 
                 // Game timer went off
                 case Constants.MESSAGE_TIME_UP:

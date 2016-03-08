@@ -24,7 +24,6 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,6 +42,11 @@
             android:label="@string/title_activity_game_board2_player"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.team1.cs410.boggle.MainActivity" />
+
         <activity
             android:name=".HighScoresActivity"
             android:label="@string/title_activity_high_scores"

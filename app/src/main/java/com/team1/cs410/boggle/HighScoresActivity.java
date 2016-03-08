@@ -1,13 +1,17 @@
 package com.team1.cs410.boggle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,17 +20,20 @@ import java.io.IOException;
 
 public class HighScoresActivity extends AppCompatActivity {
 
+    private Activity activity;
     private int[] scores= new int[5];
     private String[] names= new String[5];
-    TextView tview1,tview2,tview3,tview4,tview5,tview6,tview7,tview8,tview9,tview10;
     SharedPreferences prefs = null;
     String filename = "myfile";
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_scores);
 
+        activity = this;
         String readdata = "";
         prefs=getSharedPreferences("firstcheck",Context.MODE_PRIVATE);
 
@@ -36,7 +43,6 @@ public class HighScoresActivity extends AppCompatActivity {
         int score = bundle.getInt("score");
         String wordsFound = bundle.getString("wordsFound");
         String wordsNotFound = bundle.getString("wordsNotFound");
-
         if(prefs.getBoolean("firstrun",true)) //Check if the app is on it's first run ever on this device
         {//If it is, create the file and write default values to it.
             Log.d("SharedPrefs","This is the first run");
@@ -117,36 +123,51 @@ public class HighScoresActivity extends AppCompatActivity {
         }
         else if(!name.equals("default") && score !=-1)
         {
-            //loadarrays();
-            readdata=readfile(); //Read data from file
-
-
-            //Load data into corresponding arrays from file
-            String readsplit[] = readdata.split("&");
-            String allnames[] = readsplit[0].split(" ");
-            String allscores[] = readsplit[1].split(" ");
-            for(int i=0;i<allnames.length;i++)
+            if(name.equals(""))
             {
-                names[i]=allnames[i];
+                Toast.makeText(getApplicationContext(),"You didn't enter a name. Score will not be recorded",Toast.LENGTH_SHORT).show();
             }
-            for(int i=0;i<allscores.length;i++)
-            {
-                scores[i]=Integer.parseInt(allscores[i]);
+            else {
+                //loadarrays();
+                readdata = readfile(); //Read data from file
+
+
+                //Load data into corresponding arrays from file
+                String readsplit[] = readdata.split("&");
+                String allnames[] = readsplit[0].split(" ");
+                String allscores[] = readsplit[1].split(" ");
+                for (int i = 0; i < allnames.length; i++) {
+                    names[i] = allnames[i];
+                }
+                for (int i = 0; i < allscores.length; i++) {
+                    scores[i] = Integer.parseInt(allscores[i]);
+                }
+                updatescores(name, score);
+
+                // Update your score label
+                TextView yourScore = (TextView) findViewById(R.id.yourScore);
+                yourScore.setText("Score: " + score);
+
+                // Print found words and unfound words
+                TextView wordsFoundTextView = (TextView) findViewById(R.id.wordsFound);
+                TextView wordsNotFoundTextView = (TextView) findViewById(R.id.wordsNotFound);
+                wordsFoundTextView.setText(wordsFound);
+                wordsNotFoundTextView.setText(wordsNotFound);
             }
-            updatescores(name, score);
-
-            // Update your score label
-            TextView yourScore = (TextView)findViewById(R.id.yourScore);
-            yourScore.setText("Score: " + score);
-
-            // Print found words and unfound words
-            TextView wordsFoundTextView = (TextView)findViewById(R.id.wordsFound);
-            TextView wordsNotFoundTextView = (TextView)findViewById(R.id.wordsNotFound);
-            wordsFoundTextView.setText(wordsFound);
-            wordsNotFoundTextView.setText(wordsNotFound);
         }
 
+        // Back button click event
+        TextView backButton = (TextView) findViewById(R.id.menu_back);
+        backButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                startActivity(new Intent(activity, MainActivity.class));
+                finish();
+                return false;
+            }
+        });
     }
+
     public void updatescores(String name, int score)
     {
         //Context context = getApplicationContext();
@@ -158,7 +179,7 @@ public class HighScoresActivity extends AppCompatActivity {
         //Copy everything into a new array with new score appended
         int temparray[] = new int[6];
         String tempnames[] = new String[6];
-        for(int i=0;i<4;i++)
+        for(int i=0;i<=4;i++)
         {
             temparray[i]=this.scores[i];
             tempnames[i]=this.names[i];
@@ -186,10 +207,14 @@ public class HighScoresActivity extends AppCompatActivity {
         }
 
         //Copy everything back
-        for(int i=0;i<4;i++)
+        for(int i=0;i<=4;i++)
         {
             this.names[i]=tempnames[i];
             this.scores[i]=temparray[i];
+        }
+        if(score>=this.scores[4])
+        {
+            Toast.makeText(this,"New High Score!",Toast.LENGTH_SHORT).show();
         }
 
         //Set the views accordingly
@@ -226,14 +251,14 @@ public class HighScoresActivity extends AppCompatActivity {
             for(int i=0;i<5;i++)
             {
                 outputStream2.write(names[i].getBytes());
-                if(i<4)
+                if(i<=4)
                     outputStream2.write(" ".getBytes());
             }
             outputStream2.write("&".getBytes());
             for(int i=0;i<5;i++)
             {
                 outputStream2.write(Integer.toString(scores[i]).getBytes());
-                if(i<4)
+                if(i<=4)
                     outputStream2.write(" ".getBytes());
             }
             outputStream2.close();
