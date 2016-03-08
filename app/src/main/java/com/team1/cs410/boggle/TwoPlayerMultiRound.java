@@ -114,7 +114,9 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+        bluetoothService.stop();
         bluetoothAdapter.disable();
+        game.stopTime();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -191,6 +193,7 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         // Update your word list if in cutthroat mode
         if (gameMode == Constants.MODE_CUTTHROAT) {
             Log.d(TAG, "receiveOpponentWord() - MODE_CUTTHROAT");
+            Toast.makeText(activity, "Opponent found: " + word, Toast.LENGTH_SHORT).show();
             game.addWord(word);
         }
     }

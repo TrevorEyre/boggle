@@ -19,7 +19,7 @@ public class Timer {
     private Handler gameHandler;
     private CountDownTimer countDownTimer;
     public TextView timerLabel;
-    private long startTime = 180 * 1000;
+    private long startTime = 60 * 1000;
     private final long interval = 1000;
     public TextView absolutetimerlabel;
     public boolean ismultiround;

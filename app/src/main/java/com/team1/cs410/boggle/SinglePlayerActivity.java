@@ -43,6 +43,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         endview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                game.stopTime();
                 endGame();
                 return false;
             }
