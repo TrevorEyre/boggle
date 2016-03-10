@@ -142,18 +142,29 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         });
 
         menuEndRound = findViewById(R.id.menu_end_round);
-        menuEndRound.setOnTouchListener(new View.OnTouchListener() {
+        menuEndRound.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 if (game.getWordCount() >= 5) {
                     game.stopTime();
                     youEndGame();
                 } else {
                     Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
                 }
-                return false;
             }
         });
+//        menuEndRound.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (game.getWordCount() >= 5) {
+//                    game.stopTime();
+//                    youEndGame();
+//                } else {
+//                    Toast.makeText(activity, "You need to find at least five words before ending the round!", Toast.LENGTH_SHORT).show();
+//                }
+//                return true;
+//            }
+//        });
     }
 
     // Host a game. Create new game object, and send board to connected device
@@ -183,6 +194,19 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
         game.startTime();
     }
 
+    private void joinNewRound(String board){
+        TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
+        round++;
+        game = new Game(this, this, gameHandler,board.toCharArray(), (game.getScore() * 1000) + Integer.parseInt(absolutetimer.getText().toString()), round);
+        gameOver=false;
+        oppGameOver=false;
+        LinearLayout gameBoardWrapper = (LinearLayout) findViewById(R.id.game_board_wrapper);
+        gameBoardWrapper.removeAllViews();
+        gameBoardWrapper.addView(game.getBoard());
+        gameBoardWrapper.setVisibility(View.VISIBLE);
+        game.startTime();
+    }
+
     // Receive a word found by opponent. Update opponent's score
     private void receiveOpponentWord(String word) {
         int score = Integer.parseInt(oppScore.getText().toString());
@@ -201,20 +225,30 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
     // Your game ended. Send message to opponent and try to end game
     private void youEndGame () {
 //        game.disablebuttons();
+        Log.d("You end game", String.valueOf(gameOver) + " " + String.valueOf(oppGameOver));
+        if(gameOver)
+            return;
         LinearLayout gameBoardWrapper = (LinearLayout)findViewById(R.id.game_board_wrapper);
         gameBoardWrapper.setVisibility(View.INVISIBLE);
         String sendMessage = new String(Constants.READ_END_GAME + game.getWordsFound());
         bluetoothService.write(sendMessage.getBytes());
         gameOver = true;
+        score.setText("0");
+        game.stopTime();
+
         endGame();
     }
 
     // Opponent game ended
     private void opponentEndGame(String oppWords) {
+        Log.d("Opponent end game", String.valueOf(gameOver) + " " + String.valueOf(oppGameOver));
+        if(oppGameOver)
+            return;
         oppWordsFound = oppWords;
         String arryOppWordsFound[] = oppWordsFound.split("\\n");
         oppTotalScore = game.score(arryOppWordsFound);
         oppGameOver = true;
+        oppScore.setText("0");
         endGame();
     }
 
@@ -240,35 +274,52 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
 
     // End game. Gets total score for you and opponent, and starts score activity
     private void endGame() {
+        Log.d("Before endgame",String.valueOf(gameOver)+ " " +String.valueOf(oppGameOver));
         // Exit if you or opponent still playing
         if(!gameOver || !oppGameOver) {
             return;
         }
-        bluetoothService.stop();
-        bluetoothAdapter.disable();
-        // Bundle game stats and start TwoPlayerScoresActivity
-
-        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("round", round + 1);
-        //Log.d("tosendtimer")
+        Log.d("Inside endgame",String.valueOf(gameOver)+ " " +String.valueOf(oppGameOver));
         TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
-        int timertosend = Integer.parseInt(absolutetimer.getText().toString());
-        bundle.putInt("timer", (game.getScore() * 1000) + timertosend);
-        if(gameMode==Constants.MODE_CUTTHROAT)
-            bundle.putInt("gameMode",Constants.MODE_CUTTHROAT);
-        else
-            bundle.putInt("gameMode",Constants.MODE_BASIC);
 
-        intent.putExtras(bundle);
-//        bundle.putInt("score", score);
-//        bundle.putInt("oppScore", oppTotalScore);
-//        bundle.putString("wordsFound", game.getWordsFound());
-//        bundle.putString("oppWordsFound", oppWordsFound);
-//        bundle.putString("wordsNotFound", game.getWordsNotFound(oppWordsFound.split("\\n")));
+        if(isHost) {
+            oppGameOver=false;
+            gameOver=false;
+            round++;
+            game = new Game(this, this, gameHandler, (game.getScore() * 1000) + Integer.parseInt(absolutetimer.getText().toString()), round);
+            String sendMessage = Constants.READ_NEW_ROUND + new String(game.getDice());
+            bluetoothService.write(sendMessage.getBytes());
+            LinearLayout gameBoardWrapper = (LinearLayout) findViewById(R.id.game_board_wrapper);
+            gameBoardWrapper.removeAllViews();
+            gameBoardWrapper.addView(game.getBoard());
+            gameBoardWrapper.setVisibility(View.VISIBLE);
+            game.startTime();
+        }
+//        bluetoothService.stop();
+//        bluetoothAdapter.disable();
+//        // Bundle game stats and start TwoPlayerScoresActivity
+//
+//        Intent intent = new Intent(this, TwoPlayerMultiRound.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("round", round + 1);
+//        //Log.d("tosendtimer")
+//        TextView absolutetimer = (TextView)activity.findViewById(R.id.absolutetimervalue);
+//        int timertosend = Integer.parseInt(absolutetimer.getText().toString());
+//        bundle.putInt("timer", (game.getScore() * 1000) + timertosend);
+//        if(gameMode==Constants.MODE_CUTTHROAT)
+//            bundle.putInt("gameMode",Constants.MODE_CUTTHROAT);
+//        else
+//            bundle.putInt("gameMode",Constants.MODE_BASIC);
+//
 //        intent.putExtras(bundle);
-        startActivity(intent);
-        finish();
+////        bundle.putInt("score", score);
+////        bundle.putInt("oppScore", oppTotalScore);
+////        bundle.putString("wordsFound", game.getWordsFound());
+////        bundle.putString("oppWordsFound", oppWordsFound);
+////        bundle.putString("wordsNotFound", game.getWordsNotFound(oppWordsFound.split("\\n")));
+////        intent.putExtras(bundle);
+//        startActivity(intent);
+//        finish();
     }
 
     // Event handler for submitting a word
@@ -437,6 +488,9 @@ public class TwoPlayerMultiRound extends AppCompatActivity {
                                         }
                                     });
                             builder.show();
+                            break;
+                        case (Constants.READ_NEW_ROUND):
+                            joinNewRound(readMessage);
                             break;
                     }
                     break;

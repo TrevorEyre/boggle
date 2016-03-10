@@ -48,6 +48,7 @@ public interface Constants {
     public static final int READ_SEND_WORD = 2;
     public static final int READ_END_GAME = 3;
     public static final int READ_END_TIMER = 4;
+    public static final int READ_NEW_ROUND =5;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";

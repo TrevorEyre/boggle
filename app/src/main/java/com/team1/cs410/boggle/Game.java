@@ -58,6 +58,7 @@ public class Game {
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
         this.roundcount = roundcount;
+        this.totalScore=0;
         TextView roundview = (TextView)activity.findViewById(R.id.round);
         roundview.setText(String.valueOf(roundcount));
     }
@@ -72,6 +73,7 @@ public class Game {
         this.wordsFound = new WordList(dictionary);
         this.youWordsFound = new WordList(dictionary);
         this.roundcount = roundcount;
+        this.totalScore=0;
         TextView roundview = (TextView)activity.findViewById(R.id.round);
         roundview.setText(String.valueOf(roundcount));
     }
