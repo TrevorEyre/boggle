@@ -80,6 +80,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                 Toast.makeText(getBaseContext(), "New game",
                         Toast.LENGTH_SHORT).show();
+                game.stopTime();
                 finish();
                 startActivity(getIntent());
                 /*Context context = getApplicationContext();
