@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("gameMode", Constants.MODE_CUTTHROAT);
                 bundle.putInt("round", 1);
-                bundle.putInt("timer",120000);
+                bundle.putInt("timer",180000);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
